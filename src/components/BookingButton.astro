@@ -1,0 +1,6 @@
+---
+import {site} from '../data/site';
+interface Props { label?: string; variant?: string; }
+const {label = 'Agendar una sesión', variant = 'primary'} = Astro.props;
+---
+<a class:list={['button',variant]} href={site.bookingUrl || '#reservar'} data-booking>{label}<span aria-hidden="true">↗</span></a>

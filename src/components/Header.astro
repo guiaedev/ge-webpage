@@ -1,0 +1,9 @@
+---
+import Mark from './Mark.astro';
+import BookingButton from './BookingButton.astro';
+---
+<header class="site-header wrap">
+ <a href="#inicio" class="brand" aria-label="Guía Existencial, inicio"><Mark/>Guía Existencial</a>
+ <button class="menu-toggle" aria-expanded="false" aria-controls="navigation">Menú <span aria-hidden="true">☰</span></button>
+ <nav id="navigation" aria-label="Navegación principal"><a href="#enfoque">Nuestro enfoque</a><a href="#equipo">Equipo</a><a href="#preguntas">Preguntas frecuentes</a><BookingButton label="Agendar sesión" variant="outline"/></nav>
+</header>
