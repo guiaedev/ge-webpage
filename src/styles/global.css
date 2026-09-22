@@ -45,3 +45,12 @@
 @media(hover:hover){.faq-list details:not([open]):hover{border-color:#aebba0;background:#f5f6ee;box-shadow:0 7px 20px #1d413306}.faq-list summary:hover .faq-toggle{border-color:#7e916d}}
 @media(max-width:760px){.faq{padding-block:58px;grid-template-columns:1fr;gap:30px}.faq-intro{padding:0}.faq h2{font-size:2.8rem;margin:17px 0}.faq-caption{margin-top:20px}.faq-list summary{padding:21px 19px;gap:13px;min-height:100px}.faq-list summary .faq-toggle{width:32px;height:32px}.faq-list .faq-answer p{padding:0 23px 24px 47px;font-size:.92rem}}
 @media(prefers-reduced-motion:reduce){.faq-list details,.faq-list .faq-toggle{transition:none}}
+
+/* Process movement follows the same calm timing as the FAQ. */
+.approach summary{align-items:center;transition:color .3s}
+.approach summary>span{display:grid;place-items:center;width:32px;height:32px;flex-shrink:0;border-radius:50%;transition:transform .48s cubic-bezier(.22,1,.36,1),background .3s,color .3s}
+.approach[data-expanded="true"] summary>span{transform:rotate(45deg);background:var(--green);color:var(--ivory)}
+.approach[data-expanded="false"] summary>span{transform:rotate(0)}
+.steps li>span{transition:color .35s,transform .45s cubic-bezier(.22,1,.36,1)}
+@media(hover:hover){.steps li:hover>span{color:var(--green);transform:translateY(-3px)}.approach summary:hover{color:#526b42}.approach:not([open]) summary:hover>span{background:var(--sage)}}
+@media(prefers-reduced-motion:reduce){.steps li>span,.approach summary,.approach summary>span{transition:none}.steps li:hover>span{transform:none}}
