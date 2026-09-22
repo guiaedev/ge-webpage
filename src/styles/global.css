@@ -54,3 +54,7 @@
 .steps li>span{transition:color .35s,transform .45s cubic-bezier(.22,1,.36,1)}
 @media(hover:hover){.steps li:hover>span{color:var(--green);transform:translateY(-3px)}.approach summary:hover{color:#526b42}.approach:not([open]) summary:hover>span{background:var(--sage)}}
 @media(prefers-reduced-motion:reduce){.steps li>span,.approach summary,.approach summary>span{transition:none}.steps li:hover>span{transform:none}}
+
+.hero-conversation{display:block;width:52px;height:43px;margin:0 auto 16px;color:var(--green)}
+.hero-copy .soft-note{max-width:340px;margin-inline:auto;text-wrap:balance}
+@media(max-width:760px){.hero-conversation{width:45px;height:37px;margin-bottom:13px}}
