@@ -3,3 +3,67 @@ import {team} from '../data/site';
 ---
 <section id="equipo" class="team-section section"><div class="wrap"><p class="eyebrow">Nuestro equipo clínico</p><h2>Rigor científico.<br/> <em>Calidez humana.</em></h2><div class="team-grid">{team.map(person=><article class="team-card"><span class="initials profile-avatar"><img src={`assets/${person.avatar}-avatar.webp`} alt={`Avatar ilustrado de ${person.name}`} width="52" height="52" loading="lazy"/></span><h3>{person.name}</h3><p class="role">{person.role}</p><p>{person.note}</p></article>)}</div><p class="team-note">Formación continua, supervisión y trabajo en equipo.</p></div></section>
 <section id="preguntas" class="faq wrap section"><div><p class="eyebrow">Antes de empezar</p><h2>Resolvemos<br/> <em>tus dudas.</em></h2></div><div class="faq-list"><details><summary>¿Cómo sé qué terapia es adecuada para mí?<span aria-hidden="true">+</span></summary><p>No necesitas elegir un modelo antes de acercarte. Conversar con el equipo sobre lo que buscas puede ayudarte a conocer el enfoque y valorar si se ajusta a tus necesidades.</p></details><details><summary>¿La atención es en línea?<span aria-hidden="true">+</span></summary><p>Sí. Guía Existencial ofrece psicoterapia en línea. Al coordinar tu sesión, confirma con el equipo la plataforma, el horario y los detalles de conexión.</p></details><details><summary>¿Cómo puedo agendar?<span aria-hidden="true">+</span></summary><p>Usa el botón “Agendar una sesión”. Desde ahí podrás acceder al calendario cuando esté disponible o consultar al equipo por los canales de contacto actuales.</p></details></div></section>
+<script>
+  const faq = document.querySelector<HTMLElement>('#preguntas');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (faq) {
+    // Reveal once; content stays visible if scripting or observation is unavailable.
+    const parts = [faq.firstElementChild!, ...faq.querySelectorAll('.faq-list details')];
+    if ('IntersectionObserver' in window && !reduced.matches) {
+      const observer = new IntersectionObserver(entries => {
+        if (!entries.some(entry => entry.isIntersecting)) return;
+        parts.forEach((part, index) => part.animate(
+          [{ opacity: 0, transform: 'translateY(16px)' }, { opacity: 1, transform: 'translateY(0)' }],
+          { duration: 650, delay: index * 70, easing: 'cubic-bezier(.22,1,.36,1)' }
+        ));
+        observer.disconnect();
+      }, { threshold: .15 });
+      observer.observe(faq);
+      reduced.addEventListener('change', () => {
+        if (reduced.matches) {
+          observer.disconnect();
+          parts.forEach(part => part.getAnimations().forEach(animation => animation.finish()));
+        }
+      });
+    }
+    faq.querySelectorAll('details').forEach(details => {
+      const summary = details.querySelector('summary')!;
+      let animation: Animation | undefined;
+      let expanded = details.open;
+      const settle = () => {
+        details.open = expanded;
+        details.style.height = '';
+        details.style.overflow = '';
+        animation = undefined;
+      };
+      summary.addEventListener('click', event => {
+        if (reduced.matches || !details.animate) return;
+        event.preventDefault();
+        const start = details.getBoundingClientRect().height;
+        animation?.cancel();
+        expanded = !expanded;
+        details.dataset.expanded = String(expanded);
+        details.open = true;
+        details.style.height = '';
+        const end = expanded ? details.getBoundingClientRect().height : summary.getBoundingClientRect().height + 1;
+        details.style.overflow = 'hidden';
+        animation = details.animate({ height: [`${start}px`, `${end}px`] }, {
+          duration: 360, easing: 'cubic-bezier(.22,1,.36,1)'
+        });
+        animation.onfinish = settle;
+      });
+      details.addEventListener('toggle', () => {
+        if (!animation) {
+          expanded = details.open;
+          details.dataset.expanded = String(expanded);
+        }
+      });
+      reduced.addEventListener('change', () => {
+        if (reduced.matches && animation) { animation.cancel(); settle(); }
+      });
+      window.addEventListener('resize', () => {
+        if (animation) { animation.cancel(); settle(); }
+      });
+    });
+  }
+</script>
