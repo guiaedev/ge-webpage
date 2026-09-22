@@ -38,3 +38,9 @@ Upload the complete website/ (or built dist/) directory to a static host. Keep i
 ## Validation
 
 Astro type checks and static build; dependency audit; desktop and mobile layout review; booking fallback, topic dialog, menu, FAQ, image and font loading checks. Booking itself cannot be tested until the public Cal.com event exists.
+
+## Parallax
+
+The hero and footer artwork move gently on scroll; text and controls stay fixed in their normal layout. public/scripts/parallax.js uses passive scroll listeners and one requestAnimationFrame per pending update, skips offscreen sections, and limits movement to 36px on desktop / 14px on mobile. Reduced-motion preferences disable the effect, including preference changes while the page is open. CSS overscan prevents exposed edges.
+
+The hero also has a slow 16-second botanical sway and up to 4px horizontal / 2.5px vertical pointer response on fine-pointer devices. These compose separately from scroll movement. The flowers move together because the botanical artwork is a single raster layer. Text never animates. Reduced-motion disables both sway and pointer response.

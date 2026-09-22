@@ -20,4 +20,4 @@ document.querySelectorAll('[data-close]').forEach(button=>button.addEventListene
 document.querySelectorAll('dialog').forEach(dialog=>{dialog.addEventListener('click',event=>{if(event.target===dialog){const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close();}});dialog.addEventListener('close',()=>{if(dialogTrigger?.isConnected)dialogTrigger.focus();});});
 document.querySelectorAll('[data-booking]').forEach(button=>button.addEventListener('click',event=>{if(!bookingUrl){event.preventDefault();showDialog(document.querySelector('#booking-dialog'),button);}}));
 document.addEventListener('keydown',event=>{if(event.key==='Escape'){menu?.setAttribute('aria-expanded','false');nav?.classList.remove('is-open');}});
-</script></Layout>
+</script><script is:inline src="scripts/parallax.js" defer></script></Layout>
