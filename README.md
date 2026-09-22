@@ -49,3 +49,7 @@ The hero also has a slow 16-second botanical sway and up to 4px horizontal / 2.5
 ## Team cards
 
 The team section uses the original initials and text cards, without portraits. Botanical hero/footer artwork and motion effects are retained.
+
+## Small profile avatars
+
+The original 52px profile circles contain original black-ink doodle avatars with coral cheeks, based on each supplied member photo. No large portrait panels are used. Generated with built-in imagegen: square, simplified black/ivory/coral/sage head-and-shoulders art with individual hairstyles and glasses, suitable for circular clipping. Original PNGs are in assets-hq/ and optimized WebP assets are in the site.
