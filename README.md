@@ -44,3 +44,7 @@ Astro type checks and static build; dependency audit; desktop and mobile layout 
 The hero and footer artwork move gently on scroll; text and controls stay fixed in their normal layout. public/scripts/parallax.js uses passive scroll listeners and one requestAnimationFrame per pending update, skips offscreen sections, and limits movement to 36px on desktop / 14px on mobile. Reduced-motion preferences disable the effect, including preference changes while the page is open. CSS overscan prevents exposed edges.
 
 The hero also has a slow 16-second botanical sway and up to 4px horizontal / 2.5px vertical pointer response on fine-pointer devices. These compose separately from scroll movement. The flowers move together because the botanical artwork is a single raster layer. Text never animates. Reduced-motion disables both sway and pointer response.
+
+## Illustrated team portraits
+
+Jessica, Lariza and Lourdes each have an original AI-assisted painterly portrait created from the user-supplied photo reference and art direction. The images are illustrations, not photographs; their alternative text identifies them as illustrated portraits. Original PNGs are included in assets-hq/, alongside 480px and 800px WebP website exports. Portrait generation used the built-in imagegen tool with the common brief: warm painterly editorial illustration, golden window light, cream/sage tones, adult professional proportions, individual facial features preserved, matching 4:5 framing, no text or UI. Existing names and clinical credentials are unchanged.

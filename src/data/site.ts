@@ -11,7 +11,7 @@ export const topics = [
  { title: 'Cambios y sentido de vida', text: 'Encuentra claridad en nuevas etapas.', color: 'sand', detail: 'Reconoce lo que importa para ti y explora acciones alineadas con tus valores, incluso cuando hay incertidumbre o emociones difíciles.' },
 ];
 export const team = [
- { name: 'Jessica Barragán', initials: 'JB', role: 'Maestra en Terapia Cognitivo-Conductual', note: 'Fundadora de Guía Existencial. Formación en Terapia de Esquemas, ACT y DBT.' },
- { name: 'Lariza Jiménez', initials: 'LJ', role: 'Especialista en Terapia de Esquemas', note: 'Formación adicional en ACT. Su enfoque aborda los patrones que se formaron temprano y siguen presentes.' },
- { name: 'Lourdes Huidor', initials: 'LH', role: 'Especialista en Terapia de Aceptación y Compromiso', note: 'Formación en ACT, Mindfulness y Análisis Funcional de la Conducta.' },
+ { name: 'Jessica Barragán', initials: 'JB', portrait: 'jessica', role: 'Maestra en Terapia Cognitivo-Conductual', note: 'Fundadora de Guía Existencial. Formación en Terapia de Esquemas, ACT y DBT.' },
+ { name: 'Lariza Jiménez', initials: 'LJ', portrait: 'lariza', role: 'Especialista en Terapia de Esquemas', note: 'Formación adicional en ACT. Su enfoque aborda los patrones que se formaron temprano y siguen presentes.' },
+ { name: 'Lourdes Huidor', initials: 'LH', portrait: 'lourdes', role: 'Especialista en Terapia de Aceptación y Compromiso', note: 'Formación en ACT, Mindfulness y Análisis Funcional de la Conducta.' },
 ];
