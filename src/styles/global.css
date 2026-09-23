@@ -79,3 +79,8 @@
 .hero-actions .button:focus-visible>span{transform:translate(2px,-2px)}
 .hero-actions .button:active{transform:translateY(0) scale(.98);box-shadow:0 2px 6px #1d413314}
 @media(prefers-reduced-motion:reduce){.hero-actions .button,.hero-actions .button>span{transition:none}.hero-actions .button:hover,.hero-actions .button:active,.hero-actions .button:hover>span,.hero-actions .button:focus-visible>span{transform:none}}
+
+.hero h1.hero-quote{font-size:clamp(2.2rem,3.5vw,3.3rem);line-height:1.12;letter-spacing:-.035em;max-width:790px;text-wrap:balance}
+.hero-attribution{margin-top:14px;font:italic 1.1rem var(--serif);color:var(--muted)}
+.hero-description{max-width:610px;margin-inline:auto;text-wrap:balance}
+@media(max-width:760px){.hero h1.hero-quote{font-size:clamp(2rem,6.4vw,2.8rem)}.hero-attribution{font-size:1rem;margin-top:12px}}
