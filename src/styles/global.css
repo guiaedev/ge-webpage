@@ -101,3 +101,18 @@
 @media(prefers-reduced-motion:reduce){.edge-leaf{transform:none!important}}
 .edge-leaf-left{left:24px}.edge-leaf-right{right:24px}
 @media(max-width:760px){.edge-leaf-left{left:12px}.edge-leaf-right{right:12px}}
+
+/* Approved editorial composition: copy left, watercolor character right. */
+.hero-character{display:flex;align-items:center;justify-content:flex-start;min-height:650px;padding:135px 7% 55px}
+.hero-character .hero-copy{width:51%;max-width:680px;text-align:left}
+.hero-character h1.hero-quote{font-size:clamp(2.3rem,3.55vw,3.5rem);line-height:1.12;text-wrap:pretty}
+.hero-character .hero-description{margin:24px 0 0;max-width:480px;text-wrap:pretty}
+.hero-character .hero-attribution{margin-top:17px}
+.hero-character .hero-actions{align-items:flex-start;margin-top:27px}
+.hero-character .hero-art{mask-image:none}
+.hero-character .hero-art img{opacity:1;object-fit:cover;object-position:center top}
+.hero-character.parallax-enabled .hero-art img{animation:none;translate:none;transition:none;transform:none;will-change:auto}
+.hero-character .botanical-viewport>picture{inset:0!important;transform:none!important}
+@media(min-width:1600px){.hero-character{min-height:700px}}
+@media(max-width:1000px) and (min-width:761px){.hero-character{padding-inline:6%;min-height:630px}.hero-character .hero-copy{width:53%}.hero-character h1.hero-quote{font-size:2.6rem}}
+@media(max-width:760px){.hero-character{min-height:0;padding:110px 6% 330px;display:block}.hero-character .hero-copy{width:100%;max-width:560px}.hero-character h1.hero-quote{font-size:clamp(2rem,7.2vw,2.8rem)}.hero-character .hero-description{margin-top:19px}.hero-character .hero-actions{margin-top:22px}.hero-character:after{display:none}.hero-character .hero-art img{position:absolute;bottom:0;right:0;height:310px;width:100%;object-fit:cover;object-position:right 42%;mask-image:linear-gradient(transparent,#000 18%);opacity:.85}}
