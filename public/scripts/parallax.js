@@ -3,7 +3,7 @@
   const preference = matchMedia('(prefers-reduced-motion: reduce)');
   const mobile = matchMedia('(max-width: 760px)');
   const layers = [...document.querySelectorAll('.hero, .site-footer')]
-    .map(section => ({ section, art: section.querySelector('picture'), visible: true }))
+    .map(section => ({ section, art: section.querySelector('picture'), leaves: [...section.querySelectorAll('.edge-leaf')], visible: true }))
     .filter(layer => layer.art);
   let frame = 0;
   let enabled = false;
@@ -19,9 +19,10 @@
       const distance = layer.section.classList.contains('hero')
         ? -rect.top
         : innerHeight / 2 - (rect.top + rect.height / 2);
-      return { art: layer.art, offset: clamp(distance * speed, limit) };
+      return { art: layer.art, leaves: layer.leaves, offset: clamp(distance * speed, limit) };
     });
-    updates.forEach(({ art, offset }) => {
+    updates.forEach(({ art, leaves, offset }) => {
+      leaves.forEach((leaf, index) => leaf.style.setProperty('--leaf-y', `${(-offset * (index ? .45 : .7)).toFixed(2)}px`));
       art.style.transform = `translate3d(0, ${offset.toFixed(2)}px, 0)`;
     });
   }
@@ -39,7 +40,8 @@
     enabled = !preference.matches;
     cancelAnimationFrame(frame);
     frame = 0;
-    layers.forEach(({ section, art }) => {
+    layers.forEach(({ section, art, leaves }) => {
+      if (!enabled) leaves.forEach(leaf => leaf.style.removeProperty('--leaf-y'));
       section.classList.toggle('parallax-enabled', enabled);
       if (!enabled) art.style.removeProperty('transform');
     });

@@ -5,12 +5,12 @@
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}.topic-card:hover,.topic-card:focus-within,.button:hover{transform:none}}
 .site-header:before{content:'';position:absolute;inset:0 -5.6%;z-index:-1;background:linear-gradient(var(--ivory),#fbf8f2e8 70%,#fbf8f200)}
 /* Overscan keeps the artwork covering its section throughout scroll movement. */
-.hero.parallax-enabled>picture,.site-footer.parallax-enabled>picture{inset:-42px 0;will-change:transform;pointer-events:none}
-@media(max-width:760px){.hero.parallax-enabled>picture,.site-footer.parallax-enabled>picture{inset:-20px 0}}
-@media(prefers-reduced-motion:reduce){.hero.parallax-enabled>picture,.site-footer.parallax-enabled>picture{inset:0;transform:none!important;will-change:auto}}
+.hero.parallax-enabled .botanical-viewport>picture,.site-footer.parallax-enabled .botanical-viewport>picture{inset:-42px 0;will-change:transform;pointer-events:none}
+@media(max-width:760px){.hero.parallax-enabled .botanical-viewport>picture,.site-footer.parallax-enabled .botanical-viewport>picture{inset:-20px 0}}
+@media(prefers-reduced-motion:reduce){.hero.parallax-enabled .botanical-viewport>picture,.site-footer.parallax-enabled .botanical-viewport>picture{inset:0;transform:none!important;will-change:auto}}
 /* Slow botanical breeze; image-level movement composes with picture parallax. */
 @media(prefers-reduced-motion:no-preference){
- .hero.parallax-enabled img{animation:botanical-breeze 16s ease-in-out infinite;transform-origin:50% 80%;translate:var(--pointer-x,0px) var(--pointer-y,0px);transition:translate 1.4s cubic-bezier(.22,.61,.36,1);will-change:transform}
+ .hero.parallax-enabled .hero-art img{animation:botanical-breeze 16s ease-in-out infinite;transform-origin:50% 80%;translate:var(--pointer-x,0px) var(--pointer-y,0px);transition:translate 1.4s cubic-bezier(.22,.61,.36,1);will-change:transform}
 }
 @keyframes botanical-breeze{0%,100%{transform:scale(1.025) rotate(-.16deg) translate3d(-2px,0,0)}50%{transform:scale(1.03) rotate(.16deg) translate3d(2px,-3px,0)}}
 @media(prefers-reduced-motion:reduce){.hero img{translate:none!important;transform:none!important;animation:none!important}}
@@ -84,3 +84,20 @@
 .hero-attribution{margin-top:14px;font:italic 1.1rem var(--serif);color:var(--muted)}
 .hero-description{max-width:610px;margin-inline:auto;text-wrap:balance}
 @media(max-width:760px){.hero h1.hero-quote{font-size:clamp(2rem,6.4vw,2.8rem)}.hero-attribution{font-size:1rem;margin-top:12px}}
+
+/* Foreground cutouts cross the section boundary; backgrounds stay clipped. */
+.hero,.site-footer{overflow:visible}
+.botanical-viewport{position:absolute;inset:0;overflow:hidden;z-index:-1;pointer-events:none}
+.edge-leaf{position:absolute;display:block;width:clamp(110px,13vw,195px);pointer-events:none;z-index:2;transform:translate3d(0,var(--leaf-y,0px),0)}
+.edge-leaf img{display:block;width:100%;height:auto;object-fit:contain;opacity:.8}
+.hero .edge-leaf{bottom:-37px}
+.edge-leaf-left{left:0}
+.edge-leaf-right{right:0}
+.edge-leaf-left img{transform:rotate(-22deg)}
+.edge-leaf-right img{transform:scaleX(-1) rotate(-12deg)}
+.site-footer .edge-leaf{top:-60px;width:clamp(110px,14vw,210px)}
+.site-footer .edge-leaf img{opacity:.9}
+@media(max-width:760px){.edge-leaf{width:75px}.hero .edge-leaf{bottom:-16px}.site-footer .edge-leaf{top:-30px;width:85px}.edge-leaf img{opacity:.6}}
+@media(prefers-reduced-motion:reduce){.edge-leaf{transform:none!important}}
+.edge-leaf-left{left:24px}.edge-leaf-right{right:24px}
+@media(max-width:760px){.edge-leaf-left{left:12px}.edge-leaf-right{right:12px}}
