@@ -1,0 +1,11 @@
+---
+interface Props { variant: 'hero' | 'footer'; }
+const {variant} = Astro.props;
+const plants = variant === 'hero'
+ ? [{name:'eucalyptus',corner:'upper-right',depth:.35},{name:'fern',corner:'lower-left',depth:.5},{name:'monstera',corner:'upper-left',depth:.8},{name:'monstera',corner:'lower-right',depth:1}]
+ : [{name:'fern',corner:'upper-left',depth:.4},{name:'eucalyptus',corner:'upper-right',depth:.5},{name:'monstera',corner:'lower-left',depth:1},{name:'fern',corner:'lower-right',depth:.7}];
+---
+<div class:list={['botanical-paper',`paper-${variant}`]} aria-hidden="true"></div>
+<div class:list={['botanical-layers',`layers-${variant}`]} aria-hidden="true">
+ {plants.map(plant => <div class:list={['plant-layer',plant.corner,`plant-${plant.name}`]} data-depth={plant.depth}><img src={`assets/layer-${plant.name}.webp`} alt="" width={800} height={plant.name==='fern'?1200:731} loading={variant==='hero'?'eager':'lazy'} decoding="async"/></div>)}
+</div>
