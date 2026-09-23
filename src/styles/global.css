@@ -71,3 +71,11 @@
 .hero-art img{opacity:.75}
 @media(min-width:1600px){.hero{min-height:580px}}
 @media(max-width:760px){.hero{min-height:590px;padding:105px 22px 35px}.hero h1{font-size:clamp(2.5rem,8vw,3.2rem)}.hero-art img{opacity:.45}.hero-description{font-size:.95rem}.hero-actions{margin-top:18px}}
+
+/* Hero controls respond quietly without looping or shifting surrounding content. */
+.hero-actions .button{transition:transform .3s cubic-bezier(.22,1,.36,1),background .3s,box-shadow .3s}
+.hero-actions .button>span{display:inline-block;transition:transform .3s cubic-bezier(.22,1,.36,1)}
+@media(hover:hover){.hero-actions .button:hover{transform:translateY(-3px);box-shadow:0 9px 24px #1d41331a}.hero-actions .button:hover>span{transform:translate(2px,-2px)}}
+.hero-actions .button:focus-visible>span{transform:translate(2px,-2px)}
+.hero-actions .button:active{transform:translateY(0) scale(.98);box-shadow:0 2px 6px #1d413314}
+@media(prefers-reduced-motion:reduce){.hero-actions .button,.hero-actions .button>span{transition:none}.hero-actions .button:hover,.hero-actions .button:active,.hero-actions .button:hover>span,.hero-actions .button:focus-visible>span{transform:none}}
