@@ -101,30 +101,3 @@
 @media(prefers-reduced-motion:reduce){.edge-leaf{transform:none!important}}
 .edge-leaf-left{left:24px}.edge-leaf-right{right:24px}
 @media(max-width:760px){.edge-leaf-left{left:12px}.edge-leaf-right{right:12px}}
-
-/* Independent transparent watercolor plants above stationary paper washes. */
-.botanical-paper{position:absolute;inset:0;z-index:-2;pointer-events:none;background-position:center;background-size:400% 400%}
-.paper-hero{background-image:url('assets/hero-watercolor-1536.webp');opacity:.7}
-.paper-footer{background-image:url('assets/footer-watercolor-1536.webp')}
-.botanical-layers{position:absolute;inset:0;pointer-events:none;z-index:-1;overflow:clip;overflow-clip-margin:48px}
-.plant-layer{position:absolute;width:clamp(130px,23vw,350px);pointer-events:none}
-.plant-layer img{display:block;width:100%;height:auto;object-fit:contain;opacity:.48;transform-origin:center;animation:none!important}
-.plant-layer.upper-left{top:50px;left:-30px}
-.plant-layer.upper-left img{transform:rotate(25deg)}
-.plant-layer.upper-right{top:55px;right:-45px}
-.plant-layer.upper-right img{transform:rotate(-20deg)}
-.plant-layer.lower-left{bottom:-35px;left:-25px;width:clamp(100px,18vw,270px)}
-.plant-layer.lower-left img{transform:rotate(35deg)}
-.plant-layer.lower-right{bottom:-40px;right:-25px}
-.plant-layer.lower-right img{transform:rotate(-25deg) scaleX(-1)}
-.layers-footer .plant-layer img{opacity:.72}
-.layers-footer .upper-left{top:-42px;width:clamp(110px,17vw,260px)}
-.layers-footer .upper-right{top:-48px;width:clamp(140px,20vw,310px)}
-.layers-footer .lower-left{bottom:0;width:clamp(150px,24vw,370px)}
-.layers-footer .lower-right{bottom:0;width:clamp(100px,16vw,250px)}
-.hero-copy,.footer-copy{position:relative;z-index:1}
-/* Horizontal clipping prevents off-canvas leaves creating a scrollbar. */
-body{overflow-x:clip}
-@media(max-width:760px){.plant-layer{width:120px}.plant-layer img{opacity:.24}.plant-layer.upper-left{left:-45px;top:100px}.plant-layer.upper-right{right:-40px;top:110px}.plant-layer.lower-left{width:100px;left:-35px;bottom:-18px}.plant-layer.lower-right{right:-35px;bottom:-20px}.layers-footer .plant-layer{width:115px}.layers-footer .plant-layer img{opacity:.42}.botanical-layers{overflow-clip-margin:24px}}
-@media(prefers-reduced-motion:reduce){.plant-layer{transform:none!important}}
-.hero,.site-footer{z-index:1}
