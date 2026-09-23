@@ -116,3 +116,7 @@
 @media(min-width:1600px){.hero-character{min-height:700px}}
 @media(max-width:1000px) and (min-width:761px){.hero-character{padding-inline:6%;min-height:630px}.hero-character .hero-copy{width:53%}.hero-character h1.hero-quote{font-size:2.6rem}}
 @media(max-width:760px){.hero-character{min-height:0;padding:110px 6% 330px;display:block}.hero-character .hero-copy{width:100%;max-width:560px}.hero-character h1.hero-quote{font-size:clamp(2rem,7.2vw,2.8rem)}.hero-character .hero-description{margin-top:19px}.hero-character .hero-actions{margin-top:22px}.hero-character:after{display:none}.hero-character .hero-art img{position:absolute;bottom:0;right:0;height:310px;width:100%;object-fit:cover;object-position:right 42%;mask-image:linear-gradient(transparent,#000 18%);opacity:.85}}
+
+.brand-mark.official-mark{display:inline-block;width:48px;height:48px;flex-shrink:0;background:currentColor;mask:url('assets/official-logo.png') center/contain no-repeat;-webkit-mask:url('assets/official-logo.png') center/contain no-repeat}
+.footer-brand .brand-mark.official-mark{width:44px;height:44px}
+@media(max-width:760px){.brand-mark.official-mark{width:40px;height:40px}}
