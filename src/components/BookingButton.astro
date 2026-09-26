@@ -1,6 +1,6 @@
 ---
 import {site} from '../data/site';
-interface Props { label?: string; variant?: string; }
-const {label = 'Agendar una sesión', variant = 'primary'} = Astro.props;
+interface Props { label?: string; variant?: string; tab?: 'first' | 'followup'; }
+const {label = 'Agendar una sesión', variant = 'primary', tab} = Astro.props;
 ---
-<a class:list={['button',variant]} href={site.bookingUrl || '#reservar'} data-booking>{label}<span aria-hidden="true">↗</span></a>
+<a class:list={['button',variant]} href={site.bookingUrl || '#reservar'} data-booking data-booking-tab={tab}>{label}<span aria-hidden="true">↗</span></a>

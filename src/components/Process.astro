@@ -1,4 +1,7 @@
-<section id="enfoque" class="process wrap section" aria-labelledby="process-title"><h2 id="process-title">Un paso a la vez, con acompañamiento.</h2><ol class="steps"><li><span>01</span><div><h3>Conversemos</h3><p>Hablemos sobre lo que estás viviendo y lo que necesitas.</p></div></li><li><span>02</span><div><h3>Encuentra tu espacio</h3><p>Conoce al equipo y el enfoque de nuestro acompañamiento.</p></div></li><li><span>03</span><div><h3>Avanza a tu ritmo</h3><p>Trabaja en habilidades que puedas llevar a tu vida diaria.</p></div></li></ol><details class="approach"><summary>Conoce nuestros modelos de terapia <span aria-hidden="true">+</span></summary><div class="approach-grid"><article><h3>Terapia Cognitivo-Conductual</h3><p>Identificar patrones de pensamiento y conducta y desarrollar herramientas prácticas.</p></article><article><h3>Terapia de Esquemas</h3><p>Comprender y transformar patrones que se formaron temprano y siguen operando hoy.</p></article><article><h3>Aceptación y Compromiso</h3><p>Construir otra relación con tus emociones y avanzar hacia lo que importa.</p></article></div></details></section>
+---
+import {models} from '../data/about';
+---
+<section id="enfoque" class="process wrap section" aria-labelledby="process-title"><h2 id="process-title" data-reveal>Un paso a la vez, con acompañamiento.</h2><ol class="steps" data-reveal-group><li><span>01</span><div><h3>Conversemos</h3><p>Hablemos sobre lo que estás viviendo y lo que necesitas.</p></div></li><li><span>02</span><div><h3>Encuentra tu espacio</h3><p>Conoce al equipo y el enfoque de nuestro acompañamiento.</p></div></li><li><span>03</span><div><h3>Avanza a tu ritmo</h3><p>Trabaja en habilidades que puedas llevar a tu vida diaria.</p></div></li></ol><div class="therapy-models" data-reveal><p class="eyebrow">Nuestros modelos de terapia</p>{models.map((model,index)=><details class="therapy-model"><summary><span class="model-number" aria-hidden="true">0{index+1}</span><h3>{model.name}</h3><span class="model-plus" aria-hidden="true">+</span></summary><p>{model.text}</p></details>)}<p class="models-foundation">Lo que estos modelos comparten es lo que nos define: respaldo empírico e intervenciones con fundamento.</p></div></section>
 <script>
 const section = document.querySelector<HTMLElement>('#enfoque');
 const preference = matchMedia('(prefers-reduced-motion: reduce)');
@@ -8,7 +11,7 @@ if (section) {
   if ('IntersectionObserver' in window && !preference.matches) {
     observer = new IntersectionObserver(entries => {
       if (!entries.some(entry => entry.isIntersecting)) return;
-      section.querySelectorAll(':scope > h2, .steps li, .approach').forEach((item, index) => {
+      section.querySelectorAll(':scope > h2, .steps li, .therapy-models').forEach((item, index) => {
         reveals.push(item.animate([
           { opacity: 0, transform: 'translateY(18px)' },
           { opacity: 1, transform: 'translateY(0)' }
@@ -18,37 +21,40 @@ if (section) {
     }, { threshold: .18 });
     observer.observe(section);
   }
-  const details = section.querySelector<HTMLDetailsElement>('.approach')!;
-  const summary = details.querySelector('summary')!;
-  let expanded = details.open;
-  let transition: Animation | undefined;
-  const settle = () => {
-    details.open = expanded;
-    details.style.overflow = '';
-    transition = undefined;
-  };
-  summary.addEventListener('click', event => {
-    event.preventDefault();
-    const from = details.getBoundingClientRect().height;
-    transition?.cancel();
-    expanded = !expanded;
-    details.dataset.expanded = String(expanded);
-    if (preference.matches || !details.animate) { settle(); return; }
-    details.open = true;
-    const to = expanded ? details.getBoundingClientRect().height : summary.getBoundingClientRect().height + 2;
-    details.style.overflow = 'hidden';
-    transition = details.animate({height:[`${from}px`, `${to}px`]}, {
-      duration: 480, easing: 'cubic-bezier(.22,1,.36,1)'
+  section.querySelectorAll<HTMLDetailsElement>('.therapy-model').forEach(details => {
+    const summary = details.querySelector('summary')!;
+    const content = details.querySelector('p')!;
+    let expanded = details.open;
+    let motion: Animation | undefined;
+    let fade: Animation | undefined;
+    const settle = () => {
+      motion?.cancel(); fade?.cancel();
+      motion = undefined; fade = undefined;
+      details.open = expanded;
+      details.style.overflow = '';
+    };
+    summary.addEventListener('click', event => {
+      event.preventDefault();
+      const from = details.getBoundingClientRect().height;
+      const opacity = Number(getComputedStyle(content).opacity);
+      motion?.cancel(); fade?.cancel();
+      expanded = !expanded;
+      details.dataset.expanded = String(expanded);
+      if (preference.matches) { settle(); return; }
+      const wasOpen = details.open;
+      details.open = true;
+      const full = details.getBoundingClientRect().height;
+      const collapsed = summary.getBoundingClientRect().height + 1;
+      details.style.overflow = 'hidden';
+      motion = details.animate({height:[`${from}px`,`${expanded ? full : collapsed}px`]},
+        {duration:420,easing:'cubic-bezier(.22,1,.36,1)'});
+      fade = content.animate({opacity:[wasOpen ? opacity : 0, expanded ? 1 : 0]},
+        {duration:expanded ? 320 : 180,fill:'both',easing:'ease-out'});
+      motion.onfinish = settle;
     });
-    transition.onfinish = settle;
+    window.addEventListener('resize', () => { if (motion) settle(); });
+    preference.addEventListener('change', () => { if (preference.matches) settle(); });
   });
-  window.addEventListener('resize', () => { if (transition) { transition.cancel(); settle(); } });
-  preference.addEventListener('change', () => {
-    if (!preference.matches) return;
-    observer?.disconnect();
-    reveals.forEach(animation => animation.finish());
-    transition?.cancel();
-    settle();
-  });
+  preference.addEventListener('change', () => { if (preference.matches) { observer?.disconnect(); reveals.forEach(animation => animation.finish()); } });
 }
 </script>

@@ -3,27 +3,8 @@ import BookingButton from './BookingButton.astro';
 import TrustIcon from './TrustIcon.astro';
 ---
 <section id="inicio" class="hero hero-character" aria-labelledby="hero-title">
- <div class="botanical-viewport" aria-hidden="true"><picture class="hero-art"><source type="image/webp" srcset="assets/hero-character-960.webp 960w, assets/hero-character-1536.webp 1536w" sizes="100vw"/><img src="assets/hero-character-1536.webp" alt="" width="1536" height="1024" fetchpriority="high"/></picture></div>
- <div class="hero-copy"><p class="eyebrow">Psicoterapia en línea</p><h1 id="hero-title" class="hero-quote">“Las personas tienen más poder del que creen para cambiar su forma de pensar y sentir.”</h1><p class="hero-attribution"><cite>Aaron Beck</cite></p><p class="hero-description">Psicoterapia en línea basada en evidencia y atención personalizada.</p><div class="hero-actions"><BookingButton label="Agendar mi primera sesión"/></div></div>
+ <div class="botanical-viewport" aria-hidden="true"><picture class="hero-art"><source type="image/webp" srcset="assets/hero-runway-960.webp 960w, assets/hero-runway-1776.webp 1776w" sizes="100vw"/><img src="assets/hero-runway-1776.webp" alt="" width="1776" height="753" fetchpriority="high"/></picture></div>
+ <div class="hero-botanical-accents" aria-hidden="true"><img class="hero-accent-monstera" src="assets/footer-overlap-monstera.webp" alt="" width="800" height="800"/><img class="hero-accent-branch" src="assets/footer-overlap-eucalyptus-fern.webp" alt="" width="600" height="900"/></div>
+ <div class="hero-copy"><p class="eyebrow">Psicoterapia en línea</p><h1 id="hero-title" class="hero-quote">Las personas tienen más poder del que creen para cambiar su forma de pensar y sentir.</h1><p class="hero-attribution"><cite>Aaron Beck</cite><small>Creador de la terapia cognitiva</small></p><div class="hero-actions"><BookingButton label="Agendar mi primera sesión" tab="first"/></div></div>
 </section>
 <div class="trust-strip" aria-label="Nuestra atención"><span><TrustIcon kind="evidence"/>Basada en evidencia</span><span><TrustIcon kind="personal"/>Atención personalizada</span><span><TrustIcon kind="online"/>100% en línea</span></div>
-<script>
-const hero = document.querySelector<HTMLElement>('.hero-copy');
-const motion = matchMedia('(prefers-reduced-motion: reduce)');
-if (hero && !motion.matches) {
-  const selectors = ['.hero-conversation', '.eyebrow', 'h1', '.hero-attribution', '.hero-description', '.hero-actions'];
-  const animations: Animation[] = [];
-  selectors.forEach((selector, index) => {
-    const item = hero.querySelector(selector);
-    if (item) animations.push(item.animate([
-      {opacity:0, transform:'translateY(12px)'},
-      {opacity:1, transform:'translateY(0)'}
-    ], {duration:700, delay:index*90, easing:'cubic-bezier(.22,1,.36,1)', fill:'backwards'}));
-  });
-  // End the entrance immediately if the user requests less motion mid-sequence.
-  motion.addEventListener('change', () => {
-    if (motion.matches) animations.forEach(animation => animation.finish());
-  });
-  hero.addEventListener('focusin', () => animations.forEach(animation => animation.finish()), {once:true});
-}
-</script>

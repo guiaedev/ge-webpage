@@ -1,0 +1,13 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from './Header.astro';
+import {legal, legalContent} from '../data/legal';
+const {slug} = Astro.props;
+const page = legalContent[slug];
+---
+<Layout title={`${page.title} | Guía Existencial`} base="../"><Header inner current="legal"/><main id="contenido" class="legal-page wrap">
+ <header class="about-intro"><a class="story-link" href="index.html">← Volver al inicio</a><p class="eyebrow">Información legal</p><h1>{page.title}</h1><p>{page.intro}</p></header>
+ {legal.mock && <p class="legal-draft" role="note">Borrador con datos de ejemplo. Este texto debe sustituirse por la versión definitiva revisada antes de publicar el sitio.</p>}
+ {page.sections.map(section => <section class="legal-section"><h2>{section.title}</h2>{section.body.map(text => <p>{text}</p>)}</section>)}
+ <p class="legal-updated">Última actualización: {legal.updated}</p>
+</main></Layout>

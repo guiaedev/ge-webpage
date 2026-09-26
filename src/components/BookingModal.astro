@@ -1,0 +1,23 @@
+---
+import {site, bookingPolicies} from '../data/site';
+---
+<dialog id="booking-dialog" class="content-dialog booking-modal" aria-labelledby="booking-title" data-url-first={site.bookingUrl} data-url-followup={site.followUpUrl}>
+ <button class="dialog-close" data-close aria-label="Cerrar calendario">×</button>
+ <header><p class="eyebrow">Guía Existencial</p><h2 id="booking-title" data-copy-first="Un espacio para ti." data-copy-followup="Continúa tu proceso.">Un espacio para ti.</h2><p class="booking-lead" data-copy-first="Elige un horario para dar el primer paso." data-copy-followup="Agenda tu siguiente sesión con tu terapeuta.">Elige un horario para dar el primer paso.</p></header>
+ <div class="booking-tabs" role="tablist" aria-label="Tipo de sesión" hidden>
+  <button type="button" role="tab" id="tab-first" aria-controls="cal-first" aria-selected="true" data-tab="first">Primera sesión</button>
+  <button type="button" role="tab" id="tab-followup" aria-controls="cal-followup" aria-selected="false" tabindex="-1" data-tab="followup">Continuar mi proceso</button>
+ </div>
+ <div class="booking-status" role="status" aria-live="polite"></div>
+ <div class="booking-body">
+  <div class="booking-calendars">
+   <div id="cal-first" class="cal-booking" role="tabpanel" aria-labelledby="tab-first" hidden></div>
+   <div id="cal-followup" class="cal-booking" role="tabpanel" aria-labelledby="tab-followup" hidden></div>
+  </div>
+  <aside class="booking-policies" aria-labelledby="policies-title"><img class="booking-art" src="assets/session-staff-480.webp" srcset="assets/session-staff-480.webp 480w, assets/session-staff-720.webp 720w" sizes="240px" alt="Ilustración de una sesión de psicoterapia en línea por videollamada" width="480" height="320" loading="lazy"/><h3 id="policies-title" data-copy-first="Antes de agendar" data-copy-followup="Tu próxima sesión">Antes de agendar</h3><p class="booking-intro" data-copy-first="Una primera conversación para conocerte y ver cómo podemos acompañarte." data-copy-followup="Para personas que ya iniciaron su proceso con el equipo.">Una primera conversación para conocerte y ver cómo podemos acompañarte.</p><ul>{bookingPolicies.map(policy=><li>{policy.summary}</li>)}</ul>
+   <details><summary>Ver acuerdos completos</summary><dl>{bookingPolicies.map(policy=><><dt>{policy.title}</dt><dd>{policy.text}</dd></>)}</dl></details></aside>
+ </div>
+ <div class="booking-contact"><p>El calendario estará disponible próximamente. Mientras tanto, podemos ayudarte a coordinar tu sesión.</p><a class="button primary" href={site.contactUrl}>Contactar al equipo <span aria-hidden="true">↗</span></a></div>
+ <a class="booking-direct" target="_blank" rel="noopener noreferrer" hidden>Abrir calendario en otra pestaña ↗</a>
+</dialog>
+<script is:inline src="scripts/booking.js" defer></script>

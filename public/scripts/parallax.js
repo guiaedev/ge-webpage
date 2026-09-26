@@ -2,8 +2,16 @@
 (() => {
   const preference = matchMedia('(prefers-reduced-motion: reduce)');
   const mobile = matchMedia('(max-width: 760px)');
-  const layers = [...document.querySelectorAll('.hero, .site-footer')]
-    .map(section => ({ section, art: section.querySelector('picture'), leaves: [...section.querySelectorAll('.edge-leaf')], visible: true }))
+  // The hero painting drifts at a fraction of the scroll; the team and footer paintings shift as they
+  // pass the viewport centre, and the footer's foreground plants move the other way so they read as nearer.
+  const layers = [...document.querySelectorAll('.hero, .team-section, .about-hero, .site-footer')]
+    .map(section => ({
+      section,
+      hero: section.classList.contains('hero'),
+      art: section.querySelector('picture'),
+      leaves: [...section.querySelectorAll('.footer-overlap-leaf, .footer-overlap-branch')],
+      visible: true,
+    }))
     .filter(layer => layer.art);
   let frame = 0;
   let enabled = false;
@@ -11,18 +19,17 @@
   function render() {
     frame = 0;
     if (!enabled) return;
-    const limit = mobile.matches ? 14 : 36;
-    const speed = mobile.matches ? 0.045 : 0.12;
     // Read layout first, then update only compositor transforms.
     const updates = layers.filter(layer => layer.visible).map(layer => {
       const rect = layer.section.getBoundingClientRect();
-      const distance = layer.section.classList.contains('hero')
-        ? -rect.top
-        : innerHeight / 2 - (rect.top + rect.height / 2);
-      return { art: layer.art, leaves: layer.leaves, offset: clamp(distance * speed, limit) };
+      // The phone hero keeps still: its small art carries its own fade and would show a hard edge.
+      if (layer.hero) return { ...layer, offset: mobile.matches ? 0 : clamp(-rect.top * 0.15, 70) };
+      const distance = innerHeight / 2 - (rect.top + rect.height / 2);
+      return { ...layer, offset: clamp(distance * (mobile.matches ? 0.045 : 0.12), mobile.matches ? 14 : 36) };
     });
     updates.forEach(({ art, leaves, offset }) => {
-      leaves.forEach((leaf, index) => leaf.style.setProperty('--leaf-y', `${(-offset * (index ? .45 : .7)).toFixed(2)}px`));
+      // Plants only ever rise: moving down would extend the page below the footer.
+      leaves.forEach((leaf, index) => leaf.style.setProperty('--leaf-y', `${Math.min(0, -offset * (index ? .45 : .7)).toFixed(2)}px`));
       art.style.transform = `translate3d(0, ${offset.toFixed(2)}px, 0)`;
     });
   }
@@ -60,38 +67,5 @@
   mobile.addEventListener('change', schedule);
   document.addEventListener('visibilitychange', schedule);
   window.addEventListener('pageshow', schedule);
-  configure();
-})();
-
-// Pointer depth is isolated on the hero image so it composes with scroll parallax.
-(() => {
-  const hero = document.querySelector('.hero');
-  const art = hero?.querySelector('img');
-  if (!hero || !art) return;
-  const allowed = matchMedia('(prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine)');
-  let frame = 0;
-  let x = 0, y = 0;
-  const apply = () => {
-    frame = 0;
-    art.style.setProperty('--pointer-x', `${x.toFixed(2)}px`);
-    art.style.setProperty('--pointer-y', `${y.toFixed(2)}px`);
-  };
-  const move = event => {
-    const rect = hero.getBoundingClientRect();
-    x = ((event.clientX - rect.left) / rect.width - .5) * 8;
-    y = ((event.clientY - rect.top) / rect.height - .5) * 5;
-    if (!frame) frame = requestAnimationFrame(apply);
-  };
-  const reset = () => { x = 0; y = 0; cancelAnimationFrame(frame); apply(); };
-  const configure = () => {
-    hero.removeEventListener('pointermove', move);
-    hero.removeEventListener('pointerleave', reset);
-    reset();
-    if (allowed.matches) {
-      hero.addEventListener('pointermove', move, { passive: true });
-      hero.addEventListener('pointerleave', reset);
-    }
-  };
-  allowed.addEventListener('change', configure);
   configure();
 })();

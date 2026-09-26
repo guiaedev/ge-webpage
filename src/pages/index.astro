@@ -4,11 +4,14 @@ import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
 import Topics from '../components/Topics.astro';
 import Process from '../components/Process.astro';
+import Story from '../components/Story.astro';
 import Information from '../components/Information.astro';
 import Footer from '../components/Footer.astro';
+import FloatingBooking from '../components/FloatingBooking.astro';
 import {site} from '../data/site';
+import BookingModal from '../components/BookingModal.astro';
 ---
-<Layout><Header/><main id="contenido"><Hero/><Topics/><Process/><Information/></main><Footer/><dialog id="booking-dialog" class="content-dialog" aria-labelledby="booking-title"><button class="dialog-close" data-close aria-label="Cerrar">×</button><p class="eyebrow">Guía Existencial</p><h2 id="booking-title">Demos el primer paso.</h2><p>El calendario de reservas estará disponible próximamente. Mientras tanto, puedes contactar al equipo para consultar disponibilidad.</p><a class="button primary" href={site.contactUrl}>Contactar al equipo <span aria-hidden="true">↗</span></a></dialog><script is:inline define:vars={{bookingUrl:site.bookingUrl}}>
+<Layout><Header/><main id="contenido"><Hero/><Topics/><Process/><Story/><Information/><section id="recursos" class="resources-section wrap section" aria-labelledby="resources-title" data-reveal><p class="eyebrow">Para acompañar tu proceso</p><h2 id="resources-title">Recursos</h2><p>Próximamente encontrarás aquí materiales para tu bienestar emocional.</p></section></main><Footer/><FloatingBooking/><BookingModal/><script is:inline src="scripts/reveal.js" defer></script><script is:inline define:vars={{bookingUrl:site.bookingUrl}}>
 const menu = document.querySelector('.menu-toggle');
 const nav = document.querySelector('#navigation');
 menu?.addEventListener('click', () => { const open = menu.getAttribute('aria-expanded') !== 'true'; menu.setAttribute('aria-expanded', String(open)); nav?.classList.toggle('is-open', open); });
@@ -18,6 +21,6 @@ function showDialog(dialog, trigger) { document.querySelectorAll('dialog[open]')
 document.querySelectorAll('[data-topic]').forEach(button=>button.addEventListener('click',()=>showDialog(document.getElementById('topic-'+button.dataset.topic),button)));
 document.querySelectorAll('[data-close]').forEach(button=>button.addEventListener('click',()=>button.closest('dialog')?.close()));
 document.querySelectorAll('dialog').forEach(dialog=>{dialog.addEventListener('click',event=>{if(event.target===dialog){const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close();}});dialog.addEventListener('close',()=>{if(dialogTrigger?.isConnected)dialogTrigger.focus();});});
-document.querySelectorAll('[data-booking]').forEach(button=>button.addEventListener('click',event=>{if(!bookingUrl){event.preventDefault();showDialog(document.querySelector('#booking-dialog'),button);}}));
+
 document.addEventListener('keydown',event=>{if(event.key==='Escape'){menu?.setAttribute('aria-expanded','false');nav?.classList.remove('is-open');}});
 </script><script is:inline src="scripts/parallax.js" defer></script></Layout>

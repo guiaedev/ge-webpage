@@ -1,9 +1,22 @@
 ---
 import Mark from './Mark.astro';
 import BookingButton from './BookingButton.astro';
+// `current` names the page to mark in the nav; inner pages other than Nosotras pass none.
+// The home page drops the header booking button: the hero CTA and the floating button cover it.
+const {inner = false, current = inner ? 'nosotras' : undefined} = Astro.props;
+const home = inner ? 'index.html' : ''; 
 ---
 <header class="site-header wrap">
- <a href="#inicio" class="brand" aria-label="Guía Existencial, inicio"><Mark/>Guía Existencial</a>
+ <a href={`${home}#inicio`} class="brand" aria-label="Guía Existencial, inicio"><Mark/>Guía Existencial</a>
  <button class="menu-toggle" aria-expanded="false" aria-controls="navigation">Menú <span aria-hidden="true">☰</span></button>
- <nav id="navigation" aria-label="Navegación principal"><a href="#enfoque">Nuestro enfoque</a><a href="#equipo">Equipo</a><a href="#preguntas">Preguntas frecuentes</a><BookingButton label="Agendar sesión" variant="outline"/></nav>
+ <nav id="navigation" aria-label="Navegación principal"><a href={`${home}#enfoque`}>Nuestro enfoque</a><a href="nosotras/" aria-current={current === 'nosotras' ? 'page' : undefined}>Nosotras</a><a href={`${home}#equipo`}>Equipo</a><a href={`${home}#recursos`}>Recursos</a><a href={`${home}#preguntas`}>Preguntas frecuentes</a>{inner && <BookingButton label="Agendar sesión" variant="outline"/>}</nav>
 </header>
+
+<script>
+const toggle = document.querySelector('.menu-toggle');
+const navigation = document.querySelector('#navigation');
+if (location.pathname.includes('/nosotras')) {
+ toggle?.addEventListener('click', () => { const open = toggle.getAttribute('aria-expanded') !== 'true'; toggle.setAttribute('aria-expanded', String(open)); navigation?.classList.toggle('is-open', open); });
+ document.addEventListener('keydown', e => {if(e.key === 'Escape'){toggle?.setAttribute('aria-expanded','false');navigation?.classList.remove('is-open');}});
+}
+</script>
