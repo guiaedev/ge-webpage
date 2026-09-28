@@ -13,6 +13,14 @@ export const bookingPolicies = [
  { title: 'Inasistencias', summary: 'Sin aviso previo se cobra la sesión completa', text: 'La ausencia sin aviso previo conlleva el cobro completo de la sesión.' },
  { title: 'Puntualidad', summary: '10 min de tolerancia', text: 'Las sesiones duran 60 minutos. Contamos con un periodo de tolerancia de 10 minutos; pasado este tiempo, la sesión deberá reprogramarse aplicando la tarifa de cancelación ($200 MXN).' },
 ];
+// Free downloadable resources shown in "Recursos". Put each PDF in public/assets/recursos/ and set `file`;
+// set `image` once its illustration exists. Without a file (or `url`, for link cards) the card shows "Próximamente".
+export const resources = [
+ { title: 'Diario de gratitud', description: 'Un espacio breve cada día para notar lo que sí está presente y entrenar la atención hacia lo que te sostiene.', format: 'PDF imprimible', file: '', image: '', tone: 'oat' },
+ { title: 'Ejercicio de motivación al cambio', description: 'Preguntas guiadas para explorar qué quieres cambiar, por qué te importa y cuál puede ser tu primer paso.', format: 'PDF imprimible', file: '', image: '', tone: 'blush' },
+ // External link card: opens `url` in a new tab.
+ { title: 'Canal de YouTube', description: 'Psicología basada en evidencia, explicada en lenguaje claro para tu día a día.', format: 'Videos', url: 'https://www.youtube.com/@GuiaExistencial', image: '', tone: 'sand' },
+];
 export const topics = [
  { title: 'Ansiedad y estrés', text: 'Herramientas para una vida más tranquila y presente.', color: 'sage', detail: 'Un espacio para comprender la relación entre lo que piensas, sientes y haces, e identificar patrones que mantienen el malestar. El trabajo se orienta a desarrollar habilidades para tu vida diaria.' },
  { title: 'Relaciones y vínculos', text: 'Construye relaciones más sanas y auténticas.', color: 'blush', detail: 'Explora formas de relacionarte que se repiten, comprende cómo se construyeron y trabaja en respuestas más útiles para tus necesidades y vínculos actuales.' },

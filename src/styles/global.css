@@ -1,4 +1,4 @@
-@font-face{font-family:Editorial;src:url('assets/editorial.ttf') format('truetype');font-display:swap;font-weight:400 700}@font-face{font-family:Interface;src:url('assets/interface.ttf') format('truetype');font-display:swap;font-weight:100 900}
+@font-face{font-family:Editorial;src:url('assets/editorial.ttf') format('truetype');font-display:swap;font-weight:400 700}@font-face{font-family:Interface;src:url('assets/interface.ttf') format('truetype');font-display:swap;font-weight:400}
 /* Forest, sage and warm ivory palette. */
 :root{--ivory:#faf7f0;--ink:#303530;--heading:#263d32;--green:#476451;--muted:#626b60;--sage:#dce5d8;--mist:#e8eee3;--blush:#f2e8e1;--sand:#f0eadc;--line:#cfd8c9;--linen:#f2ece1;--oat:#e9e3d6;--action:#161616;--action-hover:#2c2c2c;--serif:Editorial,Georgia,serif;--sans:Interface,Arial,sans-serif}
 *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:30px}body{margin:0;background:var(--ivory);color:var(--ink);font:16px/1.6 var(--sans);-webkit-font-smoothing:antialiased}a{color:inherit;text-decoration:none}button{font:inherit;color:inherit;cursor:pointer}h1,h2,h3,p{margin:0}h1,h2,h3{font-family:var(--serif);font-weight:400;line-height:1.12;color:var(--heading)}h1{font-size:clamp(2.7rem,4.5vw,4.6rem);letter-spacing:-.055em}h2{font-size:clamp(2rem,3.4vw,3.2rem);letter-spacing:-.045em}h3{font-size:1.55rem;letter-spacing:-.025em}em{font-weight:400}p{font-weight:350}.wrap{width:min(1280px,90%);margin-inline:auto}.section{padding-block:70px}.eyebrow{text-transform:uppercase;letter-spacing:.3em;font-size:.75rem;font-weight:500}
@@ -9,7 +9,12 @@
 .site-header nav>a[aria-current=page]::after{transform:scaleX(1)}
 @media(hover:hover) and (min-width:761px){.site-header nav>a:not(.button):hover::after{transform:scaleX(1);transform-origin:left}}
 @media(prefers-reduced-motion:reduce){.site-header nav>a:not(.button)::after{transition:none}}.site-header .button{padding:9px 22px}.menu-toggle{display:none}
-.trust-strip{display:flex;justify-content:center;align-items:center;padding:25px 5%;background:var(--ivory);gap:0}.trust-strip>span{display:flex;justify-content:center;align-items:center;gap:23px;width:33.333%;max-width:410px;font:1rem var(--serif);min-height:43px}.trust-strip>span+span{border-left:1px solid var(--line)}.trust-strip svg{width:33px;height:33px;fill:none;stroke:currentColor;stroke-width:1.2}.section-heading{text-align:center;margin-bottom:37px}.section-heading p{margin-top:10px}
+.trust-strip{display:flex;justify-content:center;align-items:center;padding:25px 5%;background:var(--ivory);gap:0}.trust-strip>span{display:flex;justify-content:center;align-items:center;gap:23px;width:33.333%;max-width:410px;font:1rem var(--serif);min-height:43px}.trust-strip>span+span{border-left:1px solid var(--line)}
+/* Hairlines that fade out at both ends define the strip without hard edges. */
+.trust-strip{position:relative}
+.trust-strip::before,.trust-strip::after{content:'';position:absolute;left:8%;right:8%;height:1px;background:linear-gradient(90deg,transparent,#d9ccb6 20%,#d9ccb6 80%,transparent);pointer-events:none}
+.trust-strip::before{top:0}.trust-strip::after{bottom:0}
+.trust-strip svg{width:33px;height:33px;fill:none;stroke:currentColor;stroke-width:1.2}.section-heading{text-align:center;margin-bottom:37px}.section-heading p{margin-top:10px}
 .topic-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;max-width:1020px;margin-inline:auto}.topic-card{border-radius:20px;min-height:0;overflow:hidden;position:relative;display:flex;flex-direction:column;justify-content:flex-start;transition:transform .25s,box-shadow .25s}.topic-card:hover,.topic-card:focus-within{transform:translateY(-7px);box-shadow:0 18px 30px #17291e10}.sage{background:var(--oat)}.blush{background:var(--blush)}.sand{background:var(--sand)}.topic-card h3{font-size:clamp(1.3rem,1.8vw,1.65rem);line-height:1.15;margin-bottom:12px}.topic-card p{font:.95rem/1.5 var(--sans);max-width:calc(100% - 43px)}.circle-button{border:1px solid var(--action);background:transparent;color:var(--action);border-radius:50%;width:40px;height:40px;position:absolute;right:18px;bottom:23px;font-size:1.5rem;transition:transform .2s}.circle-button:hover{transform:translateX(3px);background:var(--action);color:var(--ivory)}
 /* Storybook illustrations: display only the artwork from the master sheet. */
 .topic-illustration{position:relative;width:78%;max-width:240px;margin:14px auto 0;aspect-ratio:476 / 548;overflow:hidden;flex:none;pointer-events:none;mask-image:linear-gradient(to right,transparent,#000 14%,#000 86%,transparent),linear-gradient(transparent,#000 14%,#000 80%,transparent);mask-composite:intersect}.topic-illustration img{position:absolute;width:322.6891%;max-width:none;height:auto;left:var(--art-left);top:-44.1606%}.topic-copy{padding:0 23px 25px;flex:1}
@@ -36,8 +41,8 @@
 .faq h2{font-size:clamp(2.8rem,4.8vw,4.6rem);line-height:1.03;margin:24px 0}
 .faq h2 em{color:#65765b}
 .faq-lead{font-size:1rem;color:var(--muted);line-height:1.7}
-.faq-caption{display:flex;align-items:center;gap:14px;margin-top:36px;font-size:.82rem;color:var(--muted)}
-.faq-caption>span{display:grid;place-items:center;width:36px;height:36px;border:1px solid var(--line);border-radius:50%;color:var(--green);font-size:1.1rem}
+
+
 .faq-list{display:grid;gap:14px;min-width:0}
 .faq-list details{border:1px solid #dce0d3;border-radius:20px;background:#fffdf8;transition:background .3s,border-color .3s,box-shadow .3s}
 .faq-list details[open]{background:var(--linen);border-color:#d9ccb6;box-shadow:0 12px 32px #1d413308}
@@ -52,7 +57,7 @@
 .faq-list .faq-answer p{padding:0 76px 28px 64px;font-size:.95rem;line-height:1.8;color:#546150}
 .faq-list summary:focus-visible{outline:2px solid #a57021;outline-offset:4px}
 @media(hover:hover){.faq-list details:not([open]):hover{border-color:#d9ccb6;background:#fbf8f2;box-shadow:0 7px 20px #26231f0a}.faq-list summary:hover .faq-toggle{border-color:var(--action)}}
-@media(max-width:760px){.faq{padding-block:58px;grid-template-columns:1fr;gap:30px}.faq-intro{padding:0}.faq h2{font-size:2.8rem;margin:17px 0}.faq-caption{margin-top:20px}.faq-list summary{padding:21px 19px;gap:13px;min-height:100px}.faq-list summary .faq-toggle{width:32px;height:32px}.faq-list .faq-answer p{padding:0 23px 24px 47px;font-size:.92rem}}
+@media(max-width:760px){.faq{padding-block:58px;grid-template-columns:1fr;gap:30px}.faq-intro{padding:0}.faq h2{font-size:2.8rem;margin:17px 0}.faq-list summary{padding:21px 19px;gap:13px;min-height:100px}.faq-list summary .faq-toggle{width:32px;height:32px}.faq-list .faq-answer p{padding:0 23px 24px 47px;font-size:.92rem}}
 @media(prefers-reduced-motion:reduce){.faq-list details,.faq-list .faq-toggle{transition:none}}
 
 /* Process numbers lift on hover with the same calm timing as the FAQ. */
@@ -101,8 +106,11 @@
 .booking-modal{padding:36px;width:min(540px,calc(100% - 28px));max-height:90dvh;overflow:auto}
 .booking-modal.has-calendar{width:min(1100px,calc(100% - 28px))}
 .booking-modal header{padding-right:24px;margin-bottom:20px}
+/* With the calendar, the tabs share the title row so the calendar sits higher. */
+.booking-modal.has-calendar header{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;padding-right:48px;margin-bottom:18px}
+.booking-modal.has-calendar h2{font-size:2rem;margin:6px 0 4px}
 .booking-modal h2{font-size:2.3rem;margin:10px 0}
-.booking-modal header>p:last-child,.booking-contact p{color:var(--muted);font-size:1rem}
+.booking-lead,.booking-contact p{color:var(--muted);font-size:1rem}
 .booking-contact .button{margin-top:22px}
 .booking-status:empty{display:none}
 .booking-status{padding:14px 0;color:var(--muted);font-size:.95rem}
@@ -112,12 +120,13 @@
 .booking-modal.has-calendar{width:min(1300px,calc(100% - 28px))}
 .booking-policies{border:1px solid #e6dccb;border-radius:14px;padding:18px 18px 16px;font-size:.84rem;color:var(--muted);line-height:1.55;position:sticky;top:0}
 .booking-art{display:block;width:calc(100% + 16px);max-width:none;height:auto;margin:-8px -8px 12px;mix-blend-mode:multiply;mask-image:linear-gradient(to right,transparent,#000 12%,#000 88%,transparent),linear-gradient(transparent,#000 12%,#000 82%,transparent);mask-composite:intersect}
-.booking-tabs{display:inline-flex;gap:4px;padding:4px;margin:0 0 18px;border:1px solid #e6dccb;border-radius:100px;background:#fbf8f2}
+.booking-tabs{display:inline-flex;gap:4px;padding:4px;margin:0;border:1px solid #e6dccb;border-radius:100px;background:#fbf8f2}
 .booking-tabs button{border:0;background:transparent;border-radius:100px;padding:9px 18px;font-size:.88rem;font-weight:500;color:var(--muted);transition:background .3s,color .3s}
 .booking-tabs button:hover{color:var(--ink)}
 .booking-tabs button[aria-selected=true]{background:var(--action);color:var(--ivory)}
 .booking-tabs button:focus-visible{outline:2px solid #a57021;outline-offset:2px}
 .booking-intro{margin:0 0 12px;color:var(--ink)}
+@media(max-width:760px){.booking-modal.has-calendar header{padding-right:0;gap:16px}.booking-heading{padding-right:36px}.booking-tabs{display:flex;width:100%}.booking-tabs button{flex:1;padding:9px 8px;font-size:.8rem;white-space:nowrap}}
 .booking-policies h3{font:500 .66rem var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--ink);margin-bottom:12px}
 .booking-policies ul{list-style:none;margin:0;padding:0;display:grid;gap:9px}
 .booking-policies li{padding-left:14px;position:relative}
@@ -131,12 +140,28 @@
 .booking-modal [hidden]{display:none!important}
 .booking-modal[open]{animation:booking-enter .25s ease-out}
 @keyframes booking-enter{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-@media(max-width:760px){.booking-modal{padding:28px 20px}.booking-modal.has-calendar{width:calc(100% - 16px);padding:26px 12px}.booking-body{grid-template-columns:1fr}.booking-policies{position:static;order:-1}.booking-tabs{display:flex;width:100%}.booking-tabs button{flex:1;padding:9px 8px;font-size:.8rem;white-space:nowrap}.booking-art{width:min(260px,100%);margin:-6px auto 10px}.booking-modal h2{font-size:2rem}.cal-booking{min-height:480px}}
+@media(max-width:760px){.booking-modal{padding:28px 20px}.booking-modal.has-calendar{width:calc(100% - 16px);padding:26px 12px}.booking-body{grid-template-columns:1fr}.booking-policies{position:static;order:-1}.booking-art{width:min(260px,100%);margin:-6px auto 10px}.booking-modal h2{font-size:2rem}.cal-booking{min-height:480px}}
 @media(prefers-reduced-motion:reduce){.booking-modal[open]{animation:none}}
 
 .resources-section{text-align:center;border-bottom:1px solid var(--line)}
 .resources-section h2{margin:15px 0}
-.resources-section>p:last-child{color:var(--muted);max-width:540px;margin-inline:auto}
+.resources-heading>p:last-child{color:var(--muted);max-width:540px;margin-inline:auto}
+/* Free resources: illustrated cards with a format tag and a download action. */
+.resource-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;max-width:1120px;margin:40px auto 0;text-align:left}
+.resource-card{display:flex;flex-direction:column;border-radius:22px;overflow:hidden;border:1px solid #e6dccb}
+.resource-card.oat{background:var(--oat)}.resource-card.blush{background:var(--blush)}.resource-card.sand{background:var(--sand)}
+.resource-art{position:relative;aspect-ratio:16 / 10}
+.resource-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.resource-placeholder{position:absolute;inset:14px;display:grid;place-content:center;justify-items:center;gap:10px;border:1px dashed #cbbd9f;border-radius:14px;color:#9a8c70;font-size:.72rem;letter-spacing:.08em;text-align:center;background:#fbf8f266}
+.resource-body{display:flex;flex-direction:column;gap:10px;padding:22px 24px 26px;flex:1}
+.resource-meta{display:flex;gap:8px;flex-wrap:wrap;margin:0}
+.resource-meta span{font:500 .64rem var(--sans);letter-spacing:.14em;text-transform:uppercase;color:#5a6257;border:1px solid #d9ccb6;border-radius:100px;padding:4px 10px;background:#fbf8f2aa}
+.resource-body h3{font-size:1.55rem;line-height:1.15}
+.resource-body>p:not(.resource-meta){color:var(--muted);font-size:.92rem;line-height:1.55}
+.resource-download,.resource-soon{margin-top:auto;align-self:flex-start}
+.resource-soon{font-size:.82rem;color:#6b7565;border-bottom:1px solid #cbbd9f;padding-bottom:2px}
+@media(max-width:1000px){.resource-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.resource-card:last-child:nth-child(odd){grid-column:1 / -1;justify-self:center;width:calc(50% - 11px)}}
+@media(max-width:640px){.resource-grid{grid-template-columns:1fr;max-width:460px}.resource-card:last-child:nth-child(odd){width:auto;justify-self:stretch}.resource-body{padding:20px 20px 22px}}
 
 /* Header signature: larger logo and name on desktop and phones; tablets keep the compact size below. */
 .site-header .brand{font-size:2.05rem;gap:16px}.site-header .brand-mark{width:60px;height:60px}
@@ -194,6 +219,23 @@
 .reveal-ready .reveal-animating{transition:opacity .8s ease-out var(--reveal-delay,0ms),transform .9s cubic-bezier(.22,1,.36,1) var(--reveal-delay,0ms)!important}
 .reveal-ready .reveal-pending{opacity:0;transform:translateY(24px)}
 
+/* Footer information dialogs (legal texts and contact). */
+/* Fixed height so switching tabs never resizes the modal; long texts scroll inside. */
+.info-dialog{width:min(680px,calc(100% - 32px));height:min(760px,85dvh);overflow:auto;text-align:left}
+.info-dialog h2{font-size:2.2rem;margin:22px 0 10px}
+.info-tabs{display:flex;gap:4px;padding:4px;margin-top:14px;border:1px solid #e6dccb;border-radius:100px;background:#fbf8f2;width:fit-content;max-width:100%;overflow-x:auto;scrollbar-width:none}
+.info-tabs::-webkit-scrollbar{display:none}
+.info-tabs button{flex:none;border:0;background:transparent;border-radius:100px;padding:8px 16px;font-size:.84rem;font-weight:500;color:var(--muted);white-space:nowrap;transition:background .3s,color .3s}
+.info-tabs button:hover{color:var(--ink)}
+.info-tabs button[aria-selected=true]{background:var(--action);color:var(--ivory)}
+.info-tabs button:focus-visible,.info-panel:focus-visible{outline:2px solid #a57021;outline-offset:2px}
+@media(max-width:760px){.info-tabs{display:grid;grid-template-columns:1fr 1fr;width:100%;border-radius:18px}.info-tabs button{padding:9px 8px;font-size:.8rem;border-radius:14px}}
+.info-dialog .info-intro{color:var(--muted);margin-bottom:22px}
+.info-dialog .legal-section{padding:20px 0}
+.info-dialog .legal-section h3{font-size:1.3rem;margin-bottom:8px}
+.info-dialog .legal-section p{font-size:.95rem}
+.info-dialog .info-crisis{margin-top:26px;font-size:.78rem;color:var(--muted);line-height:1.55}
+
 /* Legal pages share the about-page intro; sections read as a quiet document. */
 .legal-page{max-width:820px;padding-bottom:80px}
 .legal-draft{background:#f4ead6;border:1px solid #e0cda6;color:#6b5423;border-radius:12px;padding:12px 16px;font-size:.88rem;margin-bottom:34px}
@@ -201,6 +243,25 @@
 .legal-section h2{font-size:1.5rem;margin-bottom:10px}
 .legal-section p{color:var(--muted);max-width:680px}
 .legal-updated{font-size:.8rem;color:var(--muted);margin-top:10px}
+
+/* Footer: content starts at the top (no empty band above the logo), then session info, agreements, legal links,
+   and the crisis notice as plain text. The columns stay inside the painting's clear centre. */
+.site-footer{min-height:0;place-items:start center;padding:70px 20px 34px}
+.footer-copy{width:min(760px,100%)}
+.footer-info{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;text-align:left;margin:40px auto 0}
+.footer-info h3{font:700 .68rem var(--sans);letter-spacing:.16em;text-transform:uppercase;color:#26352d;margin-bottom:10px}
+.footer-info ul{list-style:none;margin:0;padding:0;display:grid;gap:6px;font-size:.84rem;line-height:1.5;color:#4f574d}
+.footer-info a{text-decoration:underline;text-underline-offset:3px;text-decoration-color:#b9ad95;transition:text-decoration-color .3s}
+.footer-info a:hover{text-decoration-color:currentColor}
+.site-footer .footer-crisis{margin:26px auto 0;font-size:.7rem;line-height:1.55;color:#5a6257;max-width:620px}
+.site-footer .footer-copy small{margin-top:18px}
+.footer-credit{display:inline-flex;align-items:center;gap:10px;margin-top:14px;font-size:.68rem;letter-spacing:.06em;color:#6b7565;opacity:.85;transition:opacity .3s}
+.footer-credit:hover{opacity:1}
+/* Sintropia wordmark: "SIN" bold and dark, "TROPIA" light and muted, as in the studio's own mark. */
+.footer-credit-brand{display:inline-flex;align-items:center;gap:8px;font:500 .78rem var(--sans);letter-spacing:.22em;color:#8f968b}
+.footer-credit-brand b{font-weight:700;color:#191a18}
+.footer-credit img{height:26px;width:auto}
+@media(max-width:760px){.site-footer{padding:56px 22px 28px}.footer-info{grid-template-columns:1fr;gap:22px;margin-top:32px}.site-footer .footer-crisis{text-align:left;max-width:calc(100% - 96px);margin-left:0}.site-footer .footer-copy small{text-align:left}.footer-credit{margin-top:12px;display:flex;flex-direction:column;align-items:flex-start;gap:6px;max-width:calc(100% - 96px)}}
 
 /* Native document transitions preserve normal navigation and page scripts. */
 @view-transition{navigation:auto}
@@ -228,7 +289,7 @@
 .site-footer .footer-copy small{color:#626b60}
 .site-footer .footer-copy>.button{background:#191a18;color:#faf7f0;border-color:#191a18}
 .site-footer .footer-copy>.button:hover{background:#303530}
-.site-footer .footer-overlap-leaf{filter:grayscale(.65) sepia(.22) saturate(.65) brightness(1.12) contrast(.88)}
+.site-footer .footer-overlap-leaf{filter:grayscale(.15) sepia(.28) saturate(.8) brightness(1.13) contrast(.9)}
 .site-footer .footer-overlap-branch{filter:grayscale(.65) sepia(.22) saturate(.65) brightness(1.12) contrast(.88)}
 
 /* Quiet foreground foliage remains entirely within the hero. */
@@ -237,3 +298,25 @@
 .hero-accent-monstera{width:clamp(110px,13vw,210px);left:-3%;bottom:-35px;transform:rotate(-18deg);mask-image:linear-gradient(#000 65%,transparent 100%)}
 .hero-accent-branch{width:clamp(110px,12vw,195px);right:-2%;bottom:-40px;transform:rotate(-8deg);mask-image:linear-gradient(#000 72%,transparent 100%)}
 @media(max-width:760px){.hero-accent-monstera{width:110px;left:-28px;bottom:-15px}.hero-accent-branch{width:105px;right:-25px;bottom:-25px}}
+
+/* Fireflies drift a few pixels through the foliage, never across the copy. */
+.hero-fireflies{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1}
+.hero-fireflies span{position:absolute;left:var(--x);top:var(--y);width:5px;height:5px;border-radius:50%;background:#fff7d6;box-shadow:0 0 4px 2px #c78d2a,0 0 12px 6px #e4ad45bb,0 0 25px 11px #e8ba5e66;opacity:.6;animation:firefly-drift var(--duration) ease-in-out var(--delay) infinite,firefly-glow 4.5s ease-in-out var(--delay) infinite}
+@keyframes firefly-drift{0%,100%{transform:translate(0,6px)}50%{transform:translate(7px,-7px)}75%{transform:translate(-3px,-13px)}}
+@keyframes firefly-glow{0%,15%,85%,100%{opacity:0}45%,55%{opacity:1}}
+.hero-fireflies span:nth-child(2n){animation-duration:var(--duration),5.5s}
+.hero-fireflies span:nth-child(3n){animation-duration:var(--duration),3.8s}
+@media(max-width:760px){.hero-fireflies{top:auto;height:235px}.hero-fireflies span:nth-child(n+5){display:none}.hero-fireflies span{width:4px;height:4px}}
+@media(prefers-reduced-motion:reduce){.hero-fireflies span{animation:none;opacity:.5}}
+
+/* A few lights emerge beside the hair and drift into the air. */
+.hero-character-fireflies span:nth-child(n){animation:firefly-outward var(--flight-time) ease-in-out var(--delay) infinite;opacity:0}
+@keyframes firefly-outward{0%,10%{opacity:0;transform:translate(0,0)}30%{opacity:.8}55%{opacity:.95}85%,100%{opacity:0;transform:translate(var(--flight-x),var(--flight-y))}}
+@media(max-width:1000px){.hero-character-fireflies{display:none}}
+@media(prefers-reduced-motion:reduce){.hero-character-fireflies span:nth-child(n){animation:none;opacity:.5}}
+
+/* A handful of warm lights stays within the footer foliage. */
+.footer-fireflies{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1}
+.footer-fireflies span{position:absolute;left:var(--x);top:var(--y);width:5px;height:5px;border-radius:50%;background:#fff7d6;box-shadow:0 0 4px 2px #c78d2a,0 0 12px 6px #e4ad45bb,0 0 25px 11px #e8ba5e66;opacity:0;animation:firefly-drift var(--duration) ease-in-out var(--delay) infinite,firefly-glow var(--pulse) ease-in-out var(--delay) infinite}
+@media(max-width:760px){.footer-fireflies span:nth-child(2n){display:none}.footer-fireflies span{width:4px;height:4px}}
+@media(prefers-reduced-motion:reduce){.footer-fireflies span{animation:none;opacity:.5}}

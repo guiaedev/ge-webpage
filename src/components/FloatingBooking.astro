@@ -5,17 +5,16 @@ import BookingButton from './BookingButton.astro';
 <script>
  const floating = document.querySelector<HTMLElement>('.floating-booking');
  const source = document.querySelector('.hero-actions');
- const footer = document.querySelector('#reservar');
- if (floating && source && footer) {
+ if (floating && source) {
+   // Shown once the hero CTA scrolls away, and kept through the footer (which no longer has its own button).
    const update = () => {
-     const visible = source.getBoundingClientRect().bottom <= 0 && footer.getBoundingClientRect().top >= window.innerHeight;
+     const visible = source.getBoundingClientRect().bottom <= 0;
      floating.classList.toggle('is-visible', visible);
      floating.inert = !visible;
      floating.setAttribute('aria-hidden', String(!visible));
    };
    const observer = new IntersectionObserver(update);
    observer.observe(source);
-   observer.observe(footer);
    window.addEventListener('resize', update, {passive:true});
    window.addEventListener('pageshow', update);
    update();

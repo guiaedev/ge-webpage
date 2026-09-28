@@ -1,10 +1,38 @@
 ---
 import BookingButton from './BookingButton.astro';
 import TrustIcon from './TrustIcon.astro';
+const fireflies = [
+ {x:4,y:35,d:23,delay:-7}, {x:6,y:78,d:29,delay:-18},
+ {x:60,y:82,d:27,delay:-12}, {x:91,y:32,d:31,delay:-22},
+ {x:95,y:52,d:25,delay:-3}, {x:88,y:74,d:28,delay:-16},
+ {x:97,y:86,d:33,delay:-25},
+];
 ---
 <section id="inicio" class="hero hero-character" aria-labelledby="hero-title">
  <div class="botanical-viewport" aria-hidden="true"><picture class="hero-art"><source type="image/webp" srcset="assets/hero-runway-960.webp 960w, assets/hero-runway-1776.webp 1776w" sizes="100vw"/><img src="assets/hero-runway-1776.webp" alt="" width="1776" height="753" fetchpriority="high"/></picture></div>
  <div class="hero-botanical-accents" aria-hidden="true"><img class="hero-accent-monstera" src="assets/footer-overlap-monstera.webp" alt="" width="800" height="800"/><img class="hero-accent-branch" src="assets/footer-overlap-eucalyptus-fern.webp" alt="" width="600" height="900"/></div>
+ <div class="hero-fireflies" aria-hidden="true">{fireflies.map(({x,y,d,delay}) => <span style={`--x:${x}%;--y:${y}%;--duration:${d}s;--delay:${delay}s`}/>)}</div>
+ <div class="hero-fireflies hero-character-fireflies" aria-hidden="true">
+  <span style="--x:79%;--y:26%;--flight-x:24px;--flight-y:-42px;--flight-time:8s;--delay:-2s"/>
+  <span style="--x:86%;--y:43%;--flight-x:48px;--flight-y:-26px;--flight-time:10s;--delay:-6s"/>
+  <span style="--x:65%;--y:57%;--flight-x:-22px;--flight-y:-32px;--flight-time:9s;--delay:-4s"/>
+ </div>
  <div class="hero-copy"><p class="eyebrow">Psicoterapia en línea</p><h1 id="hero-title" class="hero-quote">Las personas tienen más poder del que creen para cambiar su forma de pensar y sentir.</h1><p class="hero-attribution"><cite>Aaron Beck</cite><small>Creador de la terapia cognitiva</small></p><div class="hero-actions"><BookingButton label="Agendar mi primera sesión" tab="first"/></div></div>
 </section>
 <div class="trust-strip" aria-label="Nuestra atención"><span><TrustIcon kind="evidence"/>Basada en evidencia</span><span><TrustIcon kind="personal"/>Atención personalizada</span><span><TrustIcon kind="online"/>100% en línea</span></div>
+
+<script>
+ const layer = document.querySelector<HTMLElement>('.hero-fireflies');
+ if (layer) {
+  // Relocate only at the fully transparent end of each glow cycle.
+  layer.querySelectorAll<HTMLElement>('span').forEach((light, index) => {
+   light.addEventListener('animationiteration', (event) => {
+    if (event.animationName !== 'firefly-glow') return;
+    const zones = [[2,7,30,88],[57,63,77,91],[89,97,28,88]];
+    const zone = zones[index < 2 ? 0 : index === 2 ? 1 : 2];
+    light.style.setProperty('--x', `${zone[0] + Math.random() * (zone[1] - zone[0])}%`);
+    light.style.setProperty('--y', `${zone[2] + Math.random() * (zone[3] - zone[2])}%`);
+   });
+  });
+ }
+</script>

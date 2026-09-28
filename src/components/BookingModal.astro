@@ -3,11 +3,12 @@ import {site, bookingPolicies} from '../data/site';
 ---
 <dialog id="booking-dialog" class="content-dialog booking-modal" aria-labelledby="booking-title" data-url-first={site.bookingUrl} data-url-followup={site.followUpUrl}>
  <button class="dialog-close" data-close aria-label="Cerrar calendario">×</button>
- <header><p class="eyebrow">Guía Existencial</p><h2 id="booking-title" data-copy-first="Un espacio para ti." data-copy-followup="Continúa tu proceso.">Un espacio para ti.</h2><p class="booking-lead" data-copy-first="Elige un horario para dar el primer paso." data-copy-followup="Agenda tu siguiente sesión con tu terapeuta.">Elige un horario para dar el primer paso.</p></header>
- <div class="booking-tabs" role="tablist" aria-label="Tipo de sesión" hidden>
+ <header><div class="booking-heading"><p class="eyebrow">Guía Existencial</p><h2 id="booking-title" data-copy-first="Un espacio para ti." data-copy-followup="Continúa tu proceso.">Un espacio para ti.</h2><p class="booking-lead" data-copy-first="Elige un horario para dar el primer paso." data-copy-followup="Agenda tu siguiente sesión con tu terapeuta.">Elige un horario para dar el primer paso.</p></div>
+  <div class="booking-tabs" role="tablist" aria-label="Tipo de sesión" hidden>
   <button type="button" role="tab" id="tab-first" aria-controls="cal-first" aria-selected="true" data-tab="first">Primera sesión</button>
   <button type="button" role="tab" id="tab-followup" aria-controls="cal-followup" aria-selected="false" tabindex="-1" data-tab="followup">Continuar mi proceso</button>
  </div>
+ </header>
  <div class="booking-status" role="status" aria-live="polite"></div>
  <div class="booking-body">
   <div class="booking-calendars">

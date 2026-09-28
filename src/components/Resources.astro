@@ -1,0 +1,23 @@
+---
+import {resources} from '../data/site';
+---
+<section id="recursos" class="resources-section wrap section" aria-labelledby="resources-title">
+ <div class="resources-heading" data-reveal><p class="eyebrow">Para acompañar tu proceso</p><h2 id="resources-title">Recursos</h2><p>Materiales gratuitos para acompañar tu bienestar emocional, entre sesiones o por tu cuenta.</p></div>
+ <div class="resource-grid" data-reveal-group>
+  {resources.map(resource => <article class:list={['resource-card', resource.tone]}>
+   <div class="resource-art">{resource.image
+    ? <img src={`assets/${resource.image}`} alt="" loading="lazy"/>
+    : <div class="resource-placeholder" aria-hidden="true"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4h13A1.5 1.5 0 0 1 20 5.5v13a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5z"/><circle cx="9" cy="9.5" r="1.6"/><path d="m20 15.5-4.5-4.5L6 20"/></svg><span>Ilustración próximamente</span></div>}</div>
+   <div class="resource-body">
+    <p class="resource-meta"><span>{resource.format}</span><span>Gratis</span></p>
+    <h3>{resource.title}</h3>
+    <p>{resource.description}</p>
+    {resource.url
+     ? <a class="button primary resource-download" href={resource.url} target="_blank" rel="noopener">Ver canal <span aria-hidden="true">↗</span></a>
+     : resource.file
+     ? <a class="button primary resource-download" href={`assets/recursos/${resource.file}`} download>Descargar gratis <span aria-hidden="true">↓</span></a>
+     : <span class="resource-soon">Disponible próximamente</span>}
+   </div>
+  </article>)}
+ </div>
+</section>
