@@ -1,7 +1,9 @@
 ---
 import {team} from '../data/site';
+import Testimonials from './Testimonials.astro';
 ---
 <section id="equipo" class="team-section section"><div class="botanical-viewport team-botanical" aria-hidden="true"><picture><source type="image/webp" srcset="assets/team-botanical-960.webp 960w, assets/team-botanical-1536.webp 1536w" sizes="100vw"/><img src="assets/team-botanical-1536.webp" alt="" loading="lazy" width="1536" height="1024"/></picture></div><div class="wrap"><p class="eyebrow" data-reveal>Nuestro equipo clínico</p><h2 data-reveal>Rigor científico.<br/> <em>Calidez humana.</em></h2><div class="team-grid" data-reveal-group>{team.map(person=><article class="team-card"><span class="initials profile-avatar"><img src={`assets/${person.avatar}-avatar-watercolor-v2.webp`} alt={`Avatar ilustrado de ${person.name}`} width="104" height="104" loading="lazy"/></span><h3>{person.name}</h3><p class="role">{person.role}</p><p>{person.note}</p></article>)}</div><p data-reveal class="team-note">Formación continua, supervisión y trabajo en equipo.</p></div></section>
+<Testimonials/>
 <section id="preguntas" class="faq wrap section" aria-labelledby="faq-title">
   <div class="faq-intro" data-reveal><p class="eyebrow">Antes de empezar</p><h2 id="faq-title">Resolvemos<br/><em>tus dudas.</em></h2><p class="faq-lead">Un poco de claridad para dar<br class="desktop-break"/> tu siguiente paso.</p></div>
   <div class="faq-list" data-reveal-group>
