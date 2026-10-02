@@ -1,10 +1,10 @@
 export const site = {
   name: 'Guía Existencial',
   description: 'Psicoterapia en línea basada en evidencia y atención personalizada. Un espacio para comprenderte y encontrar dirección.',
-  // Public Cal.com events shown in the booking modal's two tabs. TEMPORARY: both use Sintropia's
-  // staff event; replace with the practice's first-session and follow-up event URLs.
-  bookingUrl: 'https://cal.com/staff-sintropia-frmrak/30min',
-  followUpUrl: 'https://cal.com/staff-sintropia-frmrak/30min',
+  // Public Cal.com events shown in the booking modal's two tabs (Guía Existencial's own account).
+  // Both currently use the 30-min event; set followUpUrl once a follow-up event exists.
+  bookingUrl: 'https://cal.com/guia-existencial-ghxaew/30min',
+  followUpUrl: 'https://cal.com/guia-existencial-ghxaew/30min',
   contactUrl: 'https://guiaexistencialpsic.com/contact/',
 };
 // Session agreements shown beside the booking calendar. `summary` is the short line in the sidebar.
