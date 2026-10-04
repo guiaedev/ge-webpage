@@ -34,12 +34,17 @@ import {resources} from '../data/site';
  <button class="dialog-close" data-close aria-label="Cerrar">×</button>
  <h2 id="instagram-title">En Instagram</h2>
  <div class="instagram-player"></div>
- <p style="font-size:.8rem;text-align:center;margin-top:12px">Si el video no carga, puedes verlo directamente en Instagram.</p>
  <a href="https://www.instagram.com/reel/DeArHFpJXTq/" target="_blank" rel="noopener">Ver en Instagram ↗</a>
 </dialog>
 <style>
-.instagram-dialog{width:min(440px,94vw);max-height:90dvh;padding:24px 18px;border:1px solid var(--line);border-radius:22px;background:var(--ivory)}
-.instagram-dialog::backdrop{background:#17251dcc}.instagram-dialog h2{font-size:1.6rem;margin-bottom:18px}.instagram-player :global(iframe){width:100%;height:min(620px,65dvh);border:0;border-radius:12px;background:white}.instagram-dialog>a{display:block;text-align:center;margin-top:14px;text-decoration:underline;font-size:.85rem}
+.instagram-dialog{width:min(460px,calc(100vw - 24px),max(320px,calc((100dvh - 230px)*.5625 + 24px)));max-height:calc(100dvh - 24px);padding:0;border:1px solid var(--line);border-radius:20px;background:var(--ivory);overflow:auto;overscroll-behavior:contain}
+.instagram-dialog::backdrop{background:#17251dcc}
+.instagram-dialog h2{font-size:1.35rem;margin:0;padding:16px 54px 16px 18px}
+.instagram-dialog .dialog-close{top:8px;right:8px;width:40px;height:40px;z-index:1}
+.instagram-player{margin:0 10px;background:white;border-radius:12px;overflow:hidden}
+.instagram-player :global(iframe){display:block;width:100%;height:auto;aspect-ratio:1 / 2.15;min-height:580px;border:0;background:white}
+.instagram-dialog>a{display:block;text-align:center;padding:14px 16px;margin:0;text-decoration:underline;font-size:.8rem;min-height:44px}
+@media(max-width:480px){.instagram-dialog{width:calc(100vw - 16px);max-height:calc(100dvh - 16px);border-radius:16px}.instagram-player{margin-inline:6px}.instagram-dialog h2{padding-block:12px}.instagram-player :global(iframe){min-height:0;aspect-ratio:1 / 2.15}}
 </style>
 <script>
 const reelDialog = document.querySelector<HTMLDialogElement>('.instagram-dialog')!;
