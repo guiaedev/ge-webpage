@@ -16,10 +16,10 @@ export const bookingPolicies = [
 // Free downloadable resources shown in "Recursos". Put each PDF in public/assets/recursos/ and set `file`;
 // set `image` once its illustration exists. Without a file (or `url`, for link cards) the card shows "Próximamente".
 export const resources = [
- { title: 'Diario de gratitud', description: 'Un espacio breve cada día para notar lo que sí está presente y entrenar la atención hacia lo que te sostiene.', format: 'PDF imprimible', file: '', image: '', tone: 'oat' },
- { title: 'Ejercicio de motivación al cambio', description: 'Preguntas guiadas para explorar qué quieres cambiar, por qué te importa y cuál puede ser tu primer paso.', format: 'PDF imprimible', file: '', image: '', tone: 'blush' },
+ { title: 'Diario de gratitud', description: 'Un espacio breve cada día para notar lo que sí está presente y entrenar la atención hacia lo que te sostiene.', format: 'PDF imprimible', file: 'diario-de-gratitud-guia-existencial.pdf', image: 'recursos/diario-de-gratitud-preview.webp', tone: 'oat' },
+ { title: 'Ejercicio de motivación al cambio', description: 'Preguntas guiadas para explorar qué quieres cambiar, por qué te importa y cuál puede ser tu primer paso.', format: 'PDF imprimible', file: 'motivacion-al-cambio.pdf', image: 'recursos/motivacion-al-cambio-preview.webp', tone: 'blush' },
  // External link card: opens `url` in a new tab.
- { title: 'Canal de YouTube', description: 'Psicología basada en evidencia, explicada en lenguaje claro para tu día a día.', format: 'Videos', url: 'https://www.youtube.com/@GuiaExistencial', image: '', tone: 'sand' },
+ { title: 'En Instagram', description: 'Psicología basada en evidencia, explicada en lenguaje claro para tu día a día.', format: 'Reel · 2 oct 2026', url: 'https://www.instagram.com/reel/DeArHFpJXTq/', image: 'recursos/instagram-reel-test.jpg', tone: 'sand' },
 ];
 export const topics = [
  { title: 'Ansiedad y estrés', text: 'Herramientas para una vida más tranquila y presente.', color: 'sage', detail: 'Un espacio para comprender la relación entre lo que piensas, sientes y haces, e identificar patrones que mantienen el malestar. El trabajo se orienta a desarrollar habilidades para tu vida diaria.' },

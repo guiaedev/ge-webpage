@@ -5,7 +5,7 @@ import {resources} from '../data/site';
  <div class="resources-heading" data-reveal><p class="eyebrow">Para acompañar tu proceso</p><h2 id="resources-title">Recursos</h2><p>Materiales gratuitos para acompañar tu bienestar emocional, entre sesiones o por tu cuenta.</p></div>
  <div class="resource-grid" data-reveal-group>
   {resources.map(resource => <article class:list={['resource-card', resource.tone]}>
-   <div class="resource-art">{resource.image
+   <div class:list={["resource-art", {"resource-document": resource.file && resource.image, "resource-reel": !!resource.url}]}>{resource.image
     ? <img src={`assets/${resource.image}`} alt="" loading="lazy"/>
     : <div class="resource-placeholder" aria-hidden="true"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4h13A1.5 1.5 0 0 1 20 5.5v13a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5z"/><circle cx="9" cy="9.5" r="1.6"/><path d="m20 15.5-4.5-4.5L6 20"/></svg><span>Ilustración próximamente</span></div>}</div>
    <div class="resource-body">
@@ -13,7 +13,7 @@ import {resources} from '../data/site';
     <h3>{resource.title}</h3>
     <p>{resource.description}</p>
     {resource.url
-     ? <a class="button primary resource-download" href={resource.url} target="_blank" rel="noopener">Ver canal <span aria-hidden="true">↗</span></a>
+     ? <button class="button primary resource-download" data-instagram-open>Ver reel <span aria-hidden="true">▷</span></button>
      : resource.file
      ? <a class="button primary resource-download" href={`assets/recursos/${resource.file}`} download>Descargar gratis <span aria-hidden="true">↓</span></a>
      : <span class="resource-soon">Disponible próximamente</span>}
@@ -21,3 +21,37 @@ import {resources} from '../data/site';
   </article>)}
  </div>
 </section>
+
+<style>
+/* Keep the portrait intact against the approved watercolor paper. */
+.resource-reel{overflow:hidden;isolation:isolate;background:var(--sand) url('/assets/recursos/reel-watercolor-background.webp') center/cover;aspect-ratio:4/3}
+.resource-reel img{inset:7% auto auto 50%;transform:translateX(-50%);width:auto;height:86%;max-width:90%;object-fit:contain;padding:0;border:4px solid #faf7f0;box-shadow:0 5px 14px #403d3026}
+.resource-document{margin:14px 14px 0;border-radius:14px;background:#f4eee3;overflow:hidden}
+.resource-document img{inset:18px;width:calc(100% - 36px);height:calc(100% - 36px);object-fit:contain;filter:drop-shadow(0 5px 8px #423e2d20)}
+</style>
+
+<dialog class="instagram-dialog" aria-labelledby="instagram-title">
+ <button class="dialog-close" data-close aria-label="Cerrar">×</button>
+ <h2 id="instagram-title">En Instagram</h2>
+ <div class="instagram-player"></div>
+ <p style="font-size:.8rem;text-align:center;margin-top:12px">Si el video no carga, puedes verlo directamente en Instagram.</p>
+ <a href="https://www.instagram.com/reel/DeArHFpJXTq/" target="_blank" rel="noopener">Ver en Instagram ↗</a>
+</dialog>
+<style>
+.instagram-dialog{width:min(440px,94vw);max-height:90dvh;padding:24px 18px;border:1px solid var(--line);border-radius:22px;background:var(--ivory)}
+.instagram-dialog::backdrop{background:#17251dcc}.instagram-dialog h2{font-size:1.6rem;margin-bottom:18px}.instagram-player :global(iframe){width:100%;height:min(620px,65dvh);border:0;border-radius:12px;background:white}.instagram-dialog>a{display:block;text-align:center;margin-top:14px;text-decoration:underline;font-size:.85rem}
+</style>
+<script>
+const reelDialog = document.querySelector<HTMLDialogElement>('.instagram-dialog')!;
+const reelButton = document.querySelector<HTMLButtonElement>('[data-instagram-open]');
+reelButton?.addEventListener('click', () => {
+ const frame = document.createElement('iframe');
+ frame.src = 'https://www.instagram.com/reel/DeArHFpJXTq/embed/';
+ frame.title = 'Reel de Guía Existencial del 2 de octubre de 2026';
+ frame.allow = 'autoplay; encrypted-media; fullscreen; picture-in-picture';
+ frame.allowFullscreen = true;
+ reelDialog.querySelector('.instagram-player')!.replaceChildren(frame);
+ reelDialog.showModal();
+});
+reelDialog.addEventListener('close', () => {reelDialog.querySelector('.instagram-player')!.replaceChildren();reelButton?.focus();});
+</script>
