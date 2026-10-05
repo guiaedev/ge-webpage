@@ -1,0 +1,119 @@
+---
+interface Props { placement?: "hero" | "footer" }
+const { placement = "hero" } = Astro.props;
+---
+{['right', 'left'].map(side => <div class:list={["butterfly-garden", `butterfly-garden-${side}`, `butterfly-placement-${placement}`]} data-side={side} data-placement={placement} aria-hidden="true">
+ <div class="butterfly-flight"><div class="butterfly-wings"><img class="wing-left" src="assets/butterfly-side-watercolor.webp" alt="" width="320" height="256"/><img class="wing-right" src="assets/butterfly-side-watercolor.webp" alt="" width="320" height="256"/><img class="butterfly-body" src="assets/butterfly-side-watercolor.webp" alt="" width="320" height="256"/></div></div>
+</div>)}
+<style>
+ .butterfly-garden{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:2;contain:paint}
+ .butterfly-flight{position:absolute;left:89%;top:76%;width:58px;height:46px;will-change:transform;transform:translate(100vw,100vh)}
+ .butterfly-wings{position:relative;width:58px;height:46px;transform:rotate(-10deg);filter:blur(.22px) saturate(.8)}
+ img{position:absolute;inset:0;width:58px;height:46px;object-fit:contain;transform-origin:38% 70%}
+ .wing-left,.wing-right{clip-path:polygon(34% 0,100% 0,100% 100%,56% 100%,36% 69%)}.wing-left{opacity:.55}
+ .butterfly-body{clip-path:polygon(0 0,34% 0,36% 69%,56% 100%,0 100%)}
+ .butterfly-garden-left .butterfly-flight{left:2%;top:88%}
+ .butterfly-garden-left .butterfly-wings{transform:scaleX(-1) rotate(-8deg)}
+ @media(max-width:760px){.butterfly-garden{top:auto;height:270px}.butterfly-flight{left:87%;top:74%}.butterfly-flight,.butterfly-wings,.butterfly-wings img{width:36px;height:29px}}
+ .butterfly-placement-footer .butterfly-flight{left:93%;top:72%}
+ .butterfly-placement-footer.butterfly-garden-left .butterfly-flight{left:3%;top:60%}
+ @media(max-width:760px){
+  .butterfly-garden-left{display:none}
+  .butterfly-placement-footer{top:auto;height:220px}
+  .butterfly-placement-footer .butterfly-flight{left:88%;top:65%}
+  .butterfly-placement-footer.butterfly-garden-left .butterfly-flight{left:0;top:13%}
+ }
+</style>
+<script>
+ document.querySelectorAll<HTMLElement>('.butterfly-garden').forEach(garden => {
+ const fromLeft=garden.dataset.side==='left';
+ const inFooter=garden.dataset.placement==='footer';
+ const flight=garden?.querySelector<HTMLElement>('.butterfly-flight');
+ const left=garden?.querySelector<HTMLElement>('.wing-left');
+ const right=garden?.querySelector<HTMLElement>('.wing-right');
+ if(garden && flight && left && right){
+  const motion=matchMedia('(prefers-reduced-motion: reduce)');
+  const fine=matchMedia('(pointer: fine)');
+  const mobile=matchMedia('(max-width:760px)');
+  let visible=false, frame=0, last=0, elapsed=0, phase=fromLeft?2:0, resting=true, entered=false;
+  let duration=1.2, x=0,y=0,angle=0,fromX=0,fromY=0,toX=0,toY=0,bend=0;
+  const leaf=garden.closest('section')?.querySelector<HTMLElement>('.hero-accent-branch');
+  const leafLanding=()=>{
+   if(!leaf)return {x:0,y:0};
+   const bounds=leaf.getBoundingClientRect(), area=garden.getBoundingClientRect();
+   // Upper eucalyptus leaf, mapped through its rotation and responsive size.
+   const matrix=new DOMMatrix(getComputedStyle(leaf).transform);
+   const dx=(.64-.5)*leaf.offsetWidth,dy=(.075-.5)*leaf.offsetHeight;
+   const point={x:bounds.x+bounds.width/2+matrix.a*dx+matrix.c*dy-area.x-flight.offsetLeft-flight.offsetWidth*.39,
+    y:bounds.y+bounds.height/2+matrix.b*dx+matrix.d*dy-area.y-flight.offsetTop-flight.offsetHeight*.77};
+   if(mobile.matches){
+    point.x=Math.max(6-flight.offsetLeft,Math.min(garden.clientWidth-flight.offsetWidth-6-flight.offsetLeft,point.x));
+    point.y=Math.max(6-flight.offsetTop,Math.min(garden.clientHeight-flight.offsetHeight-6-flight.offsetTop,point.y));
+   }
+   return point;
+  };
+  const perchedOnLeaf=!inFooter&&!fromLeft&&!!leaf;
+  const chooseFlight=()=>{
+   resting=false;elapsed=0;duration=(4.5+Math.random()*3)*1.2;
+   fromX=x;fromY=y;
+   const scale=mobile.matches?.4:1;
+   toX=(fromLeft?Math.random()*(inFooter?6:14):-15-Math.random()*(inFooter?12:65))*scale;toY=(-12-Math.random()*(fromLeft?22:52))*scale;
+   bend=(Math.random()-.5)*(fromLeft?14:48)*scale;
+   if(perchedOnLeaf){const point=leafLanding();toX=point.x;toY=point.y;bend=-(35+Math.random()*35)*scale;}
+  };
+  const tick=(now:number)=>{
+   const dt=Math.min((now-last)/1000,.04);last=now;elapsed+=dt;
+   let opening;
+   if(resting){
+    if(perchedOnLeaf){const point=leafLanding();x=point.x;y=point.y;}
+    // A slow occasional wing opening while settled, with a stable body.
+    phase+=dt*.9;opening=.72+.1*Math.pow((Math.sin(phase)+1)/2,4);
+    angle+=(0-angle)*Math.min(1,dt*2);
+    if(elapsed>duration)chooseFlight();
+   }else{
+    const t=Math.max(0,Math.min(elapsed/duration,1)),u=t*t*(3-2*t);
+    const oldX=x,oldY=y;
+    x=fromX+(toX-fromX)*u+Math.sin(Math.PI*u)*bend;
+    y=fromY+(toY-fromY)*u-Math.sin(Math.PI*u)*(mobile.matches?9:22);
+    const envelope=Math.sin(Math.PI*t);
+    y+=Math.sin(elapsed*4.7)*(mobile.matches?.35:1.1)*envelope;
+    const tilt=mobile.matches?10:32;
+    const target=Math.max(-tilt,Math.min(tilt,(x-oldX)*18+(y-oldY)*6));
+    angle+=(target-angle)*Math.min(1,dt*3);
+    phase+=dt*.85*((mobile.matches?7:11)+2*Math.sin(elapsed*1.7));
+    opening=mobile.matches?.76+.22*(.5+.5*Math.sin(phase)):.48+.52*(.5+.5*Math.sin(phase));
+    if(t===1){resting=true;elapsed=0;duration=(mobile.matches?9:4)+Math.random()*6;}
+   }
+   flight.style.transform=`translate(${x}px,${y}px) rotate(${angle}deg)`;
+   left.style.transform=`scaleX(${Math.max(.42,opening-.12)}) rotate(-7deg)`;
+   right.style.transform=`scaleX(${opening}) rotate(${(1-opening)*8}deg)`;
+   frame=requestAnimationFrame(tick);
+  };
+  const sync=()=>{
+   cancelAnimationFrame(frame);
+   if(mobile.matches&&fromLeft)return;
+   if(motion.matches){const point=perchedOnLeaf?leafLanding():{x:0,y:0};flight.style.transform=`translate(${point.x}px,${point.y}px)`;left.style.transform='scaleX(.7) rotate(-7deg)';right.style.transform='scaleX(.85)';return;}
+   if(visible&&!document.hidden){
+    if(!entered){
+     // Begin entirely outside the lower-right corner, then follow a curved entrance.
+     x=fromLeft?-flight.offsetLeft-flight.offsetWidth-6:garden.clientWidth-flight.offsetLeft+6;
+     y=garden.clientHeight-flight.offsetTop+6;
+     chooseFlight();duration=fromLeft?3.7:3.2;bend=fromLeft?12:-28;elapsed=fromLeft?-.2:0;entered=true;
+     flight.style.transform=`translate(${x}px,${y}px)`;
+    }
+    last=performance.now();frame=requestAnimationFrame(tick);
+   }
+  };
+  const observer=new IntersectionObserver(([entry])=>{visible=entry.isIntersecting;sync();});observer.observe(garden);
+  mobile.addEventListener('change',()=>{entered=false;sync();});
+  motion.addEventListener('change',sync);document.addEventListener('visibilitychange',sync);
+  garden.closest<HTMLElement>('section, footer')?.addEventListener('pointermove',(event:PointerEvent)=>{
+   if(!resting||motion.matches||!fine.matches)return;
+   const box=flight.getBoundingClientRect();
+   if(Math.hypot(event.clientX-box.x-box.width/2,event.clientY-box.y-box.height/2)<65)chooseFlight();
+  });
+  window.addEventListener('pagehide',()=>{cancelAnimationFrame(frame);observer.disconnect();},{once:true});
+  window.addEventListener('pageshow',(event)=>{if(event.persisted){observer.observe(garden);sync();}});
+ }
+ });
+</script>

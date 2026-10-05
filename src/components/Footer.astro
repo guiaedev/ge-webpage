@@ -1,10 +1,11 @@
 ---
 import Mark from './Mark.astro';
+import HeroButterfly from './HeroButterfly.astro';
 import {site, bookingPolicies} from '../data/site';
 import {legal, legalPages, legalContent} from '../data/legal';
 const shortLabels: Record<string, string> = {'aviso-de-privacidad': 'Privacidad', terminos: 'Términos', consentimiento: 'Consentimiento'};
 ---
-<footer class="site-footer" id="reservar"><div class="botanical-viewport" aria-hidden="true"><picture><source type="image/webp" srcset="assets/footer-watercolor-light-960.webp 960w, assets/footer-watercolor-light-1776.webp 1776w" sizes="100vw"/><img src="assets/footer-watercolor-light-1776.webp" alt="" loading="lazy" width="1776" height="888"/></picture></div><img class="footer-overlap-leaf" src="assets/footer-overlap-monstera.webp" alt="" aria-hidden="true" width="800" height="680" loading="lazy"/><img class="footer-overlap-branch" src="assets/footer-overlap-eucalyptus-fern.webp" alt="" aria-hidden="true" width="600" height="900" loading="lazy"/><div class="footer-fireflies" aria-hidden="true">
+<footer class="site-footer" id="reservar"><HeroButterfly placement="footer"/><div class="botanical-viewport" aria-hidden="true"><picture><source type="image/webp" srcset="assets/footer-watercolor-light-960.webp 960w, assets/footer-watercolor-light-1776.webp 1776w" sizes="100vw"/><img src="assets/footer-watercolor-light-1776.webp" alt="" loading="lazy" width="1776" height="888"/></picture></div><img class="footer-overlap-leaf" src="assets/footer-overlap-monstera.webp" alt="" aria-hidden="true" width="800" height="680" loading="lazy"/><img class="footer-overlap-branch" src="assets/footer-overlap-eucalyptus-fern.webp" alt="" aria-hidden="true" width="600" height="900" loading="lazy"/><div class="footer-fireflies" aria-hidden="true">
  {[[7,24,-1],[13,65,-3],[89,35,-2],[95,76,-4],[30,9,-2.5],[45,7,-4.2],[60,10,-1.7],[73,8,-3.6]].map(([x,y,delay],i) => <span style={`--x:${x}%;--y:${y}%;--delay:${delay}s;--pulse:${4.5+(i%4)*.6}s;--duration:${24+i*3}s`}/>)}
  </div><div class="footer-copy"><a class="brand footer-brand" href="#inicio"><Mark/>Guía Existencial</a>
  <div class="footer-info">

@@ -1,6 +1,7 @@
 ---
 import BookingButton from './BookingButton.astro';
 import TrustIcon from './TrustIcon.astro';
+import HeroButterfly from './HeroButterfly.astro';
 const fireflies = [
  {x:4,y:35,d:23,delay:-7}, {x:6,y:78,d:29,delay:-18},
  {x:60,y:82,d:27,delay:-12}, {x:91,y:32,d:31,delay:-22},
@@ -17,6 +18,7 @@ const fireflies = [
   <span style="--x:86%;--y:43%;--flight-x:48px;--flight-y:-26px;--flight-time:10s;--delay:-6s"/>
   <span style="--x:65%;--y:57%;--flight-x:-22px;--flight-y:-32px;--flight-time:9s;--delay:-4s"/>
  </div>
+ <HeroButterfly/>
  <div class="hero-copy"><p class="eyebrow">Psicoterapia en línea</p><h1 id="hero-title" class="hero-quote">Las personas tienen más poder del que creen para cambiar su forma de pensar y sentir.</h1><p class="hero-attribution"><cite>Aaron Beck</cite><small>Creador de la terapia cognitiva</small></p><div class="hero-actions"><BookingButton label="Agendar mi primera sesión" tab="first"/></div></div>
 </section>
 <div class="trust-strip" aria-label="Nuestra atención"><span><TrustIcon kind="evidence"/>Basada en evidencia</span><span><TrustIcon kind="personal"/>Atención personalizada</span><span><TrustIcon kind="online"/>100% en línea</span></div>
