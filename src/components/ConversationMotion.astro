@@ -1,0 +1,50 @@
+<canvas class="conversation-motion" width="476" height="548" aria-hidden="true"></canvas>
+<style>.conversation-motion{position:absolute;inset:0;width:100%;height:100%;opacity:0;pointer-events:none}.conversation-motion.ready{opacity:1}</style>
+<script>
+const canvas = document.querySelector<HTMLCanvasElement>('.conversation-motion');
+if (canvas) {
+ const gl = canvas.getContext('webgl', {alpha:false, antialias:true});
+ if(gl){
+  // A continuous mesh keeps the original painting intact: no cutout seams or duplicated edges.
+  const vertex = `attribute vec2 point; varying vec2 uv; uniform float time;
+  float pulse(float t,float start,float duration){float p=clamp((t-start)/duration,0.,1.);return sin(p*3.14159265)*sin(p*3.14159265);}
+  void main(){vec2 p=point;float t=mod(time,4.6);
+   float hand=exp(-pow(length((p-vec2(271.,354.))/vec2(62.,48.)),2.)*2.);
+   p+=vec2(-10.,-22.)*hand*pulse(t,.1,1.8);
+   float head=exp(-pow(length((point-vec2(116.,239.))/vec2(116.,104.)),2.)*1.7);
+   float nod=pulse(t,1.95,1.9);vec2 delta=point-vec2(166.,319.);
+   p+=vec2(-delta.y,delta.x)*.12*head*nod;
+   uv=(point+vec2(532.,242.))/vec2(1536.,1024.);
+   gl_Position=vec4(p.x/476.*2.-1.,1.-p.y/548.*2.,0.,1.);
+  }`;
+  const fragment=`precision mediump float;varying vec2 uv;uniform sampler2D art;void main(){gl_FragColor=texture2D(art,uv);}`;
+  const shader=(type:number,source:string)=>{const s=gl.createShader(type)!;gl.shaderSource(s,source);gl.compileShader(s);return s;};
+  const program=gl.createProgram()!;
+  gl.attachShader(program,shader(gl.VERTEX_SHADER,vertex));gl.attachShader(program,shader(gl.FRAGMENT_SHADER,fragment));gl.linkProgram(program);
+  if(gl.getProgramParameter(program,gl.LINK_STATUS)){
+   gl.useProgram(program);
+   const points:number[]=[];
+   for(let y=0;y<36;y++)for(let x=0;x<32;x++){
+    const a=x*476/32,b=y*548/36,c=(x+1)*476/32,d=(y+1)*548/36;
+    points.push(a,b,c,b,a,d,c,b,c,d,a,d);
+   }
+   gl.bindBuffer(gl.ARRAY_BUFFER,gl.createBuffer());gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(points),gl.STATIC_DRAW);
+   const loc=gl.getAttribLocation(program,'point');gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+   const time=gl.getUniformLocation(program,'time');
+   const image=new Image();
+   let loaded=false,visible=false,frame=0,elapsed=0,last=0;
+   const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+   const draw=()=>{canvas.dataset.motionTime=elapsed.toFixed(2);gl.uniform1f(time,elapsed);gl.drawArrays(gl.TRIANGLES,0,points.length/2);};
+   const tick=(now:number)=>{elapsed+=Math.min((now-last)/1000,.05);last=now;draw();frame=requestAnimationFrame(tick);};
+   const sync=()=>{cancelAnimationFrame(frame);canvas.classList.toggle('ready',loaded&&!reduced.matches);if(loaded&&visible&&!document.hidden&&!reduced.matches){last=performance.now();frame=requestAnimationFrame(tick);}};
+   image.onload=()=>{gl.bindTexture(gl.TEXTURE_2D,gl.createTexture());gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,image);loaded=true;draw();sync();};
+   image.src='assets/topics-storybook.webp';
+   const observer=new IntersectionObserver(([entry])=>{visible=entry.isIntersecting;sync();},{threshold:.15});observer.observe(canvas);
+   reduced.addEventListener('change',sync);document.addEventListener('visibilitychange',sync);
+   canvas.addEventListener('webglcontextlost',()=>{cancelAnimationFrame(frame);canvas.classList.remove('ready');});
+   window.addEventListener('pagehide',()=>{cancelAnimationFrame(frame);observer.disconnect();});
+   window.addEventListener('pageshow',event=>{if(event.persisted){observer.observe(canvas);sync();}});
+  }
+ }
+}
+</script>

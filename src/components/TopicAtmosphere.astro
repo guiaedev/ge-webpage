@@ -1,0 +1,30 @@
+---
+interface Props { kind: 'breath' | 'light' }
+const {kind} = Astro.props;
+---
+<div class:list={['topic-atmosphere', `atmosphere-${kind}`]} aria-hidden="true">
+  {kind === 'breath' ? <svg viewBox="0 0 476 548" fill="none">
+    <path class="breath-stroke" d="M300 231 C333 232 344 199 374 190 S409 181 427 174" />
+    <path class="breath-stroke second" d="M302 247 C334 250 352 224 379 219 S410 215 430 202" />
+  </svg> : <div class="door-light"/>}
+</div>
+<style>
+.topic-atmosphere{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+svg{width:100%;height:100%;overflow:visible}
+.breath-stroke{stroke:#fffdf3;stroke-width:3;stroke-linecap:round;filter:blur(.8px);opacity:0;animation:exhale 3.6s ease-in-out infinite;animation-play-state:paused}
+.second{stroke-width:2;animation-delay:.35s}
+.door-light{position:absolute;left:43%;top:9%;width:42%;height:78%;border-radius:50% 50% 30% 30%;background:radial-gradient(ellipse,#fff6c3 0%,#ffe6a3 35%,transparent 72%);filter:blur(8px);mix-blend-mode:soft-light;transform-origin:center;opacity:0;animation:door-warmth 4.5s ease-in-out infinite;animation-play-state:paused}
+.is-visible .breath-stroke,.is-visible .door-light{animation-play-state:running}
+@keyframes exhale{0%{opacity:0;transform:translate(-5px,4px);stroke-dasharray:15 180;stroke-dashoffset:15}25%{opacity:.75}65%{opacity:.45;stroke-dasharray:110 180;stroke-dashoffset:-12}100%{opacity:0;transform:translate(17px,-9px);stroke-dasharray:110 180;stroke-dashoffset:-65}}
+@keyframes door-warmth{0%,100%{opacity:.18;transform:scale(.93)}50%{opacity:.8;transform:scale(1.08)}}
+@media(prefers-reduced-motion:reduce){.breath-stroke,.door-light{animation:none;opacity:0}}
+</style>
+<script>
+const atmospheres=document.querySelectorAll<HTMLElement>('.topic-atmosphere');
+const observer=new IntersectionObserver(entries=>{for(const entry of entries)entry.target.classList.toggle('is-visible',entry.isIntersecting);},{threshold:.15});
+atmospheres.forEach(el=>observer.observe(el));
+const visibility=()=>{atmospheres.forEach(el=>{if(document.hidden)el.classList.remove('is-visible');else {observer.unobserve(el);observer.observe(el);}});};
+document.addEventListener('visibilitychange',visibility);
+window.addEventListener('pagehide',()=>observer.disconnect());
+window.addEventListener('pageshow',event=>{if(event.persisted)atmospheres.forEach(el=>observer.observe(el));});
+</script>
