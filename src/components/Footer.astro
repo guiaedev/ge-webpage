@@ -1,6 +1,7 @@
 ---
 import Mark from './Mark.astro';
 import HeroButterfly from './HeroButterfly.astro';
+import BookingButton from './BookingButton.astro';
 import {site, bookingPolicies} from '../data/site';
 import {legal, legalPages, legalContent} from '../data/legal';
 const shortLabels: Record<string, string> = {'aviso-de-privacidad': 'Privacidad', terminos: 'Términos', consentimiento: 'Consentimiento'};
@@ -8,9 +9,10 @@ const shortLabels: Record<string, string> = {'aviso-de-privacidad': 'Privacidad'
 <footer class="site-footer" id="reservar"><HeroButterfly placement="footer"/><div class="botanical-viewport" aria-hidden="true"><picture><source type="image/webp" srcset="assets/footer-watercolor-light-960.webp 960w, assets/footer-watercolor-light-1776.webp 1776w" sizes="100vw"/><img src="assets/footer-watercolor-light-1776.webp" alt="" loading="lazy" width="1776" height="888"/></picture></div><img class="footer-overlap-leaf" src="assets/footer-overlap-monstera.webp" alt="" aria-hidden="true" width="800" height="680" loading="lazy"/><img class="footer-overlap-branch" src="assets/footer-overlap-eucalyptus-fern.webp" alt="" aria-hidden="true" width="600" height="900" loading="lazy"/><div class="footer-fireflies" aria-hidden="true">
  {[[7,24,-1],[13,65,-3],[89,35,-2],[95,76,-4],[30,9,-2.5],[45,7,-4.2],[60,10,-1.7],[73,8,-3.6]].map(([x,y,delay],i) => <span style={`--x:${x}%;--y:${y}%;--delay:${delay}s;--pulse:${4.5+(i%4)*.6}s;--duration:${24+i*3}s`}/>)}
  </div><div class="footer-copy"><a class="brand footer-brand" href="#inicio"><Mark/>Guía Existencial</a>
+ <div class="footer-mobile-booking"><BookingButton label="Agendar sesión"/></div>
  <div class="footer-info">
   <section aria-labelledby="footer-session"><h3 id="footer-session">Tu sesión</h3><ul><li>Psicoterapia en línea, 60 min</li><li>Pago seguro al reservar</li><li><a href={site.bookingUrl} data-booking data-booking-tab="first">Primera sesión</a> · <a href={site.followUpUrl} data-booking data-booking-tab="followup">Continuar mi proceso</a></li></ul></section>
-  <section aria-labelledby="footer-agreements"><h3 id="footer-agreements">Acuerdos</h3><ul>{bookingPolicies.map(policy => <li>{policy.summary}</li>)}</ul></section>
+  <details class="footer-agreements" open><summary>Acuerdos</summary><ul>{bookingPolicies.map(policy => <li>{policy.summary}</li>)}</ul></details>
   <nav aria-labelledby="footer-legal"><h3 id="footer-legal">Información</h3><ul>{legalPages.map(page => <li><a href={`${page.slug}/`} data-info-tab={page.slug}>{page.label}</a></li>)}<li><a href={site.contactUrl} data-info-tab="contacto">Contacto</a></li></ul></nav>
  </div>
  <p class="footer-crisis">{legal.crisis}</p>
@@ -83,4 +85,12 @@ const shortLabels: Record<string, string> = {'aviso-de-privacidad': 'Privacidad'
    light.style.setProperty('--y', `${top + Math.random() * (bottom-top)}%`);
   });
  });
+</script>
+
+<script>
+ const agreements = document.querySelector<HTMLDetailsElement>('.footer-agreements');
+ const mobileFooter = matchMedia('(max-width:760px)');
+ const syncAgreements = () => { if (agreements) agreements.open = !mobileFooter.matches; };
+ syncAgreements();
+ mobileFooter.addEventListener('change', syncAgreements);
 </script>

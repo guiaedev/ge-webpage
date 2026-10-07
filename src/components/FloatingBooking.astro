@@ -4,18 +4,32 @@ import BookingButton from './BookingButton.astro';
 <div class="floating-booking" inert aria-hidden="true"><BookingButton label="Agendar sesión"/></div>
 <script>
  const floating = document.querySelector<HTMLElement>('.floating-booking');
- const source = document.querySelector('.hero-actions');
+ const source = document.querySelector('.hero-actions .button');
  if (floating && source) {
-   // Shown once the hero CTA scrolls away, and kept through the footer (which no longer has its own button).
+   const footerButton = document.querySelector('.footer-mobile-booking .button');
+   const mobile = matchMedia('(max-width:760px)');
    const update = () => {
-     const visible = source.getBoundingClientRect().bottom <= 0;
+     const footerVisible = mobile.matches && footerButton && footerButton.getBoundingClientRect().top <= (window.visualViewport?.height ?? innerHeight) + 16;
+     const visible = source.getBoundingClientRect().bottom <= 0 && !footerVisible;
      floating.classList.toggle('is-visible', visible);
      floating.inert = !visible;
      floating.setAttribute('aria-hidden', String(!visible));
    };
    const observer = new IntersectionObserver(update);
    observer.observe(source);
-   window.addEventListener('resize', update, {passive:true});
+   if (footerButton) observer.observe(footerButton);
+   mobile.addEventListener('change', update);
+   // Intersection boundaries alone can miss the handoff during mobile scrolling.
+   let pending = false;
+   const scheduleUpdate = () => {
+     if (pending) return;
+     pending = true;
+     requestAnimationFrame(() => { pending = false; update(); });
+   };
+   window.addEventListener('scroll', scheduleUpdate, {passive:true});
+   window.addEventListener('resize', scheduleUpdate, {passive:true});
+   window.visualViewport?.addEventListener('resize', scheduleUpdate);
+   window.visualViewport?.addEventListener('scroll', scheduleUpdate);
    window.addEventListener('pageshow', update);
    update();
  }
@@ -24,6 +38,6 @@ import BookingButton from './BookingButton.astro';
  .floating-booking{position:fixed;right:max(24px,env(safe-area-inset-right));bottom:calc(24px + env(safe-area-inset-bottom));z-index:10;opacity:0;visibility:hidden;transform:translateY(12px);pointer-events:none;transition:opacity .25s ease,transform .25s ease,visibility .25s}
  .floating-booking.is-visible{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto}
  .floating-booking :global(.button){box-shadow:0 5px 22px #263d3226;border:1px solid #ffffff55}
- @media(max-width:760px){.floating-booking{right:16px;bottom:calc(16px + env(safe-area-inset-bottom))}.floating-booking :global(.button){padding:11px 20px;min-height:48px}}
+ @media(max-width:760px){.floating-booking{left:max(16px,env(safe-area-inset-left));right:max(16px,env(safe-area-inset-right));bottom:calc(16px + env(safe-area-inset-bottom))}.floating-booking :global(.button){display:flex;justify-content:center;width:100%;padding:14px 22px;min-height:52px}}
  @media(prefers-reduced-motion:reduce){.floating-booking{transition:none;transform:none}}
 </style>
