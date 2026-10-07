@@ -8,6 +8,12 @@
 [build.environment]
   NODE_VERSION = "22"
 
+# Pages use <base href="../"> with relative links (index.html#…). Netlify's "pretty URLs" rewrites
+# those relative to the file and ignores <base>, which sent the Nosotras logo and nav to
+# /nosotras/#… instead of the home page. The links are already correct, so leave HTML untouched.
+[build.processing.html]
+  pretty_urls = false
+
 # Astro's bundles are content-hashed, so they can be cached forever.
 [[headers]]
   for = "/_astro/*"
