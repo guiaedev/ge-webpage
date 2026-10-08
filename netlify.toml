@@ -20,11 +20,12 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# Site art and scripts keep stable names; cache for a week, then revalidate.
+# Site art keeps stable names and gets replaced in place (e.g. staff photos), so browsers must
+# revalidate on every visit; unchanged files come back as a cheap 304 via the ETag.
 [[headers]]
   for = "/assets/*"
   [headers.values]
-    Cache-Control = "public, max-age=604800, must-revalidate"
+    Cache-Control = "public, max-age=0, must-revalidate"
 
 [[headers]]
   for = "/scripts/*"
