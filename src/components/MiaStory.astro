@@ -1,0 +1,49 @@
+---
+const paragraphs = [
+'Mía vivía en un mundo donde todos tenían prisa por destacar. A su alrededor, la gente siempre intentaba verse alegre, activa y perfecta, como si fuera una primavera que nunca se acaba.',
+'Pero, por dentro, Mía se sentía diferente.',
+'Un día notó que sus sentimientos habían cambiado. Ya no tenía la misma energía de antes; se sentía, más bien, en calma: silenciosa y de un color suave, como las hojas secas del otoño.',
+'Al principio, le dio miedo. Intentó fingir que nada pasaba y actuó como si estuviera llena de energía, para no decepcionar a los demás. Pero forzarse tanto solo la dejó cansada… y triste.',
+'Cansada de aparentar, Mía decidió detenerse. Caminó hacia el campo, se sentó entre las plantas doradas y cerró los ojos para escuchar lo que sentía por dentro.',
+'Al estar en silencio, se dio cuenta de algo muy importante: las plantas secas a su alrededor no estaban muertas; solo estaban descansando. La naturaleza no florece todo el tiempo: también necesita momentos de calma para tomar fuerza.',
+'Mía entendió que no había nada malo en ella. No tenía que estar siempre alegre o activa para valer la pena. Su etapa de calma también era bonita y necesaria.',
+'Desde ese día, Mía dejó de exigirse tanto. Y cuando encontraba a personas cansadas de correr y aparentar, simplemente las invitaba a sentarse a su lado, respirar profundo y recordar una lección sencilla:'
+];
+---
+<article class="resource-card sand">
+ <div class="resource-art mia-card-art"><img src="assets/mia/mia-header-style.webp" alt="Mía descansa entre plantas doradas de otoño" loading="lazy" width="1200" height="800"/></div>
+ <div class="resource-body"><p class="resource-meta"><span>Cuento ilustrado</span></p><h3>El cuento de Mía</h3><p>Una historia para recordar que también está bien detenerse y descansar.</p><button class="resource-download resource-link" data-mia-open aria-haspopup="dialog" aria-controls="mia-story">Leer el cuento <span aria-hidden="true">↗</span></button></div>
+</article>
+<dialog id="mia-story" class="mia-story" aria-labelledby="mia-title">
+ <div class="mia-toolbar"><span>Guía Existencial · Cuento de Mía</span><button type="button" data-mia-close aria-label="Cerrar cuento" autofocus>×</button></div>
+ <div class="mia-cover-frame"><img class="mia-cover" src="assets/mia/mia-header-style.webp" alt="Mía, con los ojos cerrados, sentada en un campo de otoño" width="1200" height="800" loading="lazy"/></div>
+ <div class="mia-reading"><p class="eyebrow">Un momento para ti</p><h2 id="mia-title">El cuento de Mía</h2>{paragraphs.map(text=><p>{text}</p>)}</div>
+ <div class="mia-garden"><img class="mia-leaf-left" src="assets/footer-overlap-monstera.webp" alt="" aria-hidden="true" loading="lazy"/><img class="mia-leaf-right" src="assets/footer-overlap-eucalyptus-fern.webp" alt="" aria-hidden="true" loading="lazy"/><div class="mia-ending"><blockquote>Está bien no poder con todo, y está bien darse un tiempo para descansar.</blockquote></div>
+ <div class="mia-finish"><button class="button outline" data-mia-close>Volver a recursos <span aria-hidden="true">↗</span></button></div></div>
+</dialog>
+<style>
+.mia-story{padding:0;border:1px solid #d9ccb6;border-radius:24px;width:min(820px,calc(100vw - 32px));max-height:90vh;max-height:90dvh;background:#faf7ef;color:#304438;overflow:auto;overscroll-behavior:contain}
+.mia-story::backdrop{background:#25392ed1}
+.mia-toolbar{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 20px;background:#faf7eff5;border-bottom:1px solid #e7dfd0;font-size:.75rem;letter-spacing:.04em}
+.mia-toolbar button{width:44px;height:44px;border:1px solid #d9ccb6;border-radius:50%;background:#faf7ef;font-size:1.6rem;cursor:pointer;flex:none}
+.mia-card-art{overflow:hidden}
+.mia-card-art img{transform:scale(1.3);transform-origin:75% 40%}
+.mia-cover-frame{overflow:hidden}
+.mia-cover{display:block;width:100%;height:auto;max-height:420px;object-fit:cover;object-position:75% 40%;transform:scale(1.25);transform-origin:75% 40%}
+.mia-reading{max-width:640px;margin:auto;padding:36px 32px 8px}.mia-reading h2{font-size:clamp(2rem,5vw,3rem);margin:8px 0 28px}.mia-reading>p:not(.eyebrow){font-size:1.05rem;line-height:1.85;margin:0 0 22px;color:#4d574d}
+.mia-garden{position:relative;isolation:isolate;overflow:hidden;min-height:340px;padding:30px 0 28px;background:linear-gradient(#faf7ef00,#faf7ef55 20%),url('assets/footer-watercolor-light-960.webp') center bottom / cover no-repeat}
+.mia-garden>img{position:absolute;bottom:-40px;pointer-events:none;z-index:-1;filter:saturate(.55);width:29%;max-height:100%;object-fit:contain}
+.mia-leaf-left{left:-55px;transform:rotate(-8deg)}.mia-leaf-right{right:-35px}
+.mia-ending{position:relative;min-height:210px;display:grid;place-items:center;padding:38px 130px 28px}
+.mia-ending blockquote{max-width:490px;margin:0;text-align:center;font-family:var(--serif);font-style:italic;font-size:clamp(1.6rem,4vw,2.1rem);line-height:1.4}
+.mia-finish{position:relative;text-align:center;padding:12px 24px 30px}.mia-finish .button{background:#faf7ef}
+@media(max-width:640px){.mia-story{width:calc(100vw - 16px);max-height:94dvh;border-radius:18px}.mia-reading{padding:28px 24px 0}.mia-reading>p:not(.eyebrow){font-size:1rem}.mia-ending{padding:32px 38px 24px}.mia-garden{padding-bottom:60px}.mia-garden>img{width:38%;max-height:220px;bottom:-45px}.mia-leaf-left{left:-35px}.mia-leaf-right{right:-28px}.mia-toolbar{padding:8px 14px}}
+:global(body:has(.mia-story[open])){overflow:hidden}
+</style>
+<script>
+const story=document.querySelector<HTMLDialogElement>('#mia-story');
+const trigger=document.querySelector<HTMLButtonElement>('[data-mia-open]');
+trigger?.addEventListener('click',()=>{if(!story)return;document.querySelectorAll<HTMLDialogElement>('dialog[open]').forEach(d=>d.close());story.showModal();story.scrollTop=0;});
+story?.querySelectorAll('[data-mia-close]').forEach(button=>button.addEventListener('click',()=>story.close()));
+story?.addEventListener('close',()=>trigger?.focus({preventScroll:true}));
+</script>

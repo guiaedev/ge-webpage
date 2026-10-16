@@ -41,6 +41,19 @@
 .faq h2{font-size:clamp(2.8rem,4.8vw,4.6rem);line-height:1.03;margin:24px 0}
 .faq h2 em{color:#65765b}
 .faq-lead{font-size:1rem;color:var(--muted);line-height:1.7}
+/* With seven questions the list runs long: the intro and its «¿Otra pregunta?»
+   card stay in view beside it on desktop, so a doubt the list misses ends in a
+   message rather than a scroll back up. */
+@media(min-width:761px){.faq-intro{position:sticky;top:40px}}
+.faq-ask{margin-top:34px;max-width:330px;padding:24px 24px 26px;border:1px solid #e3d8c6;border-radius:20px;background:#fbf8f2}
+.faq-ask .faq-ask-title{font:400 1.45rem/1.2 var(--serif);color:var(--heading);letter-spacing:-.015em}
+.faq-ask p:not(.faq-ask-title){margin:6px 0 18px;color:var(--muted);font-size:.92rem}
+.faq-ask .button{padding:11px 22px;gap:12px}
+/* WhatsApp's own green, used only for its logo: the button stays the site's black */
+.faq-ask .faq-whatsapp{gap:10px;padding:11px 20px 11px 16px}
+.faq-ask .wa-logo{flex:none;color:#25D366}
+/* the waterfall waits here until the section scrolls into view (Information.astro) */
+.faq-waiting .faq-intro,.faq-waiting .faq-list details{opacity:0}
 
 
 .faq-list{display:grid;gap:14px;min-width:0}

@@ -1,16 +1,47 @@
 ---
-import {team} from '../data/site';
+import {team, site, bookingPolicies} from '../data/site';
 import Testimonials from './Testimonials.astro';
+
+/* The questions that decide whether someone books. Session length and the
+   cancellation agreements are read from bookingPolicies (site.ts), the same
+   text the booking dialog shows, so the two never disagree. Price is left out
+   until the practice publishes one. The confidentiality and «¿es para mí?»
+   answers are drafts for the practice to confirm (15 October 2026). */
+const policy = (title: string) => bookingPolicies.find(p => p.title === title)?.text ?? '';
+const faqs = [
+  { category: 'Tu proceso', question: '¿Qué terapia es adecuada para mí?', answer: 'No necesitas elegir un modelo antes de acercarte. Conversar con el equipo sobre lo que buscas puede ayudarte a conocer el enfoque y valorar si se ajusta a tus necesidades.' },
+  { category: 'Tu proceso', question: '¿Cómo sé si la terapia es para mí?', answer: 'No hace falta estar en crisis para empezar. Si algo te pesa desde hace tiempo, se repite o simplemente quieres entenderte mejor, una primera sesión sirve para hablarlo y decidir juntos si este es el espacio adecuado.' },
+  { category: 'Tu espacio', question: '¿La atención es en línea?', answer: 'Sí. Guía Existencial ofrece psicoterapia en línea. Al coordinar tu sesión, confirma con el equipo la plataforma, el horario y los detalles de conexión.' },
+  { category: 'Tu sesión', question: '¿Cuánto dura una sesión?', answer: policy('Puntualidad') },
+  { category: 'Tus acuerdos', question: '¿Puedo cancelar o reprogramar?', answer: `${policy('Cancelaciones y cambios')} ${policy('Inasistencias')}` },
+  { category: 'Tu privacidad', question: '¿Lo que comparto es confidencial?', answer: 'Sí. Lo que compartes en sesión se trata con confidencialidad profesional. Las únicas excepciones son las que marca la ética de la psicología, como un riesgo para tu vida o la de otras personas, y en ese caso lo hablaríamos contigo.' },
+  { category: 'Tu primer paso', question: '¿Cómo puedo agendar?', answer: 'Usa el botón “Agendar una sesión”. Desde ahí podrás acceder al calendario cuando esté disponible o consultar al equipo por los canales de contacto actuales.' },
+];
+/* «¿Otra pregunta?» opens WhatsApp once the practice's number is set
+   (site.whatsapp), with the first line already written; until then it is the
+   contact form. */
+const whatsapp = site.whatsapp
+  ? `https://wa.me/${site.whatsapp}?text=${encodeURIComponent('Hola, tengo una pregunta sobre la terapia en Guía Existencial.')}`
+  : null;
+/* The same questions as structured data, so search engines can show them. */
+const faqSchema = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(f => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })),
+});
 ---
 <section id="equipo" class="team-section section"><div class="botanical-viewport team-botanical" aria-hidden="true"><picture><source type="image/webp" srcset="assets/team-botanical-960.webp 960w, assets/team-botanical-1536.webp 1536w" sizes="100vw"/><img src="assets/team-botanical-1536.webp" alt="" loading="lazy" width="1536" height="1024"/></picture></div><div class="wrap"><p class="eyebrow" data-reveal>Nuestro equipo clínico</p><h2 data-reveal>Rigor científico.<br/> <em>Calidez humana.</em></h2><div class="team-grid" data-reveal-group>{team.map(person=><article class="team-card"><span class="initials profile-avatar"><img src={`assets/${person.avatar}-avatar-watercolor-v2.webp`} alt={`Avatar ilustrado de ${person.name}`} width="104" height="104" loading="lazy"/></span><h3>{person.name}</h3><p class="role">{person.role}</p><p>{person.note}</p></article>)}</div><p data-reveal class="team-note">Formación continua, supervisión y trabajo en equipo.</p></div></section>
 <Testimonials/>
 <section id="preguntas" class="faq wrap section" aria-labelledby="faq-title">
-  <div class="faq-intro" data-reveal><p class="eyebrow">Antes de empezar</p><h2 id="faq-title">Resolvemos<br/><em>tus dudas.</em></h2><p class="faq-lead">Un poco de claridad para dar<br class="desktop-break"/> tu siguiente paso.</p></div>
-  <div class="faq-list" data-reveal-group>
-    <details open><summary><small aria-hidden="true">01</small><div><p class="faq-category">Tu proceso</p><h3>¿Qué terapia es adecuada para mí?</h3></div><span class="faq-toggle" aria-hidden="true">+</span></summary><div class="faq-answer"><p>No necesitas elegir un modelo antes de acercarte. Conversar con el equipo sobre lo que buscas puede ayudarte a conocer el enfoque y valorar si se ajusta a tus necesidades.</p></div></details>
-    <details><summary><small aria-hidden="true">02</small><div><p class="faq-category">Tu espacio</p><h3>¿La atención es en línea?</h3></div><span class="faq-toggle" aria-hidden="true">+</span></summary><div class="faq-answer"><p>Sí. Guía Existencial ofrece psicoterapia en línea. Al coordinar tu sesión, confirma con el equipo la plataforma, el horario y los detalles de conexión.</p></div></details>
-    <details><summary><small aria-hidden="true">03</small><div><p class="faq-category">Tu primer paso</p><h3>¿Cómo puedo agendar?</h3></div><span class="faq-toggle" aria-hidden="true">+</span></summary><div class="faq-answer"><p>Usa el botón “Agendar una sesión”. Desde ahí podrás acceder al calendario cuando esté disponible o consultar al equipo por los canales de contacto actuales.</p></div></details>
+  <div class="faq-intro"><p class="eyebrow">Antes de empezar</p><h2 id="faq-title">Resolvemos<br/><em>tus dudas.</em></h2><p class="faq-lead">Un poco de claridad para dar<br class="desktop-break"/> tu siguiente paso.</p>
+    <aside class="faq-ask" aria-labelledby="faq-ask-title"><p id="faq-ask-title" class="faq-ask-title">¿Otra pregunta?</p><p>Escríbenos y el equipo te responderá.</p>{whatsapp
+      ? <a class="button primary faq-whatsapp" href={whatsapp} target="_blank" rel="noopener"><svg class="wa-logo" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>Escríbenos por WhatsApp</a>
+      : <a class="button primary" href={site.contactUrl} target="_blank" rel="noopener">Escríbenos <span aria-hidden="true">↗</span></a>}</aside>
   </div>
+  <div class="faq-list">
+    {faqs.map((f, i) => <details open={i === 0}><summary><small aria-hidden="true">{String(i + 1).padStart(2, '0')}</small><div><p class="faq-category">{f.category}</p><h3>{f.question}</h3></div><span class="faq-toggle" aria-hidden="true">+</span></summary><div class="faq-answer"><p>{f.answer}</p></div></details>)}
+  </div>
+  <script type="application/ld+json" set:html={faqSchema}/>
 </section>
 <script>
 const faq = document.querySelector<HTMLElement>('#preguntas');
@@ -45,16 +76,27 @@ if (faq) {
     reduced.addEventListener('change', stop);
     window.addEventListener('resize', stop);
   });
-  if ('IntersectionObserver' in window && !reduced.matches) {
+  /* THE WATERFALL (owner, 15 October 2026): when the section scrolls into
+     view the intro rises and the questions fall into place one after another,
+     from above. This section's own entrance, instead of the site-wide
+     data-reveal, so the two never run at once. Hidden first only when the
+     section starts below the fold, so nothing on screen flickers. */
+  if ('IntersectionObserver' in window && !reduced.matches && faq.getBoundingClientRect().top > innerHeight * 0.9) {
+    const intro = faq.querySelector<HTMLElement>('.faq-intro')!;
+    const questions = [...faq.querySelectorAll<HTMLElement>('details')];
+    faq.classList.add('faq-waiting');
     const observer = new IntersectionObserver(entries => {
       if (!entries.some(entry => entry.isIntersecting)) return;
-      [faq.firstElementChild!, ...faq.querySelectorAll('details')].forEach((item,i) => item.animate(
-        [{opacity:0,transform:'translateY(18px)'},{opacity:1,transform:'translateY(0)'}],
-        {duration:650,delay:i*75,easing:'cubic-bezier(.22,1,.36,1)'}));
       observer.disconnect();
+      const ease = 'cubic-bezier(.22,1,.36,1)';
+      intro.animate([{opacity:0,transform:'translateY(18px)'},{opacity:1,transform:'none'}], {duration:700,easing:ease,fill:'backwards'});
+      questions.forEach((item,i) => item.animate(
+        [{opacity:0,transform:'translateY(-28px)'},{opacity:1,transform:'none'}],
+        {duration:720,delay:120 + i*110,easing:ease,fill:'backwards'}));
+      faq.classList.remove('faq-waiting');
     },{threshold:.12});
     observer.observe(faq);
-    reduced.addEventListener('change',()=>{if(reduced.matches){observer.disconnect();faq.getAnimations({subtree:true}).forEach(a=>a.finish());}});
+    reduced.addEventListener('change',()=>{if(reduced.matches){observer.disconnect();faq.classList.remove('faq-waiting');faq.getAnimations({subtree:true}).forEach(a=>a.finish());}});
   }
 }
 </script>

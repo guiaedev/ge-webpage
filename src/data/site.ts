@@ -6,6 +6,9 @@ export const site = {
   bookingUrl: 'https://cal.com/guia-existencial-ghxaew/30min',
   followUpUrl: 'https://cal.com/guia-existencial-ghxaew/30min',
   contactUrl: 'https://guiaexistencialpsic.com/contact/',
+  // WhatsApp number for the FAQ's «¿Otra pregunta?» button: digits only, with the
+  // country code (Mexico mobile: 52 + 10 digits). Empty keeps the contact form.
+  whatsapp: '',
 };
 // Session agreements shown beside the booking calendar. `summary` is the short line in the sidebar.
 export const bookingPolicies = [
