@@ -18,7 +18,7 @@ const paragraphs = [
  <div class="mia-toolbar"><span>Guía Existencial · Cuento de Mía</span><button type="button" data-mia-close aria-label="Cerrar cuento" autofocus>×</button></div>
  <div class="mia-cover-frame"><img class="mia-cover" src="assets/mia/mia-storybook.webp" alt="Mía, con los ojos cerrados, sentada en un campo de otoño" width="1200" height="800" loading="lazy"/></div>
  <div class="mia-reading"><p class="eyebrow">Un momento para ti</p><h2 id="mia-title">El cuento de Mía</h2>{paragraphs.map(text=><p>{text}</p>)}</div>
- <div class="mia-garden"><img class="mia-leaf-left" src="assets/footer-overlap-monstera.webp" alt="" aria-hidden="true" loading="lazy"/><img class="mia-leaf-right" src="assets/footer-overlap-eucalyptus-fern.webp" alt="" aria-hidden="true" loading="lazy"/><div class="mia-ending"><blockquote>Está bien no poder con todo, y está bien darse un tiempo para descansar.</blockquote></div>
+ <div class="mia-garden"><img class="mia-meadow" src="assets/mia/mia-closing-meadow.webp" alt="" aria-hidden="true" loading="lazy" width="1200" height="800"/><div class="mia-ending"><blockquote>Está bien no poder con todo, y está bien darse un tiempo para descansar.</blockquote></div>
  <div class="mia-finish"><button class="button outline" data-mia-close>Volver a recursos <span aria-hidden="true">↗</span></button></div></div>
 </dialog>
 <style>
@@ -31,13 +31,13 @@ const paragraphs = [
 .mia-cover-frame{overflow:hidden}
 .mia-cover{display:block;width:100%;height:auto;max-height:420px;object-fit:cover;object-position:75% 40%;transform:scale(1.25);transform-origin:75% 40%}
 .mia-reading{max-width:640px;margin:auto;padding:36px 32px 8px}.mia-reading h2{font-size:clamp(2rem,5vw,3rem);margin:8px 0 28px}.mia-reading>p:not(.eyebrow){font-size:1.05rem;line-height:1.85;margin:0 0 22px;color:#4d574d}
-.mia-garden{position:relative;isolation:isolate;overflow:hidden;min-height:340px;padding:30px 0 28px;background:linear-gradient(#faf7ef00,#faf7ef55 20%),url('assets/footer-watercolor-light-960.webp') center bottom / cover no-repeat}
-.mia-garden>img{position:absolute;bottom:-40px;pointer-events:none;z-index:-1;filter:saturate(.55);width:29%;max-height:100%;object-fit:contain}
-.mia-leaf-left{left:-55px;transform:rotate(-8deg)}.mia-leaf-right{right:-35px}
-.mia-ending{position:relative;min-height:210px;display:grid;place-items:center;padding:38px 130px 28px}
-.mia-ending blockquote{max-width:490px;margin:0;text-align:center;font-family:var(--serif);font-style:italic;font-size:clamp(1.6rem,4vw,2.1rem);line-height:1.4}
-.mia-finish{position:relative;text-align:center;padding:12px 24px 30px}.mia-finish .button{background:#faf7ef}
-@media(max-width:640px){.mia-story{width:calc(100vw - 16px);max-height:94dvh;border-radius:18px}.mia-reading{padding:28px 24px 0}.mia-reading>p:not(.eyebrow){font-size:1rem}.mia-ending{padding:32px 38px 24px}.mia-garden{padding-bottom:60px}.mia-garden>img{width:38%;max-height:220px;bottom:-45px}.mia-leaf-left{left:-35px}.mia-leaf-right{right:-28px}.mia-toolbar{padding:8px 14px}}
+.mia-garden{position:relative;isolation:isolate;overflow:hidden;padding:48px 24px 190px;background:#faf7ef}
+.mia-meadow{position:absolute;inset:auto 0 0;width:100%;height:100%;object-fit:cover;object-position:center bottom;pointer-events:none;z-index:-1;mix-blend-mode:multiply;mask-image:linear-gradient(transparent,#000 35%)}
+.mia-ending{position:relative;max-width:520px;margin:0 auto;text-align:center;padding:0 24px}
+.mia-ending::before{content:'';display:block;width:42px;height:1px;background:#b2a17e;margin:0 auto 28px}
+.mia-ending blockquote{margin:0;font-family:var(--serif);font-style:italic;font-size:clamp(1.65rem,4vw,2.15rem);line-height:1.45;text-wrap:balance}
+.mia-finish{position:relative;text-align:center;padding:28px 0 0}.mia-finish .button{background:#faf7efeb;border-color:#a5aa95;font-size:.85rem}
+@media(max-width:640px){.mia-story{width:calc(100vw - 16px);max-height:94dvh;border-radius:18px}.mia-reading{padding:28px 24px 0}.mia-reading>p:not(.eyebrow){font-size:1rem}.mia-ending{padding:0 8px}.mia-garden{padding:38px 24px 150px}.mia-meadow{height:230px;object-fit:cover;mask-image:linear-gradient(transparent,#000 55%)}.mia-toolbar{padding:8px 14px}}
 :global(body:has(.mia-story[open])){overflow:hidden}
 </style>
 <script>
