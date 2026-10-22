@@ -11,7 +11,7 @@ const paragraphs = [
 ];
 ---
 <article class="resource-card sand">
- <div class="resource-art mia-card-art"><img src="assets/mia/mia-storybook.webp" alt="Mía descansa entre plantas doradas de otoño" loading="lazy" width="1200" height="800"/></div>
+ <div class="resource-art mia-card-art"><img src="assets/mia/mia-simple-cover.webp" alt="Mía descansa en calma, con los ojos cerrados" loading="lazy" width="1200" height="900"/></div>
  <div class="resource-body"><p class="resource-meta"><span>Cuento ilustrado</span></p><h3>El cuento de Mía</h3><p>Una historia para recordar que también está bien detenerse y descansar.</p><button class="resource-download resource-link" data-mia-open aria-haspopup="dialog" aria-controls="mia-story">Leer el cuento <span aria-hidden="true">↗</span></button></div>
 </article>
 <dialog id="mia-story" class="mia-story" aria-labelledby="mia-title">
@@ -27,7 +27,7 @@ const paragraphs = [
 .mia-toolbar{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 20px;background:#faf7eff5;border-bottom:1px solid #e7dfd0;font-size:.75rem;letter-spacing:.04em}
 .mia-toolbar button{width:44px;height:44px;border:1px solid #d9ccb6;border-radius:50%;background:#faf7ef;font-size:1.6rem;cursor:pointer;flex:none}
 .mia-card-art{overflow:hidden}
-.mia-card-art img{transform:scale(1.3);transform-origin:75% 40%}
+.mia-card-art img{transform:none;object-fit:cover;object-position:center}
 .mia-cover-frame{overflow:hidden}
 .mia-cover{display:block;width:100%;height:auto;max-height:420px;object-fit:cover;object-position:75% 40%;transform:scale(1.25);transform-origin:75% 40%}
 .mia-reading{max-width:640px;margin:auto;padding:36px 32px 8px}.mia-reading h2{font-size:clamp(2rem,5vw,3rem);margin:8px 0 28px}.mia-reading>p:not(.eyebrow){font-size:1.05rem;line-height:1.85;margin:0 0 22px;color:#4d574d}
