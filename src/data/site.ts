@@ -15,6 +15,7 @@ export const bookingPolicies = [
  { title: 'Cancelaciones y cambios', summary: 'Cambios con 24 h de aviso; fuera de plazo, $200 MXN', text: 'En caso de no poder asistir, te pedimos avisar con al menos 24 horas de anticipación. Cualquier cancelación o reprogramación fuera de este plazo genera un cargo de $200 MXN.' },
  { title: 'Inasistencias', summary: 'Sin aviso previo se cobra la sesión completa', text: 'La ausencia sin aviso previo conlleva el cobro completo de la sesión.' },
  { title: 'Puntualidad', summary: '10 min de tolerancia', text: 'Las sesiones duran 60 minutos. Contamos con un periodo de tolerancia de 10 minutos; pasado este tiempo, la sesión deberá reprogramarse aplicando la tarifa de cancelación ($200 MXN).' },
+ { title: 'Facturación', summary: 'Factura dentro del mismo mes del pago', text: 'Si necesitas factura, solicítala dentro del mismo mes en que realizaste el pago y a más tardar 3 días antes de que termine el mes. Envíanos tu Constancia de Situación Fiscal (RFC, nombre o razón social, régimen fiscal y código postal) y el uso de CFDI. Después de ese plazo ya no es posible emitir la factura.' },
 ];
 // Free downloadable resources shown in "Recursos". Put each PDF in public/assets/recursos/ and set `file`;
 // set `image` once its illustration exists. Without a file (or `url`, for link cards) the card shows "Próximamente".
