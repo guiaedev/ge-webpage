@@ -34,4 +34,6 @@ export const team = [
  { name: 'Jessica Barragán', initials: 'JB', avatar: 'jessica', role: 'Maestra en Terapia Cognitivo-Conductual', note: 'Fundadora de Guía Existencial. Formación en Terapia de Esquemas, ACT y DBT.' },
  { name: 'Lariza Jiménez', initials: 'LJ', avatar: 'lariza', role: 'Especialista en Terapia de Esquemas', note: 'Formación adicional en ACT. Su enfoque aborda los patrones que se formaron temprano y siguen presentes.' },
  { name: 'Lourdes Huidor', initials: 'LH', avatar: 'lourdes', role: 'Especialista en Terapia de Aceptación y Compromiso', note: 'Formación en ACT, Mindfulness y Análisis Funcional de la Conducta.' },
+ // home: false keeps a person on the Nosotras strip only (no watercolor avatar or bio card on the home page yet).
+ { name: 'Laura Elena de Luna Velasco', initials: 'LL', avatar: 'laura', role: '', note: '', home: false },
 ];
