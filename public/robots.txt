@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://guiaexistencialpsic.com/sitemap.xml

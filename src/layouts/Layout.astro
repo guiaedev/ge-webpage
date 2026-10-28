@@ -1,6 +1,16 @@
 ---
 import '../styles/global.css';
-import {site} from '../data/site';
-const {title = 'Guía Existencial | Psicoterapia en línea', base} = Astro.props;
+import {site, team} from '../data/site';
+// `path` is the page's public URL path; it builds the canonical and og:url so /index.html and / count as one page.
+const {title = 'Guía Existencial | Psicoterapia en línea', base, path = '/', description = site.description} = Astro.props;
+const canonical = new URL(path, site.url).href;
+const image = new URL('assets/og-image.jpg', site.url).href;
+// Business details for search engines, on the home page only.
+const business = path === '/' && JSON.stringify({
+  '@context': 'https://schema.org', '@type': 'Psychologist', name: site.name, url: site.url, description: site.description,
+  logo: new URL('assets/official-logo.png', site.url).href, image, sameAs: [site.instagram, site.facebook],
+  areaServed: {'@type': 'Country', name: 'México'}, availableLanguage: 'es', knowsAbout: ['Terapia Cognitivo-Conductual', 'Terapia de Aceptación y Compromiso', 'Terapia de Esquemas', 'Terapia Dialéctico-Conductual'],
+  employee: team.map(person => ({'@type': 'Person', name: person.name, ...(person.role && {jobTitle: person.role})})),
+});
 ---
-<!doctype html><html lang="es-MX"><head><meta charset="UTF-8"/>{base && <base href={base}/>}<meta name="viewport" content="width=device-width, initial-scale=1"/><meta name="description" content={site.description}/><meta name="theme-color" content="#faf7f0"/><meta property="og:title" content="Guía Existencial | Psicoterapia en línea"/><meta property="og:description" content={site.description}/><meta property="og:type" content="website"/><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"/><link rel="icon" type="image/png" sizes="96x96" href="assets/favicon.png"/><title>{title}</title></head><body><a class="skip-link" href={base ? 'nosotras/#contenido' : '#contenido'}>Ir al contenido</a><slot/></body></html>
+<!doctype html><html lang="es-MX"><head><meta charset="UTF-8"/>{base && <base href={base}/>}<meta name="viewport" content="width=device-width, initial-scale=1"/><meta name="description" content={description}/><link rel="canonical" href={canonical}/><meta name="theme-color" content="#faf7f0"/><meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:type" content="website"/><meta property="og:url" content={canonical}/><meta property="og:site_name" content={site.name}/><meta property="og:locale" content="es_MX"/><meta property="og:image" content={image}/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image:alt" content="Guía Existencial, psicoterapia en línea"/><meta name="twitter:card" content="summary_large_image"/><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"/><link rel="icon" type="image/png" sizes="96x96" href="assets/favicon.png"/><title>{title}</title>{business && <script type="application/ld+json" set:html={business}/>}</head><body><a class="skip-link" href={`${path.slice(1)}#contenido`}>Ir al contenido</a><slot/></body></html>

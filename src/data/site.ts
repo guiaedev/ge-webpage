@@ -1,5 +1,9 @@
 export const site = {
   name: 'Guía Existencial',
+  // Production origin: canonical URLs, sitemap and share image are built from it.
+  url: 'https://guiaexistencialpsic.com',
+  instagram: 'https://www.instagram.com/guiaexistencial/',
+  facebook: 'https://www.facebook.com/people/Guia-existencial/61579915014721/',
   description: 'Psicoterapia en línea basada en evidencia y atención personalizada. Un espacio para comprenderte y encontrar dirección.',
   // Public Cal.com events shown in the booking modal's two tabs (Guía Existencial's own account).
   // Both currently use the 30-min event; set followUpUrl once a follow-up event exists.
