@@ -380,3 +380,37 @@
  .footer-fireflies span{display:none}
  .footer-fireflies span:nth-child(1),.footer-fireflies span:nth-child(3),.footer-fireflies span:nth-child(7){display:block;box-shadow:0 0 4px 2px #c9994088,0 0 12px 5px #e7b75255}
 }
+
+/* Therapist profile: «Conocer más» on the home team card opens the full bio. */
+.team-more{margin-top:16px;padding:0;border:0;background:none;color:var(--ink);font:500 .85rem var(--sans,inherit);border-bottom:1px solid currentColor;cursor:pointer}
+.team-more span{display:inline-block;transition:transform .2s}.team-more:hover span{transform:translateX(3px)}
+.profile-dialog{width:min(680px,calc(100% - 32px));overflow-y:auto}
+.profile-head{display:flex;gap:20px;align-items:center;margin-bottom:24px}
+.profile-head img{width:88px;height:88px;border-radius:50%;object-fit:cover;flex-shrink:0}
+.profile-dialog .profile-head h2{margin:6px 0 4px}
+.profile-dialog .profile-subtitle{margin:0;color:var(--muted);font-size:.9rem}
+.profile-quote{margin:0 0 24px;padding:0 0 0 18px;border-left:2px solid #b9ad95;font:italic 1.25rem/1.5 var(--serif);color:var(--heading,var(--ink))}
+.profile-dialog>p:not(.eyebrow){margin-bottom:16px;line-height:1.7}
+.profile-focus{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:8px 0 22px}
+.profile-focus li{padding:5px 12px;border:1px solid var(--line);border-radius:999px;font-size:.8rem;color:var(--muted)}
+.profile-dialog .profile-closing{color:var(--ink)}
+@media(max-width:760px){.profile-head{flex-direction:column;align-items:flex-start;gap:14px}.profile-head img{width:72px;height:72px}.profile-quote{font-size:1.1rem}}
+
+/* Four staff profiles: balanced rows without narrowing the biography cards. */
+@media(min-width:761px){.team-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(min-width:1280px){.team-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.team-card{padding:24px}}
+
+/* «Un paso a la vez»: six compact cards in one row on desktop, 3 + 3 on tablets, two columns on phones. */
+.topics-section .topic-grid{grid-template-columns:repeat(6,minmax(0,1fr));gap:16px;max-width:1240px}
+.topics-section .topic-card{border-radius:18px}
+.topics-section .topic-illustration{width:88%;margin-top:10px}
+.topics-section .topic-copy{padding:0 16px 22px}
+.topics-section .topic-card h3{font-size:clamp(1.1rem,1.35vw,1.3rem);margin-bottom:8px}
+.topics-section .topic-card p{font-size:.85rem;max-width:none}
+/* No arrow: the whole card is the button that opens the topic's window. */
+.topics-section .circle-button{inset:0;width:auto;height:auto;border:0;border-radius:inherit;background:transparent;font-size:0;cursor:pointer}.topics-section .circle-button:hover{transform:none;background:transparent}.topics-section .circle-button span{display:none}.topics-section .circle-button:focus-visible{outline:2px solid var(--action);outline-offset:3px}
+.topic-art-full img{position:static;width:100%;height:100%;object-fit:cover}
+.topic-art-pending{display:grid;place-items:center}
+.topic-art-pending .brand-mark{width:52px;height:52px;opacity:.18}
+@media(max-width:1100px){.topics-section .topic-grid{grid-template-columns:repeat(3,minmax(0,1fr));max-width:820px}}
+@media(max-width:760px){.topics-section .topic-grid{grid-template-columns:repeat(2,minmax(0,1fr));max-width:none;gap:12px}.topics-section .topic-copy{padding:0 12px 18px}.topics-section .topic-card h3{font-size:1.05rem}.topics-section .topic-card p{font-size:.8rem}}

@@ -1,8 +1,12 @@
 ---
 import BookingButton from './BookingButton.astro';
 ---
-<div class="floating-booking" inert aria-hidden="true"><BookingButton label="Agendar sesión"/></div>
+<div class="floating-booking" inert aria-hidden="true"><BookingButton label="Agendar sesión"/><svg class="floating-booking-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg></div>
 <script>
+ // On phones the button shrinks to a round calendar icon; its text stays as the accessible name.
+ const floatingIcon = document.querySelector('.floating-booking-icon');
+ const floatingLink = document.querySelector('.floating-booking .button');
+ if (floatingIcon && floatingLink) { floatingLink.setAttribute('aria-label', 'Agendar sesión'); floatingLink.append(floatingIcon); }
  const floating = document.querySelector<HTMLElement>('.floating-booking');
  const source = document.querySelector('.hero-actions .button');
  if (floating && source) {
@@ -38,6 +42,7 @@ import BookingButton from './BookingButton.astro';
  .floating-booking{position:fixed;right:max(24px,env(safe-area-inset-right));bottom:calc(24px + env(safe-area-inset-bottom));z-index:10;opacity:0;visibility:hidden;transform:translateY(12px);pointer-events:none;transition:opacity .25s ease,transform .25s ease,visibility .25s}
  .floating-booking.is-visible{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto}
  .floating-booking :global(.button){box-shadow:0 5px 22px #263d3226;border:1px solid #ffffff55}
- @media(max-width:760px){.floating-booking{left:max(16px,env(safe-area-inset-left));right:max(16px,env(safe-area-inset-right));bottom:calc(16px + env(safe-area-inset-bottom))}.floating-booking :global(.button){display:flex;justify-content:center;width:100%;padding:14px 22px;min-height:52px}}
+ .floating-booking-icon{display:none}
+ @media(max-width:760px){.floating-booking{right:max(16px,env(safe-area-inset-right));bottom:calc(16px + env(safe-area-inset-bottom))}.floating-booking :global(.button){display:grid;place-items:center;width:56px;height:56px;min-height:0;padding:0;border-radius:50%;font-size:0;gap:0}.floating-booking :global(.button > span){display:none}.floating-booking :global(.floating-booking-icon){display:block}}
  @media(prefers-reduced-motion:reduce){.floating-booking{transition:none;transform:none}}
 </style>

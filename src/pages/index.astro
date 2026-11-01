@@ -20,6 +20,7 @@ nav?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{menu?.setA
 let dialogTrigger = null;
 function showDialog(dialog, trigger) { document.querySelectorAll('dialog[open]').forEach(d=>d.close());dialogTrigger=trigger;dialog?.showModal(); }
 document.querySelectorAll('[data-topic]').forEach(button=>button.addEventListener('click',()=>showDialog(document.getElementById('topic-'+button.dataset.topic),button)));
+document.querySelectorAll('[data-profile]').forEach(button=>button.addEventListener('click',()=>showDialog(document.getElementById('profile-'+button.dataset.profile),button)));
 document.querySelectorAll('[data-close]').forEach(button=>button.addEventListener('click',()=>button.closest('dialog')?.close()));
 document.querySelectorAll('dialog').forEach(dialog=>{dialog.addEventListener('click',event=>{if(event.target===dialog){const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close();}});dialog.addEventListener('close',()=>{if(dialogTrigger?.isConnected)dialogTrigger.focus();});});
 

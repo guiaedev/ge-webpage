@@ -7,11 +7,16 @@ import Testimonials from './Testimonials.astro';
    text the booking dialog shows, so the two never disagree. Price is left out
    until the practice publishes one. The confidentiality and «¿es para mí?»
    answers are drafts for the practice to confirm (15 October 2026). */
+// Team members with a full bio get a profile dialog (opened by «Conocer más» on their card).
+// Only people shown on the home grid: the dialog uses their watercolor avatar.
+const profiles = team.flatMap(({avatar, name, profile, ...person}) => profile && person.home !== false ? [{avatar, name, profile: profile as {title: string; subtitle: string; quote?: string; bio: string[]; focus: string[]; closing?: string; cta: string}}] : []);
 const policy = (title: string) => bookingPolicies.find(p => p.title === title)?.text ?? '';
 const faqs = [
   { category: 'Tu proceso', question: '¿Qué terapia es adecuada para mí?', answer: 'No necesitas elegir un modelo antes de acercarte. Conversar con el equipo sobre lo que buscas puede ayudarte a conocer el enfoque y valorar si se ajusta a tus necesidades.' },
   { category: 'Tu proceso', question: '¿Cómo sé si la terapia es para mí?', answer: 'No hace falta estar en crisis para empezar. Si algo te pesa desde hace tiempo, se repite o simplemente quieres entenderte mejor, una primera sesión sirve para hablarlo y decidir juntos si este es el espacio adecuado.' },
   { category: 'Tu espacio', question: '¿La atención es en línea?', answer: 'Sí. Guía Existencial ofrece psicoterapia en línea. Al coordinar tu sesión, confirma con el equipo la plataforma, el horario y los detalles de conexión.' },
+  { category: 'Tu espacio', question: '¿Atienden a menores de edad?', answer: 'No. A través de esta plataforma atendemos únicamente a personas adultas, a partir de los 18 años.' },
+  { category: 'Tu espacio', question: '¿Puedo tomar terapia si vivo fuera de México?', answer: 'Sí. Como la atención es en línea, puedes tomar tus sesiones desde cualquier país, siempre que la terapia sea en español. Al agendar, revisa la diferencia de horario con México. En caso de emergencia, comunícate con los servicios de emergencia del país donde te encuentres.' },
   { category: 'Tu sesión', question: '¿Cuánto dura una sesión?', answer: policy('Puntualidad') },
   { category: 'Tus acuerdos', question: '¿Puedo cancelar o reprogramar?', answer: `${policy('Cancelaciones y cambios')} ${policy('Inasistencias')}` },
   { category: 'Tu privacidad', question: '¿Lo que comparto es confidencial?', answer: 'Sí. Lo que compartes en sesión se trata con confidencialidad profesional. Las únicas excepciones son las que marca la ética de la psicología, como un riesgo para tu vida o la de otras personas, y en ese caso lo hablaríamos contigo.' },
@@ -30,7 +35,16 @@ const faqSchema = JSON.stringify({
   mainEntity: faqs.map(f => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })),
 });
 ---
-<section id="equipo" class="team-section section"><div class="botanical-viewport team-botanical" aria-hidden="true"><picture><source type="image/webp" srcset="assets/team-botanical-960.webp 960w, assets/team-botanical-1536.webp 1536w" sizes="100vw"/><img src="assets/team-botanical-1536.webp" alt="" loading="lazy" width="1536" height="1024"/></picture></div><div class="wrap"><p class="eyebrow" data-reveal>Nuestro equipo clínico</p><h2 data-reveal>Rigor científico.<br/> <em>Calidez humana.</em></h2><div class="team-grid" data-reveal-group>{team.filter(person=>person.home!==false).map(person=><article class="team-card"><span class="initials profile-avatar"><img src={`assets/${person.avatar}-avatar-watercolor-v2.webp`} alt={`Avatar ilustrado de ${person.name}`} width="104" height="104" loading="lazy"/></span><h3>{person.name}</h3><p class="role">{person.role}</p><p>{person.note}</p></article>)}</div><p data-reveal class="team-note">Formación continua, supervisión y trabajo en equipo.</p></div></section>
+<section id="equipo" class="team-section section"><div class="botanical-viewport team-botanical" aria-hidden="true"><picture><source type="image/webp" srcset="assets/team-botanical-960.webp 960w, assets/team-botanical-1536.webp 1536w" sizes="100vw"/><img src="assets/team-botanical-1536.webp" alt="" loading="lazy" width="1536" height="1024"/></picture></div><div class="wrap"><p class="eyebrow" data-reveal>Nuestro equipo clínico</p><h2 data-reveal>Rigor científico.<br/> <em>Calidez humana.</em></h2><div class="team-grid" data-reveal-group>{team.filter(person=>person.home!==false).map(person=><article class="team-card"><span class="initials profile-avatar"><img src={`assets/${person.avatar}-avatar-watercolor-v2.webp`} alt={`Avatar ilustrado de ${person.name}`} width="104" height="104" loading="lazy"/></span><h3>{person.name}</h3><p class="role">{person.role}</p><p>{person.note}</p>{person.profile && <button class="team-more" type="button" data-profile={person.avatar} aria-haspopup="dialog">Conocer más <span aria-hidden="true">→</span></button>}</article>)}</div><p data-reveal class="team-note">Formación continua, supervisión y trabajo en equipo.</p></div></section>
+{profiles.map(({avatar, name, profile}) => <dialog id={`profile-${avatar}`} class="content-dialog profile-dialog" aria-labelledby={`profile-title-${avatar}`}>
+ <button class="dialog-close" data-close aria-label="Cerrar">×</button>
+ <header class="profile-head"><img src={`assets/${avatar}-avatar-watercolor-v2.webp`} alt={`Avatar ilustrado de ${name}`} width="88" height="88" loading="lazy"/><div><p class="eyebrow">Nuestro equipo</p><h2 id={`profile-title-${avatar}`}>{profile.title}</h2><p class="profile-subtitle">{profile.subtitle}</p></div></header>
+ {profile.quote && <blockquote class="profile-quote">{profile.quote}</blockquote>}
+ {profile.bio.map(text => <p>{text}</p>)}
+ <ul class="profile-focus" aria-label="Acompaña principalmente">{profile.focus.map(item => <li>{item}</li>)}</ul>
+ {profile.closing && <p class="profile-closing">{profile.closing}</p>}
+ <a class="button primary" href={site.bookingUrl || '#reservar'} data-booking data-booking-tab="first">{profile.cta} <span aria-hidden="true">↗</span></a>
+</dialog>)}
 <Testimonials/>
 <section id="preguntas" class="faq wrap section" aria-labelledby="faq-title">
   <div class="faq-intro"><p class="eyebrow">Antes de empezar</p><h2 id="faq-title">Resolvemos<br/><em>tus dudas.</em></h2><p class="faq-lead">Un poco de claridad para dar<br class="desktop-break"/> tu siguiente paso.</p>
