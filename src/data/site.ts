@@ -39,8 +39,10 @@ export const topics = [
  { title: 'Alimentación e imagen corporal', text: 'Comprende tu relación con la comida y con tu cuerpo.', image: 'topics/alimentacion-no-plants-v4.webp', color: 'blush', detail: 'Un espacio para entender los pensamientos, emociones y conductas alrededor de la comida, el peso y la imagen corporal, e intervenir sobre los patrones que mantienen el malestar. Si tu proceso lo requiere, te orientamos para integrar a otros profesionales de la salud.' },
  { title: 'Emociones intensas', text: 'Habilidades para regular lo que sientes.', image: 'topics/emociones-no-plants-v4.webp', color: 'sand', detail: 'Un espacio para quienes viven sus emociones con mucha intensidad y sienten que las rebasan. El trabajo se orienta a desarrollar habilidades para regularlas, tolerar el malestar y relacionarte de forma más efectiva.' },
 ];
+// `bookingUrl`: the therapist's own Cal.com session event (https://cal.com/…). Once at least one is set,
+// the booking window starts by choosing a therapist; empty ones are left out of that step.
 export const team = [
- { name: 'Jessica Barragán', initials: 'JB', avatar: 'jessica', role: 'Maestra en Terapia Cognitivo-Conductual', note: 'Fundadora de Guía Existencial. Formación en Terapia de Esquemas, ACT y DBT.',
+ { name: 'Jessica Barragán', initials: 'JB', avatar: 'jessica', specialty: 'Terapia Cognitivo Conductual', bookingUrl: '', role: 'Maestra en Terapia Cognitivo-Conductual', note: 'Fundadora de Guía Existencial. Formación en Terapia de Esquemas, ACT y DBT.',
    // `profile` adds «Conocer más» to the home card and opens this text in a dialog.
    profile: {
     title: 'Psic. Jessica Barragán',
@@ -54,7 +56,7 @@ export const team = [
     closing: 'Si quieres entender qué te está pasando y trabajarlo con un método claro, puedes agendar una primera sesión conmigo.',
     cta: 'Agendar con Jessica',
    } },
- { name: 'Lariza Jiménez', initials: 'LJ', avatar: 'lariza', role: 'Especialista en Terapia de Esquemas', note: 'Formación adicional en ACT. Su enfoque aborda los patrones que se formaron temprano y siguen presentes.',
+ { name: 'Lariza Jiménez', initials: 'LJ', avatar: 'lariza', specialty: 'Terapia de Esquemas', bookingUrl: '', role: 'Especialista en Terapia de Esquemas', note: 'Formación adicional en ACT. Su enfoque aborda los patrones que se formaron temprano y siguen presentes.',
    profile: {
     title: 'Psic. Lariza Jiménez',
     subtitle: 'Especialidad: Terapia de Esquemas',
@@ -67,7 +69,7 @@ export const team = [
     focus: ['Patrones que se repiten', 'Necesidades emocionales', 'Relaciones'],
     cta: 'Agendar con Lariza',
    } },
- { name: 'Lourdes Huidor', initials: 'LH', avatar: 'lourdes', role: 'Especialista en Terapia de Aceptación y Compromiso', note: 'Formación en ACT, Mindfulness y Análisis Funcional de la Conducta.',
+ { name: 'Lourdes Huidor', initials: 'LH', avatar: 'lourdes', specialty: 'Terapia de Aceptación y Compromiso', bookingUrl: '', role: 'Especialista en Terapia de Aceptación y Compromiso', note: 'Formación en ACT, Mindfulness y Análisis Funcional de la Conducta.',
    profile: {
     title: 'Psic. Lourdes Huidor',
     subtitle: 'Especialidad: Terapia de Aceptación y Compromiso (ACT)',
@@ -82,7 +84,7 @@ export const team = [
     cta: 'Agendar con Lourdes',
    } },
  // home: false keeps a person on the Nosotras strip only (no watercolor avatar or bio card on the home page yet).
- { name: 'Laura Elena de Luna Velasco', initials: 'LL', avatar: 'laura', role: 'Especialista en Terapia Dialéctica Conductual (DBT)', note: 'Doctora en Psicología. Formada en el programa DBT-MX-AU; investiga intervenciones DBT para la prevención del suicidio.', home: true,
+ { name: 'Laura Elena de Luna Velasco', initials: 'LL', avatar: 'laura', specialty: 'Terapia Dialéctica Conductual', bookingUrl: '', role: 'Especialista en Terapia Dialéctica Conductual (DBT)', note: 'Doctora en Psicología. Formada en el programa DBT-MX-AU; investiga intervenciones DBT para la prevención del suicidio.', home: true,
    profile: {
     title: 'Psic. Laura Elena De Luna Velasco',
     subtitle: 'Especialidad: Terapia Dialéctica Conductual (DBT)',

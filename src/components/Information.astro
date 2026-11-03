@@ -48,7 +48,7 @@ const faqSchema = JSON.stringify({
  {profile.bio.map(text => <p>{text}</p>)}
  <ul class="profile-focus" aria-label="Acompaña principalmente">{profile.focus.map(item => <li>{item}</li>)}</ul>
  {profile.closing && <p class="profile-closing">{profile.closing}</p>}
- <a class="button primary" href={site.bookingUrl || '#reservar'} data-booking data-booking-tab="first">{profile.cta} <span aria-hidden="true">↗</span></a>
+ <a class="button primary" href={site.bookingUrl || '#reservar'} data-booking data-booking-tab="first" data-booking-therapist={avatar}>{profile.cta} <span aria-hidden="true">↗</span></a>
 </dialog>)}
 <Testimonials/>
 <section id="preguntas" class="faq wrap section" aria-labelledby="faq-title">

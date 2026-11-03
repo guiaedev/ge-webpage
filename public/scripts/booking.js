@@ -19,6 +19,25 @@
     followup: {url: parse(dialog.dataset.urlFollowup), panel: dialog.querySelector('#cal-followup')},
   };
   const available = Object.keys(calendars).filter(key => calendars[key].url);
+  // Step 1 (when any therapist has her own event): choose a therapist, or «que me asignen» for the
+  // general calendars above. Each therapist's calendar gets its own panel, built on first use.
+  const picker = dialog.querySelector('.booking-picker');
+  const withBar = dialog.querySelector('.booking-with');
+  const people = {};
+  picker?.querySelectorAll('[data-url]').forEach(button => {
+    const url = parse(button.dataset.url);
+    if (!url) { button.closest('li').remove(); return; }
+    const panel = document.createElement('div');
+    panel.id = `cal-${button.dataset.therapist}`;
+    panel.className = 'cal-booking';
+    panel.hidden = true;
+    dialog.querySelector('.booking-calendars').append(panel);
+    calendars[`t-${button.dataset.therapist}`] = {url, panel};
+    people[button.dataset.therapist] = {name: button.dataset.name, avatar: button.querySelector('img').src};
+  });
+  const hasPicker = Object.keys(people).length > 0;
+  let therapist = null; // null: not chosen yet; '': no preference; otherwise a key of `people`.
+  let current;
   const STORAGE_KEY = 'ge-booking-tab';
   const remembered = () => { try { return localStorage.getItem(STORAGE_KEY); } catch { return null; } };
   const remember = key => { try { localStorage.setItem(STORAGE_KEY, key); } catch { /* Storage unavailable; the choice just isn't kept. */ } };
@@ -27,14 +46,14 @@
   let previousOverflow;
 
   const fail = key => {
-    if (key !== active) return;
+    if (key !== current) return;
     status.textContent = 'El calendario está tardando en cargar. Puedes abrirlo en otra pestaña o contactar al equipo.';
     contact.hidden = false;
     contact.querySelector('p').hidden = true;
   };
   const ensureLoader = () => {
     // Cal's official loader snippet (namespaced queue); embed.js is fetched only after someone opens booking.
-    (function (C, A, L) { const p = (a, ar) => { a.q.push(ar); }; const d = C.document; C.Cal = C.Cal || function () { const cal = C.Cal; const ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; const s = d.createElement('script'); s.src = A; s.onerror = () => fail(active); d.head.appendChild(s); cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === 'string') { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ['initNamespace', namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, 'https://app.cal.com/embed/embed.js', 'init');
+    (function (C, A, L) { const p = (a, ar) => { a.q.push(ar); }; const d = C.document; C.Cal = C.Cal || function () { const cal = C.Cal; const ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; const s = d.createElement('script'); s.src = A; s.onerror = () => fail(current); d.head.appendChild(s); cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === 'string') { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ['initNamespace', namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, 'https://app.cal.com/embed/embed.js', 'init');
   };
   const loadCalendar = key => {
     const entry = calendars[key];
@@ -48,7 +67,7 @@
     cal('on', {action: 'linkReady', callback: () => {
       clearTimeout(entry.timer);
       entry.ready = true;
-      if (key === active) status.textContent = '';
+      if (key === current) status.textContent = '';
     }});
     cal('inline', {elementOrSelector: `#${entry.panel.id}`, calLink: entry.url.pathname.replace(/^\//, ''), config: {layout: 'month_view', theme: 'light', locale: 'es'}});
     cal('ui', {theme: 'light', hideEventTypeDetails: false, layout: 'month_view', cssVarsPerTheme: {light: {'cal-brand': '#161616', 'cal-bg': '#faf7f0', 'cal-bg-muted': '#f3eee4', 'cal-border-subtle': '#e6dccb', 'cal-border': '#ddd3c3'}}});
@@ -64,14 +83,38 @@
     });
     Object.entries(calendars).forEach(([name, entry]) => { entry.panel.hidden = name !== key; });
     copy.forEach(node => { node.textContent = key === 'followup' ? node.dataset.copyFollowup : node.dataset.copyFirst; });
-    const entry = calendars[key];
+    remember(key);
+    show();
+  };
+  const show = () => {
     contact.hidden = true;
-    direct.hidden = false;
+    const choosing = hasPicker && therapist === null;
+    if (picker) picker.hidden = !choosing;
+    dialog.classList.toggle('is-choosing', choosing);
+    current = choosing ? undefined : therapist ? `t-${therapist}` : active;
+    Object.entries(calendars).forEach(([name, entry]) => { entry.panel.hidden = name !== current; });
+    withBar.hidden = choosing || !therapist;
+    if (therapist) {
+      withBar.querySelector('strong').textContent = people[therapist].name;
+      withBar.querySelector('img').src = people[therapist].avatar;
+    }
+    direct.hidden = choosing;
+    if (choosing) { status.textContent = ''; return; }
+    const entry = calendars[current];
     direct.href = entry.url.href;
     status.textContent = entry.ready ? '' : 'Cargando horarios disponibles…';
-    loadCalendar(key);
-    remember(key);
+    loadCalendar(current);
   };
+  picker?.querySelectorAll('[data-therapist]').forEach(button => button.addEventListener('click', () => {
+    therapist = button.dataset.therapist;
+    show();
+    withBar.querySelector('button').focus();
+  }));
+  withBar.querySelector('button').addEventListener('click', () => {
+    therapist = null;
+    show();
+    picker.querySelector('button').focus();
+  });
 
   tabs.forEach(tab => tab.addEventListener('click', () => select(tab.dataset.tab)));
   tablist.addEventListener('keydown', event => {
@@ -91,7 +134,9 @@
       trigger = button.closest('dialog') ? document.querySelector('.hero-actions [data-booking]') : button;
       previousOverflow = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
-      const hasCalendar = available.length > 0;
+      const hasCalendar = available.length > 0 || hasPicker;
+      // «Agendar con …» in a therapist's profile skips straight to her calendar.
+      therapist = button.dataset.bookingTherapist in people ? button.dataset.bookingTherapist : null;
       dialog.classList.toggle('has-calendar', hasCalendar);
       dialog.querySelector('.booking-lead').hidden = !hasCalendar;
       tablist.hidden = available.length < 2;
