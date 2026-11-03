@@ -15,18 +15,3 @@ const fireflies = [
 </section>
 <div class="trust-strip" aria-label="Nuestra atención"><span><TrustIcon kind="evidence"/>Basada en evidencia</span><span><TrustIcon kind="personal"/>Atención personalizada</span><span><TrustIcon kind="online"/>100% en línea</span></div>
 
-<script>
- const layer = document.querySelector<HTMLElement>('.hero-fireflies');
- if (layer) {
-  // Relocate only at the fully transparent end of each glow cycle.
-  layer.querySelectorAll<HTMLElement>('span').forEach((light, index) => {
-   light.addEventListener('animationiteration', (event) => {
-    if (event.animationName !== 'firefly-glow') return;
-    const zones = [[2,7,30,88],[57,63,77,91],[89,97,28,88]];
-    const zone = zones[index < 2 ? 0 : index === 2 ? 1 : 2];
-    light.style.setProperty('--x', `${zone[0] + Math.random() * (zone[1] - zone[0])}%`);
-    light.style.setProperty('--y', `${zone[2] + Math.random() * (zone[3] - zone[2])}%`);
-   });
-  });
- }
-</script>

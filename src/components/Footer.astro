@@ -76,19 +76,7 @@ const shortLabels: Record<string, string> = {'aviso-de-privacidad': 'Privacidad'
  })();
 </script>
 
-<script>
- document.querySelectorAll<HTMLElement>('.footer-fireflies span').forEach((light, index) => {
-  light.addEventListener('animationiteration', event => {
-   if(event.animationName !== 'firefly-glow') return;
-   // Disjoint zones preserve spacing even when every light is visible.
-   const zones = [[4,10,20,32],[8,14,62,76],[88,94,25,38],[90,96,68,82],
-    [27,32,6,11],[42,47,6,11],[57,62,6,11],[72,77,6,11]];
-   const [left,right,top,bottom] = zones[index];
-   light.style.setProperty('--x', `${left + Math.random() * (right-left)}%`);
-   light.style.setProperty('--y', `${top + Math.random() * (bottom-top)}%`);
-  });
- });
-</script>
+
 
 <script>
  const agreements = document.querySelector<HTMLDetailsElement>('.footer-agreements');

@@ -432,7 +432,10 @@
 .site-footer .botanical-viewport img{filter:saturate(.55) hue-rotate(10deg) contrast(.92) brightness(1.02)}
 @media(max-width:760px){.site-footer::after{filter:var(--foliage-grade)}}
 
-/* Quiet ambient motion: two faint glows, one perched butterfly, shallow desktop depth. */
-.hero-fireflies span:nth-child(n),.footer-fireflies span:nth-child(n){width:4px;height:4px;box-shadow:0 0 3px 1px #c78d2a55,0 0 10px 4px #e4ad4533;opacity:0;animation:ambient-glow 16s ease-in-out var(--delay) infinite}
-@keyframes ambient-glow{0%,25%,65%,100%{opacity:0}43%,47%{opacity:.4}}
-@media(max-width:760px),(prefers-reduced-motion:reduce){.hero-fireflies,.footer-fireflies{display:none}.hero-fireflies span:nth-child(n),.footer-fireflies span:nth-child(n){animation:none}}
+/* Two gently drifting lights stay visible between their staggered pulses. */
+.hero-fireflies span:nth-child(n),.footer-fireflies span:nth-child(n){width:6px;height:6px;background:#fffbe8;box-shadow:0 0 3px 2px #c78d2a,0 0 12px 6px #e4ad45cc,0 0 24px 10px #e8ba5e77;opacity:.7;animation:ambient-glow 10s ease-in-out var(--delay) infinite,firefly-drift var(--duration) ease-in-out var(--delay) infinite}
+@keyframes ambient-glow{0%,100%{opacity:.65}45%,55%{opacity:1}}
+@media(prefers-reduced-motion:reduce){.hero-fireflies span:nth-child(n),.footer-fireflies span:nth-child(n){animation:none;opacity:.5}}
+
+/* Keep the light layer above the overlapping botanical artwork. */
+.hero-fireflies,.footer-fireflies{z-index:2}
