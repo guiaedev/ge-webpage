@@ -22,5 +22,10 @@ if (location.pathname.includes('/nosotras')) {
 </script>
 
 <style>
-@media(min-width:1100px){.home-header{width:82%;max-width:none}}
+/* Shared header geometry keeps the logo fixed across home and inner pages. */
+.site-header::before{content:'';position:absolute;inset:0 auto 0 50%;width:100vw;transform:translateX(-50%);background:#faf7ef;border-bottom:1px solid #d6dcca;box-shadow:0 3px 12px #30443808;z-index:-1;pointer-events:none}
+.site-header .brand{flex-shrink:0}
+@media(min-width:761px){.site-header{gap:24px}.site-header nav{color:#263f33}}
+@media(min-width:761px) and (max-width:1100px){.site-header{gap:12px}}
+@media(min-width:1100px){.site-header{width:82%;max-width:none}}
 </style>

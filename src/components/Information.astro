@@ -22,9 +22,14 @@ const faqs = [
   { category: 'Tu privacidad', question: '¿Lo que comparto es confidencial?', answer: 'Sí. Lo que compartes en sesión se trata con confidencialidad profesional. Las únicas excepciones son las que marca la ética de la psicología, como un riesgo para tu vida o la de otras personas, y en ese caso lo hablaríamos contigo.' },
   { category: 'Tu primer paso', question: '¿Cómo puedo agendar?', answer: 'Usa el botón “Agendar una sesión”. Desde ahí podrás acceder al calendario cuando esté disponible o consultar al equipo por los canales de contacto actuales.' },
 ];
+const faqGroups = [
+  {label: 'Tu proceso', categories: ['Tu proceso', 'Tu privacidad']},
+  {label: 'Tu espacio', categories: ['Tu espacio']},
+  {label: 'Tu primera sesión', categories: ['Tu sesión', 'Tus acuerdos', 'Tu primer paso']},
+];
 /* «¿Otra pregunta?» opens WhatsApp once the practice's number is set
    (site.whatsapp), with the first line already written; until then it is the
-   contact form. */
+   contact email. */
 const whatsapp = site.whatsapp
   ? `https://wa.me/${site.whatsapp}?text=${encodeURIComponent('Hola, tengo una pregunta sobre la terapia en Guía Existencial.')}`
   : null;
@@ -48,69 +53,146 @@ const faqSchema = JSON.stringify({
 <Testimonials/>
 <section id="preguntas" class="faq wrap section" aria-labelledby="faq-title">
   <div class="faq-intro"><p class="eyebrow">Antes de empezar</p><h2 id="faq-title">Resolvemos<br/><em>tus dudas.</em></h2><p class="faq-lead">Un poco de claridad para dar<br class="desktop-break"/> tu siguiente paso.</p>
-    <aside class="faq-ask" aria-labelledby="faq-ask-title"><p id="faq-ask-title" class="faq-ask-title">¿Otra pregunta?</p><p>Escríbenos y el equipo te responderá.</p>{whatsapp
-      ? <a class="button primary faq-whatsapp" href={whatsapp} target="_blank" rel="noopener"><svg class="wa-logo" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>Escríbenos por WhatsApp</a>
-      : <a class="button primary" href={site.contactUrl} target="_blank" rel="noopener">Escríbenos <span aria-hidden="true">↗</span></a>}</aside>
+
   </div>
-  <div class="faq-list">
-    {faqs.map((f, i) => <details open={i === 0}><summary><small aria-hidden="true">{String(i + 1).padStart(2, '0')}</small><div><p class="faq-category">{f.category}</p><h3>{f.question}</h3></div><span class="faq-toggle" aria-hidden="true">+</span></summary><div class="faq-answer"><p>{f.answer}</p></div></details>)}
+  <div class="faq-topics">
+    <div class="faq-tabs" role="tablist" aria-label="Temas de preguntas frecuentes" hidden>
+      {faqGroups.map((group, i) => <button type="button" role="tab" id={`faq-tab-${i}`} aria-controls={`faq-panel-${i}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>{group.label}</button>)}
+    </div>
+    {faqGroups.map((group, i) => <div class="faq-topic-panel" id={`faq-panel-${i}`}>
+      <h3 class="faq-group-heading">{group.label}</h3>
+      <div class="faq-list">{faqs.filter(f => group.categories.includes(f.category)).map((f, j) => <details open={j === 0}><summary><div><h3>{f.question}</h3></div><span class="faq-toggle" aria-hidden="true"></span></summary><div class="faq-answer"><p>{f.answer}</p></div></details>)}</div>
+    </div>)}
   </div>
+  <aside class="faq-ask" aria-labelledby="faq-ask-title"><span id="faq-ask-title">¿Otra pregunta?</span> <a href={whatsapp || `mailto:${site.contactEmail}`} target={whatsapp ? '_blank' : undefined} rel={whatsapp ? 'noopener' : undefined}>Escríbenos <span aria-hidden="true">↗</span></a></aside>
   <script type="application/ld+json" set:html={faqSchema}/>
 </section>
 <script>
 const faq = document.querySelector<HTMLElement>('#preguntas');
-const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 if (faq) {
-  const controllers: Array<{element: HTMLDetailsElement; set: (open: boolean) => void}> = [];
-  faq.querySelectorAll('details').forEach(element => {
-    const summary = element.querySelector('summary')!;
-    let target = element.open;
-    let animation: Animation | undefined;
-    const finish = () => { element.open = target; animation = undefined; element.style.overflow = ''; };
-    const set = (open: boolean) => {
-      const start = element.getBoundingClientRect().height;
-      animation?.cancel();
-      target = open;
-      element.dataset.expanded = String(open);
-      if (reduced.matches || !element.animate) { finish(); return; }
-      element.open = true;
-      const end = open ? element.getBoundingClientRect().height : summary.getBoundingClientRect().height + 2;
-      element.style.overflow = 'hidden';
-      animation = element.animate({height:[`${start}px`,`${end}px`]}, {duration:420,easing:'cubic-bezier(.22,1,.36,1)'});
-      animation.onfinish = finish;
+  const tabs = [...faq.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+  const panels = [...faq.querySelectorAll<HTMLElement>('.faq-topic-panel')];
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const topics = faq.querySelector<HTMLElement>('.faq-topics')!;
+  const ease = 'cubic-bezier(.22,1,.36,1)';
+  let active = -1;
+  let panelMotion: Animation | undefined;
+  let sizeMotion: Animation | undefined;
+  const accordionStops: Array<() => void> = [];
+  const activate = (index: number) => {
+    if (index === active) return;
+    const previous = active;
+    const startHeight = topics.getBoundingClientRect().height;
+    panelMotion?.cancel(); sizeMotion?.cancel();
+    accordionStops.forEach(stop => stop());
+    tabs.forEach((tab, i) => { tab.setAttribute('aria-selected', String(i === index)); tab.tabIndex = i === index ? 0 : -1; });
+    panels.forEach((panel, i) => { panel.hidden = i !== index; });
+    active = index;
+    if (previous !== -1 && !reduced.matches) {
+      const direction = index > previous ? 1 : -1;
+      panelMotion = panels[index].animate(
+        [{opacity:0, transform:`translate(${direction * 10}px, 5px)`}, {opacity:1, transform:'none'}],
+        {duration:320, easing:ease});
+      sizeMotion = topics.animate(
+        {height:[`${startHeight}px`, `${topics.getBoundingClientRect().height}px`]},
+        {duration:320, easing:ease});
+    }
+  };
+  faq.classList.add('faq-tabbed');
+  faq.querySelector<HTMLElement>('.faq-tabs')!.hidden = false;
+  panels.forEach((panel, i) => { panel.setAttribute('role', 'tabpanel'); panel.setAttribute('aria-labelledby', tabs[i].id); });
+  activate(0);
+  tabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => activate(i));
+    tab.addEventListener('keydown', event => {
+      let next = i;
+      if (event.key === 'ArrowRight') next = (i + 1) % tabs.length;
+      else if (event.key === 'ArrowLeft') next = (i + tabs.length - 1) % tabs.length;
+      else if (event.key === 'Home') next = 0;
+      else if (event.key === 'End') next = tabs.length - 1;
+      else return;
+      event.preventDefault(); activate(next); tabs[next].focus();
+    });
+  });
+  const controllers = new Map<HTMLDetailsElement, {set: (open: boolean) => void}>();
+  panels.forEach(panel => panel.querySelectorAll('details').forEach(detail => {
+    const summary = detail.querySelector('summary')!;
+    const answer = detail.querySelector<HTMLElement>('.faq-answer')!;
+    let target = detail.open;
+    let motion: Animation | undefined;
+    let answerMotion: Animation | undefined;
+    const settle = () => {
+      motion?.cancel(); answerMotion?.cancel();
+      motion = undefined; answerMotion = undefined;
+      detail.open = target;
+      detail.style.overflow = '';
+      detail.dataset.expanded = String(target);
     };
-    controllers.push({element,set});
+    const set = (open: boolean) => {
+      const start = detail.getBoundingClientRect().height;
+      motion?.cancel(); answerMotion?.cancel();
+      target = open;
+      detail.dataset.expanded = String(open);
+      if (reduced.matches || panel.hidden) { settle(); return; }
+      detail.open = true;
+      const end = open ? detail.getBoundingClientRect().height : summary.getBoundingClientRect().height + 1;
+      detail.style.overflow = 'hidden';
+      motion = detail.animate({height:[`${start}px`, `${end}px`]}, {duration:340, easing:ease});
+      motion.onfinish = settle;
+      answerMotion = answer.animate(
+        open ? [{opacity:0, transform:'translateY(-5px)'}, {opacity:1, transform:'none'}] : [{opacity:1}, {opacity:0}],
+        {duration:open ? 280 : 160, easing:ease});
+    };
+    controllers.set(detail, {set});
+    accordionStops.push(settle);
     summary.addEventListener('click', event => {
       event.preventDefault();
       const next = !target;
-      if (next) controllers.forEach(item => { if (item.element !== element) item.set(false); });
+      if (next) panel.querySelectorAll('details').forEach(other => {
+        if (other !== detail) controllers.get(other)?.set(false);
+      });
       set(next);
     });
-    const stop = () => { animation?.cancel(); finish(); };
-    reduced.addEventListener('change', stop);
-    window.addEventListener('resize', stop);
-  });
-  /* THE WATERFALL (owner, 15 October 2026): when the section scrolls into
-     view the intro rises and the questions fall into place one after another,
-     from above. This section's own entrance, instead of the site-wide
-     data-reveal, so the two never run at once. Hidden first only when the
-     section starts below the fold, so nothing on screen flickers. */
-  if ('IntersectionObserver' in window && !reduced.matches && faq.getBoundingClientRect().top > innerHeight * 0.9) {
-    const intro = faq.querySelector<HTMLElement>('.faq-intro')!;
-    const questions = [...faq.querySelectorAll<HTMLElement>('details')];
-    faq.classList.add('faq-waiting');
-    const observer = new IntersectionObserver(entries => {
-      if (!entries.some(entry => entry.isIntersecting)) return;
-      observer.disconnect();
-      const ease = 'cubic-bezier(.22,1,.36,1)';
-      intro.animate([{opacity:0,transform:'translateY(18px)'},{opacity:1,transform:'none'}], {duration:700,easing:ease,fill:'backwards'});
-      questions.forEach((item,i) => item.animate(
-        [{opacity:0,transform:'translateY(-28px)'},{opacity:1,transform:'none'}],
-        {duration:720,delay:120 + i*110,easing:ease,fill:'backwards'}));
-      faq.classList.remove('faq-waiting');
-    },{threshold:.12});
-    observer.observe(faq);
-    reduced.addEventListener('change',()=>{if(reduced.matches){observer.disconnect();faq.classList.remove('faq-waiting');faq.getAnimations({subtree:true}).forEach(a=>a.finish());}});
-  }
+  }));
+  const stopMotion = () => {
+    panelMotion?.cancel(); sizeMotion?.cancel();
+    accordionStops.forEach(stop => stop());
+  };
+  reduced.addEventListener('change', stopMotion);
+  window.addEventListener('resize', stopMotion);
+
 }
 </script>
+<style>
+.faq{grid-template-areas:"intro topics" "contact topics";grid-template-rows:auto 1fr;row-gap:30px;column-gap:clamp(32px,5vw,64px)}
+.faq-intro{grid-area:intro;padding-top:0;position:static}
+.faq h2{font-size:clamp(2.8rem,4vw,3.6rem);margin:18px 0;line-height:1.05}
+.faq>.faq-ask{grid-area:contact;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 10px;margin:0;padding:0;max-width:none;border:0;border-radius:0;background:none;font-size:.95rem}
+.faq-ask a{display:inline-flex;gap:8px;align-items:baseline;border-bottom:1px solid #8a9b78;padding-bottom:2px;transition:color .2s,border-color .2s}
+.faq-ask a:hover{color:#65765b;border-color:currentColor}
+.faq-topics{grid-area:topics;min-width:0}
+.faq-tabs{display:flex;gap:clamp(16px,2.8vw,40px);margin-bottom:12px;border-bottom:1px solid #cdd4c4}
+.faq-tabs[hidden],.faq-topic-panel[hidden]{display:none}
+.faq-tabs button{position:relative;flex:0 1 auto;min-height:48px;padding:0 0 14px;border:0;border-radius:0;background:none;color:#74806a;font:400 clamp(1rem,1.6vw,1.3rem)/1.3 var(--serif);cursor:pointer;transition:color .25s}
+.faq-tabs button::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:#7d916d;transform:scaleX(0);transform-origin:left;transition:transform .3s cubic-bezier(.22,1,.36,1)}
+.faq-tabs button[aria-selected="true"]{color:#304438}
+.faq-tabs button[aria-selected="true"]::after{transform:scaleX(1)}
+.faq-tabs button:hover{color:#304438}
+.faq-tabs button:focus-visible{outline:2px solid #8a9b78;outline-offset:5px}
+.faq-group-heading{margin:20px 0 12px}
+.faq-tabbed .faq-group-heading{display:none}
+.faq-topics .faq-list{gap:0}
+.faq-topics .faq-list details,.faq-topics .faq-list details[open],.faq-topics .faq-list details:hover{position:relative;border:0;border-bottom:1px solid #cdd4c4;border-radius:0;background:transparent;box-shadow:none}
+.faq-topics .faq-list summary{min-height:82px;padding:22px 6px;gap:20px;border-radius:0}
+.faq-topics .faq-list summary h3{font:400 clamp(1.25rem,1.8vw,1.65rem)/1.35 var(--serif);letter-spacing:-.015em}
+.faq-topics .faq-list .faq-answer{position:relative;isolation:isolate}
+.faq-topics .faq-list .faq-answer::before{content:"";position:absolute;inset:-8px -10px 4px;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 20% 42%,#dbe1cc66,transparent 68%),radial-gradient(ellipse at 72% 55%,#e0e5d070,transparent 70%);mask-image:linear-gradient(transparent,#000 22%,#000 72%,transparent)}
+.faq-topics .faq-list .faq-answer p{padding:2px 40px 30px 6px;font-size:.96rem;line-height:1.85}
+.faq-topics .faq-list .faq-toggle,.faq-topics .faq-list details[open] .faq-toggle,.faq-topics .faq-list details[data-expanded="false"] .faq-toggle{position:relative;display:block;width:22px;height:22px;flex:none;border:0;border-radius:0;background:none;color:#304438;transform:none}
+.faq-toggle::before,.faq-toggle::after{content:"";position:absolute;background:currentColor;inset:10px 3px auto;height:1.5px;transition:transform .25s,opacity .25s}
+.faq-toggle::after{transform:rotate(90deg)}
+.faq-list details[open] .faq-toggle::after{transform:rotate(0deg);opacity:0}
+.faq-list details[data-expanded="false"] .faq-toggle::after{transform:rotate(90deg);opacity:1}
+@media(max-width:760px){.faq{grid-template-areas:"intro" "topics" "contact";grid-template-rows:auto;row-gap:26px}.faq-tabs{gap:20px}.faq-tabs button{font-size:1.05rem;min-height:48px;padding-bottom:12px}.faq-topics .faq-list summary{padding:20px 2px;gap:14px;min-height:76px}.faq-topics .faq-list summary h3{font-size:1.3rem}.faq-topics .faq-list .faq-answer p{padding:0 12px 26px 2px;font-size:.95rem}.faq>.faq-ask{padding-top:2px}}
+@media(prefers-reduced-motion:reduce){.faq-tabs button,.faq-tabs button::after,.faq-toggle::before,.faq-toggle::after,.faq-ask a{transition:none}}
+</style>

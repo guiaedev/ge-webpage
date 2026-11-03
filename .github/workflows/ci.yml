@@ -1,0 +1,57 @@
+name: CI
+
+# Netlify deploys on its own (GitHub integration: main → production, pull requests → previews).
+# This workflow adds the checks around it:
+#   - build: every push and pull request is type-checked, built and verified, so a broken change
+#     shows up as a failed check on the pull request before it reaches main.
+#   - smoke: when Netlify reports a successful deploy, the live URL is fetched and checked.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  deployment_status:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.event_name }}-${{ github.event.pull_request.number || github.event.deployment.id || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    if: github.event_name != 'deployment_status'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - name: Type-check and build
+        run: npm run build
+
+      - name: Verify build output
+        run: node scripts/verify-dist.mjs
+
+  smoke:
+    # Netlify's GitHub app posts deployment statuses; test each deploy once it reports success.
+    if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+
+      - name: Smoke test deployed site
+        run: node scripts/smoke.mjs "${{ github.event.deployment_status.environment_url || github.event.deployment_status.target_url }}"

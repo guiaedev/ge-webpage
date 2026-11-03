@@ -2,10 +2,17 @@
 import {topics} from '../data/site';
 import ConversationMotion from './ConversationMotion.astro';
 import TopicAtmosphere from './TopicAtmosphere.astro';
-import Mark from './Mark.astro';
 ---
-<section class="topics-section wrap section" aria-labelledby="topics-title"><div class="section-heading" data-reveal><h2 id="topics-title">Un paso a la vez, con acompañamiento.</h2><p>Cada proceso empieza con lo que hoy necesitas.</p></div><div class="topic-grid" data-reveal-group>{topics.map((topic,index)=><article class:list={['topic-card',topic.color]}><div class:list={['topic-illustration', {'topic-art-full': topic.image, 'topic-art-pending': topic.slice === undefined && !topic.image}]} aria-hidden="true">{topic.slice !== undefined
- ? <><img src="assets/topics-storybook.webp" width="1536" height="1024" alt="" loading="lazy" decoding="async" style={`--art-left: ${[-7.7731,-111.7647,-215.1261][topic.slice]}%`} />{topic.slice === 1 ? <ConversationMotion/> : <TopicAtmosphere kind={topic.slice === 0 ? 'breath' : 'light'}/>}</>
- : topic.image ? <img src={`assets/${topic.image}`} alt="" loading="lazy" decoding="async"/> : <Mark/>}</div><div class="topic-copy"><h3>{topic.title}</h3><p>{topic.text}</p></div><button class="circle-button" data-topic={index} aria-label={`Conoce más sobre ${topic.title}`}><span aria-hidden="true">→</span></button></article>)}</div></section>
+<section class="topics-section wrap section" aria-labelledby="topics-title"><div class="section-heading" data-reveal><h2 id="topics-title">Un paso a la vez, con acompañamiento.</h2><p>Cada proceso empieza con lo que hoy necesitas.</p></div><div class="topic-grid" data-reveal-group>{topics.map((topic,index)=><article class:list={['topic-card',topic.color]}><div class="topic-illustration topic-art-full" aria-hidden="true" style={`--art-scale:${[1.08,1.04,.96,.96,1,.98][index]};--art-y:${[0,-3,0,0,-1,0][index]}%`}><div class="topic-painting"><img src={`assets/${topic.image}`} alt="" loading="lazy" decoding="async"/>{index === 1 ? <ConversationMotion/> : index === 0 ? <TopicAtmosphere kind="breath"/> : index === 2 ? <TopicAtmosphere kind="light"/> : null}</div></div><div class="topic-copy"><h3>{topic.title}</h3><p>{topic.text}</p></div><button class="circle-button" data-topic={index} aria-label={`Conoce más sobre ${topic.title}`}><span aria-hidden="true">→</span></button></article>)}</div></section>
 {topics.map((topic,index)=><dialog id={`topic-${index}`} class="content-dialog" aria-labelledby={`topic-title-${index}`}><button class="dialog-close" data-close aria-label="Cerrar">×</button><p class="eyebrow">Un espacio para ti</p><h2 id={`topic-title-${index}`}>{topic.title}</h2><p>{topic.detail}</p><a class="button primary" href="#reservar" data-booking>Conversemos <span aria-hidden="true">↗</span></a></dialog>)}
 
+
+<style>
+/* Shared framing and paper blending preserve each approved character. */
+.topics-section .topic-illustration{width:88%;max-width:240px;margin:12px auto 2px;isolation:isolate;mask-image:linear-gradient(to right,transparent,#000 12%,#000 88%,transparent),linear-gradient(to bottom,transparent,#000 12%,#000 78%,transparent);mask-composite:intersect;mix-blend-mode:normal}
+.topic-painting{position:absolute;inset:0;transform:translateY(var(--art-y,0%)) scale(var(--art-scale,1));transform-origin:50% 54%;filter:saturate(.86) contrast(.96) brightness(1.025);opacity:.95}
+.topic-painting img{display:block;width:100%;height:100%;object-fit:cover}
+/* The heavier garden scene receives the same light visual weight as the portraits. */
+.topic-card:nth-child(4) .topic-painting{filter:saturate(.8) contrast(.92) brightness(1.045);opacity:.95}
+@media(max-width:760px){.topics-section .topic-illustration{margin-top:10px}}
+</style>

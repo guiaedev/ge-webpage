@@ -1,26 +1,30 @@
 ---
-import BookingButton from './BookingButton.astro';
+import {site} from '../data/site';
 ---
-<div class="floating-booking" inert aria-hidden="true"><BookingButton label="Agendar sesión"/><svg class="floating-booking-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg></div>
+<div class="floating-booking" inert aria-hidden="true"><a class="button primary" href={site.bookingUrl || '#reservar'} data-booking aria-label="Agendar sesión"><span class="floating-booking-label">Agendar sesión</span><span class="floating-booking-arrow" aria-hidden="true">↗</span></a><svg class="floating-booking-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg></div>
 <script>
- // On phones the button shrinks to a round calendar icon; its text stays as the accessible name.
+ // Keep one booking control as it changes from a calendar to the footer call to action.
  const floatingIcon = document.querySelector('.floating-booking-icon');
  const floatingLink = document.querySelector('.floating-booking .button');
  if (floatingIcon && floatingLink) { floatingLink.setAttribute('aria-label', 'Agendar sesión'); floatingLink.append(floatingIcon); }
  const floating = document.querySelector<HTMLElement>('.floating-booking');
  const source = document.querySelector('.hero-actions .button');
  if (floating && source) {
+   const footer = document.querySelector('.site-footer');
    const footerButton = document.querySelector('.footer-mobile-booking .button');
    const mobile = matchMedia('(max-width:760px)');
    const update = () => {
      const footerVisible = mobile.matches && footerButton && footerButton.getBoundingClientRect().top <= (window.visualViewport?.height ?? innerHeight) + 16;
      const visible = source.getBoundingClientRect().bottom <= 0 && !footerVisible;
+     const inFooter = !!footer && footer.getBoundingClientRect().top < (window.visualViewport?.height ?? innerHeight) - 80;
+     floating.classList.toggle('is-expanded', inFooter);
      floating.classList.toggle('is-visible', visible);
      floating.inert = !visible;
      floating.setAttribute('aria-hidden', String(!visible));
    };
    const observer = new IntersectionObserver(update);
    observer.observe(source);
+   if (footer) observer.observe(footer);
    if (footerButton) observer.observe(footerButton);
    mobile.addEventListener('change', update);
    // Intersection boundaries alone can miss the handoff during mobile scrolling.
@@ -41,8 +45,14 @@ import BookingButton from './BookingButton.astro';
 <style>
  .floating-booking{position:fixed;right:max(24px,env(safe-area-inset-right));bottom:calc(24px + env(safe-area-inset-bottom));z-index:10;opacity:0;visibility:hidden;transform:translateY(12px);pointer-events:none;transition:opacity .25s ease,transform .25s ease,visibility .25s}
  .floating-booking.is-visible{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto}
- .floating-booking :global(.button){box-shadow:0 5px 22px #263d3226;border:1px solid #ffffff55}
- .floating-booking-icon{display:none}
- @media(max-width:760px){.floating-booking{right:max(16px,env(safe-area-inset-right));bottom:calc(16px + env(safe-area-inset-bottom))}.floating-booking :global(.button){display:grid;place-items:center;width:56px;height:56px;min-height:0;padding:0;border-radius:50%;font-size:0;gap:0}.floating-booking :global(.button > span){display:none}.floating-booking :global(.floating-booking-icon){display:block}}
- @media(prefers-reduced-motion:reduce){.floating-booking{transition:none;transform:none}}
+ .floating-booking :global(.button){position:relative;display:flex;align-items:center;justify-content:center;width:56px;height:56px;min-height:56px;padding:0;gap:0;overflow:hidden;border-radius:100px;box-shadow:0 5px 22px #263d3226;border:1px solid #ffffff55;transition:width .35s cubic-bezier(.22,1,.36,1),background .2s,box-shadow .2s}
+ .floating-booking-label,.floating-booking-arrow{opacity:0;white-space:nowrap;transition:opacity .15s ease;pointer-events:none}
+ .floating-booking-label{position:absolute;left:26px}
+ .floating-booking-arrow{position:absolute;right:24px}
+ .floating-booking :global(.floating-booking-icon){position:absolute;display:block;opacity:1;transition:opacity .15s ease}
+ .floating-booking.is-expanded :global(.button){width:212px}
+ .floating-booking.is-expanded .floating-booking-label,.floating-booking.is-expanded .floating-booking-arrow{opacity:1;transition-delay:.13s}
+ .floating-booking.is-expanded :global(.floating-booking-icon){opacity:0}
+ @media(max-width:760px){.floating-booking{right:max(16px,env(safe-area-inset-right));bottom:calc(16px + env(safe-area-inset-bottom))}}
+ @media(prefers-reduced-motion:reduce){.floating-booking,.floating-booking :global(.button),.floating-booking-label,.floating-booking-arrow,.floating-booking :global(.floating-booking-icon){transition:none;transform:none}}
 </style>

@@ -4,7 +4,7 @@
   const mobile = matchMedia('(max-width: 760px)');
   // The hero painting drifts at a fraction of the scroll; the team and footer paintings shift as they
   // pass the viewport centre, and the footer's foreground plants move the other way so they read as nearer.
-  const layers = [...document.querySelectorAll('.hero, .team-section, .about-hero, .site-footer')]
+  const layers = [...document.querySelectorAll('.hero, .team-section, .about-hero')]
     .map(section => ({
       section,
       hero: section.classList.contains('hero'),
@@ -23,9 +23,9 @@
     const updates = layers.filter(layer => layer.visible).map(layer => {
       const rect = layer.section.getBoundingClientRect();
       // The phone hero keeps still: its small art carries its own fade and would show a hard edge.
-      if (layer.hero) return { ...layer, offset: mobile.matches ? 0 : clamp(-rect.top * 0.15, 70) };
+      if (layer.hero) return { ...layer, offset: mobile.matches ? 0 : clamp(-rect.top * 0.04, 18) };
       const distance = innerHeight / 2 - (rect.top + rect.height / 2);
-      return { ...layer, offset: clamp(distance * (mobile.matches ? 0.045 : 0.12), mobile.matches ? 14 : 36) };
+      return { ...layer, offset: clamp(distance * 0.025, 10) };
     });
     updates.forEach(({ art, leaves, offset }) => {
       // Plants only ever rise: moving down would extend the page below the footer.
@@ -44,7 +44,7 @@
     schedule();
   }, { rootMargin: '80px' });
   function configure() {
-    enabled = !preference.matches;
+    enabled = !preference.matches && !mobile.matches;
     cancelAnimationFrame(frame);
     frame = 0;
     layers.forEach(({ section, art, leaves }) => {
@@ -64,7 +64,7 @@
     }
   }
   preference.addEventListener('change', configure);
-  mobile.addEventListener('change', schedule);
+  mobile.addEventListener('change', configure);
   document.addEventListener('visibilitychange', schedule);
   window.addEventListener('pageshow', schedule);
   configure();

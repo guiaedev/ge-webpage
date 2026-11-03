@@ -10,8 +10,9 @@ export const site = {
   bookingUrl: 'https://cal.com/guia-existencial-ghxaew/30min',
   followUpUrl: 'https://cal.com/guia-existencial-ghxaew/30min',
   contactUrl: 'https://guiaexistencialpsic.com/contact/',
+  contactEmail: 'guiae.dev@gmail.com',
   // WhatsApp number for the FAQ's «¿Otra pregunta?» button: digits only, with the
-  // country code (Mexico mobile: 52 + 10 digits). Empty keeps the contact form.
+  // country code (Mexico mobile: 52 + 10 digits). Empty uses the contact email.
   whatsapp: '',
 };
 // Session agreements shown beside the booking calendar. `summary` is the short line in the sidebar.
@@ -27,18 +28,16 @@ export const resources = [
  { title: 'Diario de gratitud', description: 'Un espacio breve cada día para notar lo que sí está presente y entrenar la atención hacia lo que te sostiene.', format: 'PDF imprimible', file: 'diario-de-gratitud-guia-existencial.pdf', image: 'recursos/diario-de-gratitud-preview.webp', tone: 'oat' },
  { title: 'Ejercicio de motivación al cambio', description: 'Preguntas guiadas para explorar qué quieres cambiar, por qué te importa y cuál puede ser tu primer paso.', format: 'PDF imprimible', file: 'motivacion-al-cambio.pdf', image: 'recursos/motivacion-al-cambio-preview.webp', tone: 'blush' },
  // Link card: `url` opens in a new tab.
- { title: 'Síguenos en Instagram', description: 'Psicología basada en evidencia, explicada en lenguaje claro para tu día a día.', format: 'Instagram', url: 'https://www.instagram.com/guiaexistencial/', image: 'recursos/instagram-simple-720.webp', tone: 'sand' },
+ { title: 'Síguenos en Instagram', description: 'Psicología basada en evidencia, explicada en lenguaje claro para tu día a día.', format: 'Instagram', url: 'https://www.instagram.com/guiaexistencial/', image: 'recursos/instagram-no-plant-v3-720.webp', tone: 'sand' },
 ];
-// Topic cards in «Un paso a la vez» (a carousel). `slice` picks a panel of topics-storybook.webp;
-// for a new card, put its watercolor in public/assets/topics/ and set `image` (e.g. 'topics/depresion.webp').
-// A card with neither shows a placeholder.
+// Topic card illustrations live in public/assets/topics/.
 export const topics = [
- { title: 'Ansiedad y estrés', text: 'Herramientas para una vida más tranquila y presente.', slice: 0, color: 'sage', detail: 'Un espacio para comprender la relación entre lo que piensas, sientes y haces, e identificar patrones que mantienen el malestar. El trabajo se orienta a desarrollar habilidades para tu vida diaria.' },
- { title: 'Relaciones y vínculos', text: 'Construye relaciones más sanas y auténticas.', slice: 1, color: 'blush', detail: 'Explora formas de relacionarte que se repiten, comprende cómo se construyeron y trabaja en respuestas más útiles para tus necesidades y vínculos actuales.' },
- { title: 'Cambios y sentido de vida', text: 'Encuentra claridad en nuevas etapas.', slice: 2, color: 'sand', detail: 'Reconoce lo que importa para ti y explora acciones alineadas con tus valores, incluso cuando hay incertidumbre o emociones difíciles.' },
- { title: 'Depresión y estado de ánimo', text: 'Recupera actividad, interés y dirección.', image: '', color: 'sage', detail: 'Un espacio para comprender cómo se mantiene el bajo estado de ánimo: la relación entre lo que piensas, lo que dejas de hacer y cómo te sientes. El trabajo se orienta a retomar, paso a paso, actividades que tengan sentido para ti.' },
- { title: 'Alimentación e imagen corporal', text: 'Comprende tu relación con la comida y con tu cuerpo.', image: '', color: 'blush', detail: 'Un espacio para entender los pensamientos, emociones y conductas alrededor de la comida, el peso y la imagen corporal, e intervenir sobre los patrones que mantienen el malestar. Si tu proceso lo requiere, te orientamos para integrar a otros profesionales de la salud.' },
- { title: 'Emociones intensas', text: 'Habilidades para regular lo que sientes.', image: '', color: 'sand', detail: 'Un espacio para quienes viven sus emociones con mucha intensidad y sienten que las rebasan. El trabajo se orienta a desarrollar habilidades para regularlas, tolerar el malestar y relacionarte de forma más efectiva.' },
+ { title: 'Ansiedad y estrés', text: 'Herramientas para una vida más tranquila y presente.', image: 'topics/ansiedad-no-plants-v6.webp', color: 'sage', detail: 'Un espacio para comprender la relación entre lo que piensas, sientes y haces, e identificar patrones que mantienen el malestar. El trabajo se orienta a desarrollar habilidades para tu vida diaria.' },
+ { title: 'Relaciones y vínculos', text: 'Construye relaciones más sanas y auténticas.', image: 'topics/relaciones-no-plants-v4.webp', color: 'blush', detail: 'Explora formas de relacionarte que se repiten, comprende cómo se construyeron y trabaja en respuestas más útiles para tus necesidades y vínculos actuales.' },
+ { title: 'Cambios y sentido de vida', text: 'Encuentra claridad en nuevas etapas.', image: 'topics/cambios-character-v2.webp', color: 'sand', detail: 'Reconoce lo que importa para ti y explora acciones alineadas con tus valores, incluso cuando hay incertidumbre o emociones difíciles.' },
+ { title: 'Depresión y estado de ánimo', text: 'Recupera actividad, interés y dirección.', image: 'topics/depresion-soft-v3.webp', color: 'sage', detail: 'Un espacio para comprender cómo se mantiene el bajo estado de ánimo: la relación entre lo que piensas, lo que dejas de hacer y cómo te sientes. El trabajo se orienta a retomar, paso a paso, actividades que tengan sentido para ti.' },
+ { title: 'Alimentación e imagen corporal', text: 'Comprende tu relación con la comida y con tu cuerpo.', image: 'topics/alimentacion-no-plants-v4.webp', color: 'blush', detail: 'Un espacio para entender los pensamientos, emociones y conductas alrededor de la comida, el peso y la imagen corporal, e intervenir sobre los patrones que mantienen el malestar. Si tu proceso lo requiere, te orientamos para integrar a otros profesionales de la salud.' },
+ { title: 'Emociones intensas', text: 'Habilidades para regular lo que sientes.', image: 'topics/emociones-no-plants-v4.webp', color: 'sand', detail: 'Un espacio para quienes viven sus emociones con mucha intensidad y sienten que las rebasan. El trabajo se orienta a desarrollar habilidades para regularlas, tolerar el malestar y relacionarte de forma más efectiva.' },
 ];
 export const team = [
  { name: 'Jessica Barragán', initials: 'JB', avatar: 'jessica', role: 'Maestra en Terapia Cognitivo-Conductual', note: 'Fundadora de Guía Existencial. Formación en Terapia de Esquemas, ACT y DBT.',

@@ -27,7 +27,7 @@ When the event is ready, set site.bookingUrl in src/data/site.ts to its complete
 
 ## Assets
 
-The companion assets-hq/ folder contains original generated botanical PNGs at native 1536 × 1024 resolution (not upscaled, not 4K). public/assets/ contains 960px and 1536px optimized WebP versions and locally hosted font files/licenses. Generated artwork is inspired by the approved direction; it is not a pixel-exact extraction from the design mockup. Site text and controls are HTML, not baked into the images.
+public/assets/ contains the illustrations, responsive WebP sizes, downloadable PDFs, fonts and licenses used by the current site. Unused artwork variants, high-resolution working originals and design explorations have been removed from the project. Site text and controls are HTML, not baked into the images.
 
 Fonts: Libre Caslon Display and DM Sans, from Google Fonts, distributed under their included OFL licenses. The small brand mark is a proposed vector mark, not a recovered official logo. Clinical team names and credentials were transcribed from https://guiaexistencialpsic.com/services/ during the design review; descriptions are concise adaptations. Confirm final clinical copy and official branding before public launch.
 
@@ -39,12 +39,11 @@ Upload the complete website/ (or built dist/) directory to a static host. Keep i
 
 Astro type checks and static build; dependency audit; desktop and mobile layout review; booking fallback, topic dialog, menu, FAQ, image and font loading checks. Booking itself cannot be tested until the public Cal.com event exists.
 
-## Parallax
+## Ambient motion
 
-The hero and footer artwork move gently on scroll; text and controls stay fixed in their normal layout. public/scripts/parallax.js uses passive scroll listeners and one requestAnimationFrame per pending update, skips offscreen sections, and limits movement to 36px on desktop / 14px on mobile. Reduced-motion preferences disable the effect, including preference changes while the page is open. CSS overscan prevents exposed edges.
+Desktop parallax is capped at 18px for the hero and 10px for the team and Nosotras artwork. The footer stays still. Parallax is disabled on mobile and for reduced-motion preferences, including live preference changes.
 
-The hero also has a slow 16-second botanical sway and up to 4px horizontal / 2.5px vertical pointer response on fine-pointer devices. These compose separately from scroll movement. The flowers move together because the botanical artwork is a single raster layer. Text never animates. Reduced-motion disables both sway and pointer response.
-
+The hero has one slow butterfly entrance followed by a stationary perch with slight wing movement. Footer and mobile butterflies stay still. Two faint glows per section pulse slowly on desktop; mobile and reduced-motion layouts hide them. FAQ and other interaction-driven transitions remain available with reduced-motion support.
 
 ## Team cards
 
@@ -52,4 +51,4 @@ The team section uses the original initials and text cards, without portraits. B
 
 ## Small profile avatars
 
-The original 52px profile circles contain original black-ink doodle avatars with coral cheeks, based on each supplied member photo. No large portrait panels are used. Generated with built-in imagegen: square, simplified black/ivory/coral/sage head-and-shoulders art with individual hairstyles and glasses, suitable for circular clipping. Original PNGs are in assets-hq/ and optimized WebP assets are in the site.
+The original 52px profile circles contain original black-ink doodle avatars with coral cheeks, based on each supplied member photo. No large portrait panels are used. Generated with built-in imagegen: square, simplified black/ivory/coral/sage head-and-shoulders art with individual hairstyles and glasses, suitable for circular clipping. The active optimized WebP avatars are in public/assets/.
