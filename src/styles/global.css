@@ -491,3 +491,10 @@
  .site-footer .footer-copy small{text-align:left;margin-top:0}
  .footer-fireflies span:nth-child(n){display:none}
 }
+
+/* Mobile: a wider view of the hero painting (shorter art band the card overlaps) and a centred footer logo. */
+@media(max-width:760px){
+ .hero .hero-art{inset:0 0 auto;height:min(540px,70svh)}
+ .hero-art img{object-position:70% 30%;mask-image:linear-gradient(transparent 0,#000 14%,#000 78%,transparent 100%)}
+ .footer-copy .footer-brand{justify-content:center;width:100%}
+}
