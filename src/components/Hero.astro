@@ -7,7 +7,7 @@ const fireflies = [
 ];
 ---
 <section id="inicio" class="hero hero-character" aria-labelledby="hero-title">
- <div class="botanical-viewport" aria-hidden="true"><picture class="hero-art"><source type="image/webp" srcset="assets/hero-hair-retouched-v2-960.webp 960w, assets/hero-hair-retouched-v2-1776.webp 1776w" sizes="100vw"/><img src="assets/hero-hair-retouched-v2-1776.webp" alt="" width="1776" height="753" fetchpriority="high"/></picture></div>
+ <div class="botanical-viewport" aria-hidden="true"><picture class="hero-art"><source type="image/webp" srcset="assets/hero-hair-retouched-v2-960.webp 960w, assets/hero-hair-retouched-v2-1776.webp 1776w" sizes="(max-width:760px) 1776px, 100vw"/><img src="assets/hero-hair-retouched-v2-1776.webp" alt="" width="1776" height="753" fetchpriority="high"/></picture></div>
  <div class="hero-botanical-accents" aria-hidden="true"><img class="hero-accent-monstera" src="assets/footer-overlap-monstera.webp" alt="" width="800" height="800"/><img class="hero-accent-branch" src="assets/footer-overlap-eucalyptus-fern.webp" alt="" width="600" height="900"/></div>
  <div class="hero-fireflies" aria-hidden="true">{fireflies.map(({x,y,d,delay}) => <span style={`--x:${x}%;--y:${y}%;--duration:${d}s;--delay:${delay}s`}/>)}</div>
  <HeroButterfly/>

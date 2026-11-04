@@ -367,16 +367,16 @@
  .site-footer .footer-crisis{max-width:none;margin:26px 0 24px;padding-top:22px;border-top:1px solid var(--line);font-size:.78rem;line-height:1.65}
  .site-footer .footer-crisis,.site-footer .footer-copy small{text-align:center}
  /* The credit sits inside the painted plants, centred between the monstera and the fern. */
- .footer-credit{position:relative;z-index:2;max-width:none;margin:120px auto 0;padding:0 16px calc(30px + env(safe-area-inset-bottom));align-items:center;text-align:center;opacity:1}
+ .footer-credit{position:relative;z-index:2;max-width:none;margin:64px auto 0;padding:0 16px calc(30px + env(safe-area-inset-bottom));align-items:center;text-align:center;opacity:1}
  /* Keep the painting landscape-shaped instead of stretching it over a tall footer. */
- .site-footer .botanical-viewport{opacity:.8;mask-image:linear-gradient(transparent,#000 45%)}
+ .site-footer .botanical-viewport{opacity:.8;mask-image:none}
  .site-footer .botanical-viewport>picture,
- .site-footer.parallax-enabled .botanical-viewport>picture{inset:auto 0 0;height:290px;transform:none!important}
+ .site-footer.parallax-enabled .botanical-viewport>picture{inset:auto 0 0;height:290px;transform:none!important;mask-image:linear-gradient(transparent 0%,#000 45%)}
  .site-footer .botanical-viewport img{opacity:.85;object-fit:cover;object-position:center bottom}
  .site-footer::before{content:none}
- .site-footer::after{content:"";position:absolute;bottom:34px;left:-48px;width:205px;height:200px;background:url('/assets/footer-overlap-monstera.webp') center/contain no-repeat;transform:rotate(24deg);opacity:.7;pointer-events:none;filter:grayscale(.25) sepia(.22) saturate(.65);z-index:0}
+ .site-footer::after{content:"";position:absolute;bottom:0;left:-38px;width:160px;height:155px;background:url('/assets/footer-overlap-monstera.webp') center/contain no-repeat;transform:rotate(24deg);opacity:.7;pointer-events:none;filter:grayscale(.25) sepia(.22) saturate(.65);z-index:0}
  .site-footer .footer-overlap-leaf{display:none}
- .site-footer .footer-overlap-branch{width:170px;height:230px;right:-30px;bottom:0;opacity:.75}
+ .site-footer .footer-overlap-branch{width:130px;height:176px;right:-24px;bottom:0;opacity:.75}
  .footer-fireflies span{display:none}
  .footer-fireflies span:nth-child(1),.footer-fireflies span:nth-child(3),.footer-fireflies span:nth-child(7){display:block;box-shadow:0 0 4px 2px #c9994088,0 0 12px 5px #e7b75255}
 }
@@ -458,3 +458,36 @@
 /* On phones the agreements normally come first; while choosing, the therapists do. */
 @media(max-width:760px){.booking-modal.is-choosing .booking-policies{order:0}}
 @media(prefers-reduced-motion:reduce){.booking-therapists button{transition:none}.booking-therapists button:hover{transform:none}}
+
+/* Mobile hero: the illustration fills the section and the copy sits on an ivory card over it. */
+@media(max-width:760px){
+ .hero{display:flex;flex-direction:column;justify-content:flex-end;min-height:max(600px,86svh);padding:100px 16px 18px}
+ .hero-art img{position:static;height:100%;width:100%;object-fit:cover;object-position:72% 40%;mask-image:linear-gradient(transparent 0,#000 16%);opacity:1}
+ .hero-accent-monstera{width:96px;left:-30px;bottom:auto;top:46%}
+ .hero-accent-branch{display:none}
+ .hero-fireflies{top:0;height:62%}
+ .hero-copy{width:100%;max-width:none;padding:22px 20px 20px;border-radius:24px;background:#fbf8f2eb;border:1px solid #e6dccb;box-shadow:0 14px 34px #1d41331a;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+ .hero-quote{font-size:clamp(1.65rem,6.6vw,2.2rem);line-height:1.14}
+ .hero-attribution{margin-top:14px}
+ .hero-actions{margin-top:18px}
+ .hero-actions .button{width:100%;justify-content:center}
+}
+
+/* Mobile footer: left-aligned, the legal links in two even columns, the crisis line in its own box. */
+@media(max-width:760px){
+ .footer-copy{text-align:left}
+ .footer-copy .footer-brand{flex-direction:row;justify-content:flex-start;gap:12px;font-size:1.6rem}
+ .footer-copy .footer-brand .brand-mark{width:44px;height:44px}
+ .footer-mobile-booking{margin:22px 0 26px}
+ .footer-info{gap:0;text-align:left}
+ .footer-info>*{padding:18px 0;border-top:1px solid var(--line)}
+ .footer-info h3,.footer-agreements summary{font-size:.72rem;margin-bottom:10px}
+ .footer-agreements{border-block:0;border-top:1px solid var(--line);padding:18px 0}
+ .footer-agreements summary{justify-content:space-between;margin:0;padding:0}
+ .footer-agreements summary::after{position:static;line-height:1}
+ .footer-info nav{border-bottom:1px solid var(--line)}
+ .footer-info nav ul{grid-template-columns:1fr 1fr;column-gap:16px;row-gap:10px;justify-items:start}
+ .site-footer .footer-crisis{margin:22px 0 18px;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:#fbf8f2cc;text-align:left;font-size:.76rem}
+ .site-footer .footer-copy small{text-align:left;margin-top:0}
+ .footer-fireflies span:nth-child(n){display:none}
+}
