@@ -56,7 +56,7 @@ export const team = [
     closing: 'Si quieres entender qué te está pasando y trabajarlo con un método claro, puedes agendar una primera sesión conmigo.',
     cta: 'Agendar con Jessica',
    } },
- { name: 'Lariza Jiménez', initials: 'LJ', avatar: 'lariza', specialty: 'Terapia de Esquemas', bookingUrl: '', role: 'Especialista en Terapia de Esquemas', note: 'Formación adicional en ACT. Su enfoque aborda los patrones que se formaron temprano y siguen presentes.',
+ { name: 'Lariza Jiménez', initials: 'LJ', avatar: 'lariza', specialty: 'Terapia de Esquemas', bookingUrl: 'https://cal.com/team/guia-existencial/sesion-con-lariza-jimenez', role: 'Especialista en Terapia de Esquemas', note: 'Formación adicional en ACT. Su enfoque aborda los patrones que se formaron temprano y siguen presentes.',
    profile: {
     title: 'Psic. Lariza Jiménez',
     subtitle: 'Especialidad: Terapia de Esquemas',
