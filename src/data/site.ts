@@ -6,9 +6,9 @@ export const site = {
   facebook: 'https://www.facebook.com/people/Guia-existencial/61579915014721/',
   description: 'Psicoterapia en línea basada en evidencia y atención personalizada. Un espacio para comprenderte y encontrar dirección.',
   // Public Cal.com events shown in the booking modal's two tabs (Guía Existencial's own account).
-  // Both currently use the 30-min event; set followUpUrl once a follow-up event exists.
-  bookingUrl: 'https://cal.com/guia-existencial-ghxaew/30min',
-  followUpUrl: 'https://cal.com/guia-existencial-ghxaew/30min',
+  // Both currently use the 60-min event; set followUpUrl once a follow-up event exists.
+  bookingUrl: 'https://cal.com/guia-existencial-ghxaew/60min',
+  followUpUrl: 'https://cal.com/guia-existencial-ghxaew/60min',
   contactUrl: 'https://guiaexistencialpsic.com/contact/',
   contactEmail: 'guiae.dev@gmail.com',
   // WhatsApp number for the FAQ's «¿Otra pregunta?» button: digits only, with the

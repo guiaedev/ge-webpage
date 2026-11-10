@@ -3,7 +3,7 @@ export const models = [
  {name:'Terapia de Aceptación y Compromiso', text:'Desde la Terapia de Aceptación y Compromiso, trabajamos sobre una premisa distinta: no siempre es posible controlar lo que se siente, pero sí la relación que se construye con ello y las acciones que se eligen frente a lo que importa.'},
  {name:'Terapia de Esquemas', text:'Desde la Terapia de Esquemas, abordamos los patrones que se formaron temprano en la historia de cada persona y que siguen operando en el presente, para modificarlos desde su origen.'},
  {name:'Terapia Dialéctica Conductual (DBT)', text:'Desde la Terapia Dialéctica Conductual, trabajamos con un equilibrio entre aceptación y cambio: validar lo que sientes y entrenar habilidades para regular emociones intensas, tolerar el malestar y relacionarte de forma más efectiva.'},
- {name:'Terapias contextuales', text:'Y desde las terapias contextuales, entendemos que ninguna conducta ocurre en el vacío: se analiza en función del contexto que la sostiene.'}
+ {name:'Terapias Contextuales', text:'Y desde las terapias contextuales, entendemos que ninguna conducta ocurre en el vacío: se analiza en función del contexto que la sostiene.'}
 ];
 export const values = [
  ['Honestidad', 'Reconocer los límites de nuestra competencia y canalizar cuando corresponde es parte del ejercicio profesional.'],
