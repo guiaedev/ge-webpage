@@ -23,6 +23,7 @@
   // general calendars above. Each therapist's calendar gets its own panel, built on first use.
   const picker = dialog.querySelector('.booking-picker');
   const withBar = dialog.querySelector('.booking-with');
+  const help = dialog.querySelector('.booking-help');
   const people = {};
   picker?.querySelectorAll('[data-url]').forEach(button => {
     const url = parse(button.dataset.url);
@@ -89,17 +90,22 @@
   const show = () => {
     contact.hidden = true;
     const choosing = hasPicker && therapist === null;
+    // «Te ayudamos a elegir» (no preference) asks the team for guidance instead of opening a calendar.
+    const helping = hasPicker && therapist === '';
     if (picker) picker.hidden = !choosing;
-    dialog.classList.toggle('is-choosing', choosing);
-    current = choosing ? undefined : therapist ? `t-${therapist}` : active;
+    if (help) help.hidden = !helping;
+    dialog.classList.toggle('is-choosing', choosing || helping);
+    current = choosing || helping ? undefined : therapist ? `t-${therapist}` : active;
     Object.entries(calendars).forEach(([name, entry]) => { entry.panel.hidden = name !== current; });
-    withBar.hidden = choosing || !therapist;
+    withBar.hidden = choosing || helping || !therapist;
     if (therapist) {
       withBar.querySelector('strong').textContent = people[therapist].name;
       withBar.querySelector('img').src = people[therapist].avatar;
     }
-    direct.hidden = choosing;
-    if (choosing) { status.textContent = ''; return; }
+    direct.hidden = choosing || helping;
+    const lead = dialog.querySelector('.booking-lead');
+    lead.textContent = helping ? 'Te ayudamos a encontrar a tu terapeuta.' : active === 'followup' ? lead.dataset.copyFollowup : lead.dataset.copyFirst;
+    if (choosing || helping) { status.textContent = ''; return; }
     const entry = calendars[current];
     direct.href = entry.url.href;
     status.textContent = entry.ready ? '' : 'Cargando horarios disponibles…';
@@ -108,8 +114,35 @@
   picker?.querySelectorAll('[data-therapist]').forEach(button => button.addEventListener('click', () => {
     therapist = button.dataset.therapist;
     show();
-    withBar.querySelector('button').focus();
+    (therapist ? withBar.querySelector('button') : help.querySelector('input[type=checkbox]')).focus();
   }));
+  // Guidance form: Netlify Forms stores each message (fields must exist in the deployed HTML).
+  help?.querySelector('.booking-help-back').addEventListener('click', () => {
+    therapist = null;
+    show();
+    picker.querySelector('button').focus();
+  });
+  help?.addEventListener('submit', async event => {
+    event.preventDefault();
+    if (!help.reportValidity()) return;
+    help.elements.temas.value = [...help.querySelectorAll('.booking-topics input:checked')].map(box => box.value).join(', ');
+    const send = help.querySelector('[type=submit]');
+    send.disabled = true;
+    status.textContent = 'Enviando…';
+    try {
+      const response = await fetch('/', {method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'}, body: new URLSearchParams(new FormData(help)).toString()});
+      if (!response.ok) throw new Error(String(response.status));
+      status.textContent = '';
+      help.querySelectorAll(':scope > :not(.booking-help-done)').forEach(node => { node.hidden = true; });
+      const done = help.querySelector('.booking-help-done');
+      done.hidden = false;
+      done.focus();
+    } catch {
+      status.textContent = 'No pudimos enviar tu mensaje. Inténtalo de nuevo en un momento.';
+    } finally {
+      send.disabled = false;
+    }
+  });
   withBar.querySelector('button').addEventListener('click', () => {
     therapist = null;
     show();

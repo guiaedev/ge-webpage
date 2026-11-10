@@ -498,3 +498,29 @@
  .hero-art img{object-position:70% 30%;mask-image:linear-gradient(transparent 0,#000 14%,#000 78%,transparent 100%)}
  .footer-copy .footer-brand{justify-content:center;width:100%}
 }
+
+/* «Te ayudamos a elegir»: topic chips and a short message to the team instead of a calendar. */
+.booking-help{display:grid;gap:14px;max-width:620px}
+.booking-help [hidden]{display:none!important}
+.booking-help .booking-picker-title{margin:4px 0 0}
+.booking-help-lead{color:var(--muted);font-size:.95rem;margin-top:-6px}
+.booking-topics{border:0;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.booking-topics legend{font-size:.85rem;color:var(--ink);margin-bottom:10px;padding:0}
+.booking-topics label{cursor:pointer}
+.booking-topics input{position:absolute;opacity:0;pointer-events:none}
+.booking-topics span{display:inline-block;padding:7px 14px;border:1px solid var(--line);border-radius:999px;background:#fbf8f2;font-size:.85rem;transition:background .2s,border-color .2s,color .2s}
+.booking-topics label:hover span{border-color:#b9ad95}
+.booking-topics input:checked+span{background:var(--action);border-color:var(--action);color:#faf7f0}
+.booking-topics input:focus-visible+span{outline:2px solid var(--action);outline-offset:3px}
+.booking-field{display:grid;gap:6px;font-size:.85rem}
+.booking-field small{color:var(--muted);font-size:.8rem}
+.booking-field input,.booking-field textarea{width:100%;font:inherit;font-size:.95rem;color:var(--ink);background:#fbf8f2;border:1px solid var(--line);border-radius:12px;padding:11px 14px}
+.booking-field textarea{resize:vertical;min-height:84px}
+.booking-field input:focus-visible,.booking-field textarea:focus-visible{outline:2px solid var(--action);outline-offset:2px}
+.booking-honeypot{position:absolute;left:-9999px}
+.booking-help-note{font-size:.78rem;color:var(--muted)}
+.booking-help-note a{text-decoration:underline;text-underline-offset:3px}
+.booking-help-actions{display:flex;flex-wrap:wrap;align-items:center;gap:18px}
+.booking-help-done{font:1.2rem/1.4 var(--serif);color:var(--heading);padding:18px 0}
+@media(max-width:760px){.booking-help-actions .button{width:100%}}
+@media(prefers-reduced-motion:reduce){.booking-topics span{transition:none}}

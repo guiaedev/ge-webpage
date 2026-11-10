@@ -1,5 +1,5 @@
 ---
-import {site, bookingPolicies, team} from '../data/site';
+import {site, bookingPolicies, team, topics} from '../data/site';
 // Therapists with their own Cal.com event; the window opens on this choice when there are any.
 const bookable = team.filter(person => /^https:\/\/cal\.com\/./.test(person.bookingUrl));
 ---
@@ -17,8 +17,24 @@ const bookable = team.filter(person => /^https:\/\/cal\.com\/./.test(person.book
    {bookable.length > 0 && <div class="booking-picker" hidden>
     <p class="booking-picker-title">¿Con quién te gustaría tu sesión?</p>
     <ul class="booking-therapists">{bookable.map(person => <li><button type="button" data-therapist={person.avatar} data-url={person.bookingUrl} data-name={person.name}><img src={`assets/${person.avatar}-avatar-watercolor-v2.webp`} alt="" width="72" height="72" loading="lazy"/><span class="booking-therapist-name">{person.name}</span><span class="booking-therapist-specialty">{person.specialty}</span></button></li>)}</ul>
-    <button type="button" class="booking-any" data-therapist="">No sé, prefiero que me asignen <span aria-hidden="true">→</span></button>
+    <button type="button" class="booking-any" data-therapist="">¿No sabes con quién? Te ayudamos a elegir <span aria-hidden="true">→</span></button>
    </div>}
+   {bookable.length > 0 && <form class="booking-help" name="orientacion" method="POST" action="/?enviado=orientacion" data-netlify="true" netlify-honeypot="sitio" hidden>
+    <input type="hidden" name="form-name" value="orientacion"/>
+    <input type="hidden" name="temas"/>
+    <p class="booking-picker-title">Cuéntanos qué te trae</p>
+    <p class="booking-help-lead">El equipo te escribirá para orientarte y sugerirte a la terapeuta más adecuada para ti.</p>
+    <fieldset class="booking-topics"><legend>¿Qué te gustaría trabajar?</legend>
+     {[...topics.map(topic => topic.title), 'Otro'].map(title => <label><input type="checkbox" value={title}/><span>{title}</span></label>)}
+    </fieldset>
+    <label class="booking-field"><span>Tu nombre</span><input name="nombre" autocomplete="name" required/></label>
+    <label class="booking-field"><span>Correo o WhatsApp</span><input name="contacto" autocomplete="email" required/></label>
+    <label class="booking-field"><span>¿Algo más que quieras contarnos? <small>(opcional)</small></span><textarea name="mensaje" rows="3"></textarea></label>
+    <p class="booking-honeypot" aria-hidden="true"><label>No llenar <input name="sitio" tabindex="-1" autocomplete="off"/></label></p>
+    <p class="booking-help-note">Al enviar aceptas nuestro <a href="aviso-de-privacidad/" target="_blank" rel="noopener">Aviso de privacidad</a>. Este formulario no es para emergencias.</p>
+    <div class="booking-help-actions"><button type="submit" class="button primary">Enviar al equipo</button><button type="button" class="booking-change booking-help-back">Volver a las terapeutas</button></div>
+    <p class="booking-help-done" role="status" tabindex="-1" hidden>Gracias. Recibimos tu mensaje; el equipo te escribirá pronto.</p>
+   </form>}
    <div class="booking-with" hidden><img alt="" width="36" height="36"/><p>Con <strong></strong></p><button type="button" class="booking-change">Cambiar</button></div>
    <div id="cal-first" class="cal-booking" role="tabpanel" aria-labelledby="tab-first" hidden></div>
    <div id="cal-followup" class="cal-booking" role="tabpanel" aria-labelledby="tab-followup" hidden></div>
