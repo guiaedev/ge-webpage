@@ -534,3 +534,16 @@
 }
 .booking-help{gap:12px}
 .booking-field textarea{min-height:64px}
+
+/* Desktop: the guidance form fills its column so it fits without scrolling. */
+@media(min-width:761px){
+ .booking-help{max-width:none;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:16px;row-gap:12px}
+ .booking-help>*{grid-column:1/-1}
+ .booking-help>.booking-field:not(:has(textarea)){grid-column:auto}
+ .booking-help-lead{margin-top:-4px}
+ .booking-topics legend{margin-bottom:8px}
+ .booking-topics span{padding:6px 13px}
+ .booking-field textarea{min-height:56px}
+ .booking-help-note{margin-top:-2px}
+}
+@media(min-width:761px) and (max-height:780px){.booking-help{row-gap:9px}.booking-help .booking-picker-title{font-size:1.2rem}.booking-field textarea{min-height:44px}.booking-topics legend{margin-bottom:6px}}
