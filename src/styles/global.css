@@ -524,3 +524,13 @@
 .booking-help-done{font:1.2rem/1.4 var(--serif);color:var(--heading);padding:18px 0}
 @media(max-width:760px){.booking-help-actions .button{width:100%}}
 @media(prefers-reduced-motion:reduce){.booking-topics span{transition:none}}
+
+/* Desktop: the guidance form scrolls inside its column; the header and policies stay in view. */
+@media(min-width:761px){
+ .booking-modal.is-helping[open]{display:flex;flex-direction:column;overflow:hidden}
+ .booking-modal.is-helping .booking-body{flex:1;min-height:0;grid-template-rows:minmax(0,1fr)}
+ .booking-modal.is-helping .booking-calendars{min-height:0;height:100%;overflow-y:auto;overscroll-behavior:contain;padding:2px 12px 4px 2px}
+ .booking-modal.is-helping .booking-policies{max-height:100%;overflow-y:auto}
+}
+.booking-help{gap:12px}
+.booking-field textarea{min-height:64px}

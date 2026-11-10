@@ -95,6 +95,7 @@
     if (picker) picker.hidden = !choosing;
     if (help) help.hidden = !helping;
     dialog.classList.toggle('is-choosing', choosing || helping);
+    dialog.classList.toggle('is-helping', helping);
     current = choosing || helping ? undefined : therapist ? `t-${therapist}` : active;
     Object.entries(calendars).forEach(([name, entry]) => { entry.panel.hidden = name !== current; });
     withBar.hidden = choosing || helping || !therapist;
